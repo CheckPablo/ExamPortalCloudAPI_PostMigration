@@ -14,3 +14,19 @@ c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Daemon\obj\D
 c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Daemon\obj\Debug\net8.0\refint\ExamPortalApp.Daemon.dll
 c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.pdb
 c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Daemon\obj\Debug\net8.0\ref\ExamPortalApp.Daemon.dll
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\bin\Debug\net8.0\ExamPortalApp.Daemon.deps.json
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\bin\Debug\net8.0\ExamPortalApp.Daemon.dll
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\bin\Debug\net8.0\ExamPortalApp.Daemon.pdb
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\bin\Debug\net8.0\ExamPortalApp.Contracts.dll
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\bin\Debug\net8.0\ExamPortalApp.Contracts.pdb
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.csproj.AssemblyReference.cache
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.AssemblyInfoInputs.cache
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.AssemblyInfo.cs
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.csproj.CoreCompileInputs.cache
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.sourcelink.json
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.csproj.CopyComplete
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.dll
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\refint\ExamPortalApp.Daemon.dll
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ExamPortalApp.Daemon.pdb
+C:\Users\Thando\Documents\GitHub\ExamPortalCloudAPI_PostMigration\ExamPortalApp.Daemon\obj\Debug\net8.0\ref\ExamPortalApp.Daemon.dll
