@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ExamPortalApp.Daemon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+199dfcbbaf099ec03a5520903be84752298d1cbb")]
 [assembly: System.Reflection.AssemblyProductAttribute("ExamPortalApp.Daemon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ExamPortalApp.Daemon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
