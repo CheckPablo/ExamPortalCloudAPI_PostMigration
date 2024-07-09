@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "bOFR0aEJ137kE47ntqPr5qv4c300a82mLC9s6G3lfKK8BOpphUxyVgzG6D6EeJYxZazlVDLortjCr4fNpgavoA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.17\\microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
+    "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.1\\microsoft.extensions.primitives.5.0.1.nupkg.sha512",
+    "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\system.io.pipelines\\5.0.2\\system.io.pipelines.5.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

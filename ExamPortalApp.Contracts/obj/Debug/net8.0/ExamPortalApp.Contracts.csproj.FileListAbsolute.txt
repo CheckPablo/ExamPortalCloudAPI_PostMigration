@@ -1,0 +1,13 @@
+C:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\bin\Debug\net8.0\ExamPortalApp.Contracts.deps.json
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\bin\Debug\net8.0\ExamPortalApp.Contracts.dll
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\bin\Debug\net8.0\ExamPortalApp.Contracts.pdb
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ExamPortalApp.Contracts.csproj.AssemblyReference.cache
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ExamPortalApp.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ExamPortalApp.Contracts.AssemblyInfoInputs.cache
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ExamPortalApp.Contracts.AssemblyInfo.cs
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ExamPortalApp.Contracts.csproj.CoreCompileInputs.cache
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ExamPortalApp.Contracts.sourcelink.json
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ExamPortalApp.Contracts.dll
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\refint\ExamPortalApp.Contracts.dll
+c:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ExamPortalApp.Contracts.pdb
+C:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Debug\net8.0\ref\ExamPortalApp.Contracts.dll
