@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExamPortalApp.Contracts.Data.Entities;
 
@@ -16,4 +18,8 @@ public partial class UploadedAnswerDocument : EntityBase
     public string? FilePath { get; set; }
 
     public int? OldTestId { get; set; }
+
+    [NotMapped]
+
+    public string? AnswerDocBase64 { get; set; }
 }

@@ -24,6 +24,11 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Syncfusion.EJ2.PdfViewer;
 using System.Text;
 using System.Text.RegularExpressions;
+using Syncfusion.DocIORenderer;
+using Syncfusion.EJ2.DocumentEditor;
+using FormatType = Syncfusion.EJ2.DocumentEditor.FormatType;
+using WDocument = Syncfusion.DocIO.DLS.WordDocument;
+using WFormatType = Syncfusion.DocIO.FormatType;
 
 namespace ExamPortalApp.Infrastructure.Data.Repositories
 {
@@ -1028,10 +1033,68 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             }
         }
 
-        public async Task<bool> UploadAnswerDocumentAsync(int testId, IFormFile file)
+        private static void OnMetafileImageParsed(object sender, MetafileImageParsedEventArgs args)
+        {
+            //You can write your own method definition for converting metafile to raster image using any third-party image converter.
+            args.ImageStream = ConvertMetafileToRasterImage(args.MetafileStream);
+        }
+        private static Stream ConvertMetafileToRasterImage(Stream ImageStream)
+        {
+            //Here we are loading a default raster image as fallback.
+            Stream imgStream = GetManifestResourceStream("ImageNotFound.jpg");
+            return imgStream;
+            //To do : Write your own logic for converting metafile to raster image using any third-party image converter(Syncfusion doesn't provide any image converter).
+        }
+
+        private static Stream GetManifestResourceStream(string fileName)
+        {
+            System.Reflection.Assembly execAssembly = typeof(WDocument).Assembly;
+            string[] resourceNames = execAssembly.GetManifestResourceNames();
+            foreach (string resourceName in resourceNames)
+            {
+                if (resourceName.EndsWith("." + fileName))
+                {
+                    fileName = resourceName;
+                    break;
+                }
+            }
+            return execAssembly.GetManifestResourceStream(fileName);
+        }
+
+        internal static FormatType GetFormatType(string format)
+        {
+            if (string.IsNullOrEmpty(format))
+                throw new NotSupportedException("EJ2 DocumentEditor does not support this file format.");
+            switch (format.ToLower())
+            {
+                case ".dotx":
+                case ".docx":
+                case ".docm":
+                case ".dotm":
+                    return FormatType.Docx;
+                case ".dot":
+                case ".doc":
+                    return FormatType.Doc;
+                case ".rtf":
+                    return FormatType.Rtf;
+                case ".txt":
+                    return FormatType.Txt;
+                case ".xml":
+                    return FormatType.WordML;
+                case ".html":
+                    return FormatType.Html;
+                default:
+                    throw new NotSupportedException("EJ2 DocumentEditor does not support this file format.");
+            }
+        }
+
+        private string jsonWordDoc;
+        public async Task<IEnumerable<UploadedAnswerDocument>> UploadAnswerDocumentAsync(int testId, IFormFile file)
         {
             var test = await GetAsync(testId);
             var fileExtension = Path.GetExtension(file.FileName);
+            var filePath = Path.GetTempFileName();
+
 
             if (!string.Equals(fileExtension, ".doc", StringComparison.OrdinalIgnoreCase) &&
                 !string.Equals(fileExtension, ".docx", StringComparison.OrdinalIgnoreCase))
@@ -1041,47 +1104,35 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
             var fileBytes = file.ToByteArray();
 
-            if (testId == 0)
-            {
-                var answerDocument = new UploadedAnswerDocument
+                var parameters = new Dictionary<string, object>
                 {
-                    DateModified = DateTime.Now,
-                    FileName = file.FileName,
-                    TestId = test.Id,
-                    TestDocument = fileBytes,
+                    { StoredProcedures.Params.TestID,testId },
+                    { StoredProcedures.Params.TestDocument, fileBytes },
+                    { StoredProcedures.Params.FileName, file.FileName },
+                    {StoredProcedures.Params.FilePath, filePath} 
+                    //{ StoredProcedures.Params.DateTimeNow, DateTime.Now },    
                 };
 
-                await _repository.AddAsync(answerDocument, true);
-            }
-            else
-            {
-                var uploadedAnswerDocs = await _repository.GetFirstOrDefaultAsync<UploadedAnswerDocument>(x => x.TestId == testId);
-                //var uploadedAnswerDocs = await _repository.GetByIdAsync<UploadedAnswerDocument>(testId);
-                var answerDocument = new UploadedAnswerDocument()
-                {
-                    TestId = testId,
-                    FileName = file?.FileName,
-                    TestDocument = fileBytes,
-                    IsDeleted = false,
-                };
-                if (uploadedAnswerDocs != null)
-                {
-                    uploadedAnswerDocs.FileName = answerDocument.FileName;
-                    uploadedAnswerDocs.TestDocument = answerDocument.TestDocument;
-                }
+                var request = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.insertUpdateAnswerPaper, parameters);
+               
+                 using (var stream = new MemoryStream(request.First().TestDocument))
+                    {
+                        stream.Position = 0;
 
-                if (uploadedAnswerDocs?.TestDocument == null && file != null)
-                {
-                    await _repository.AddAsync(answerDocument, true);
-                }
-                if (uploadedAnswerDocs?.TestDocument != null && file != null)
-                {
-                    await _repository.UpdateAsync(uploadedAnswerDocs, true);
+                //Hooks MetafileImageParsed event.
+                Syncfusion.EJ2.DocumentEditor.WordDocument.MetafileImageParsed += OnMetafileImageParsed;
+                Syncfusion.EJ2.DocumentEditor.WordDocument document = Syncfusion.EJ2.DocumentEditor.WordDocument.Load(stream, GetFormatType(".docx"));
+                //Unhooks MetafileImageParsed event.
+                Syncfusion.EJ2.DocumentEditor.WordDocument.MetafileImageParsed -= OnMetafileImageParsed;
 
-                }
-            }
-
-            return true;
+                        jsonWordDoc = JsonConvert.SerializeObject(document);
+                        document.Dispose();
+                       // return json;
+                    }
+            request.First().AnswerDocBase64 = jsonWordDoc;
+            //var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
+            return request;
+                     
         }
         /* byte[] ITestRepository.ConvertAnswerDocumentAsync(IFormFile file)
          {
@@ -1189,7 +1240,7 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
 
                 };
 
-                var request = await _repository.ExecuteStoredProcAsync<Test>(StoredProcedures.insertupdateTestQuestionPaper, parameters);
+                var request = await _repository.ExecuteStoredProcAsync<Test>(StoredProcedures.insertUpdateTestQuestionPaper, parameters);
                 request.First().TestDocBase64 = (request.First().TestDocument is not null)?request.First().TestDocument?.ToBase64String():string.Empty; 
                 //var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
                 return request;

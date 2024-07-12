@@ -36,7 +36,7 @@ namespace ExamPortalApp.Contracts.Data.Repositories
         Task<int> DeleteAnswerDocumentAsync(int id);
         Task<int> DeleteSourceDocumentAsync(int id);
         Task<string> GetFileAsync(int id, string type);
-        Task<bool> UploadAnswerDocumentAsync(int testId, IFormFile file);
+        Task<IEnumerable<UploadedAnswerDocument>> UploadAnswerDocumentAsync(int testId, IFormFile file);
         Task<string> GetWordFileAsync(int id);
         string ConvertWordDocToBase64Async(IFormFile file);
         //string ConvertOfflineString(string file);

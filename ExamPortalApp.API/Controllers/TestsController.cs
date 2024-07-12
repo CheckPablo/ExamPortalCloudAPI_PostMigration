@@ -1245,7 +1245,7 @@ var memory = new MemoryStream();
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("{testId}/upload-answer-document")]
-        public async Task<ActionResult<bool>> UploadAnswerDocumentAsync(int testId)
+        public async Task<ActionResult<IEnumerable<UploadedAnswerDocument>>> UploadAnswerDocumentAsync(int testId)
         {
             try
             {

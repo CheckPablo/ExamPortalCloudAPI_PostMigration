@@ -60,8 +60,10 @@ namespace ExamPortalApp.Infrastructure.Constants
          internal static string GetBatchID_BulkImport = "GetBatchID_BulkImport"; 
          internal static string UpdateStudentCredentials = "UpdateStudentCredentials";
          internal static string ApproveUsers = "ApproveUsers"; 
-         internal static string insertupdateTestQuestionPaper = "insertupdateTestQuestionPaper";
+         internal static string insertUpdateTestQuestionPaper = "insertUpdateTestQuestionPaper";
          internal static string retrieveQuestionPaper = "retrieveQuestionPaper";
+
+         internal static string insertUpdateAnswerPaper= "insertUpdateAnswerPaper";
        
         internal static class Params
         {
@@ -105,7 +107,9 @@ namespace ExamPortalApp.Infrastructure.Constants
             internal static readonly string LeftExamArea = "LeftExamArea";
             internal static readonly string Offline = "Offline";
             internal static readonly string FullScreenClosed = "FullScreenClosed";
+           
             internal static readonly string FileName = "FileName";
+             internal static readonly string FilePath = "FilePath";
             //internal static varbinary TestDocument = "";
             internal static readonly string AnswerText = "AnswerText";
             internal static readonly string Accomodation = "Accomodation";

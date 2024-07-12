@@ -499,8 +499,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj": {
-              "projectPath": "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj"
+            "C:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj": {
+              "projectPath": "C:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj"
             }
           }
         }
