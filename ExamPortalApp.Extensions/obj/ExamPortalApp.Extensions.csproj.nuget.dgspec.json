@@ -495,7 +495,7 @@
             },
             "Syncfusion.EJ2.WordEditor.AspNet.Core": {
               "target": "Package",
-              "version": "[21.2.9, )"
+              "version": "[26.1.41, )"
             },
             "Syncfusion.Pdf.Net.Core": {
               "target": "Package",

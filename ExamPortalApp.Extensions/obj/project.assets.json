@@ -1276,21 +1276,21 @@
           }
         }
       },
-      "Syncfusion.EJ2.WordEditor.AspNet.Core/21.2.9": {
+      "Syncfusion.EJ2.WordEditor.AspNet.Core/26.1.41": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.2",
-          "Syncfusion.Compression.Net.Core": "21.2.9",
-          "Syncfusion.DocIO.Net.Core": "21.2.9",
-          "Syncfusion.OfficeChart.Net.Core": "21.2.9"
+          "Syncfusion.Compression.Net.Core": "26.1.41",
+          "Syncfusion.DocIO.Net.Core": "26.1.41",
+          "Syncfusion.OfficeChart.Net.Core": "26.1.41"
         },
         "compile": {
-          "lib/net7.0/Syncfusion.EJ2.DocumentEditor.dll": {
+          "lib/net8.0/Syncfusion.EJ2.DocumentEditor.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net7.0/Syncfusion.EJ2.DocumentEditor.dll": {
+          "lib/net8.0/Syncfusion.EJ2.DocumentEditor.dll": {
             "related": ".xml"
           }
         }
@@ -2822,7 +2822,7 @@
           "Syncfusion.DocIORenderer.Net.Core": "21.2.9",
           "Syncfusion.EJ2.AspNet.Core": "24.2.4",
           "Syncfusion.EJ2.SpellChecker.AspNet.Core": "23.2.5",
-          "Syncfusion.EJ2.WordEditor.AspNet.Core": "21.2.9",
+          "Syncfusion.EJ2.WordEditor.AspNet.Core": "26.1.41",
           "Syncfusion.Pdf.Net.Core": "21.2.9",
           "Syncfusion.XlsIO.Net.Core": "24.2.8",
           "WindowsAzure.Storage": "9.3.3"
@@ -4714,10 +4714,10 @@
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.EJ2.WordEditor.AspNet.Core/21.2.9": {
-      "sha512": "OrdSrpzC/DHCbeHM9U/nCDd7fYaOhpj4pFTCqqgJIcMdN0fsci1VsP5cIAKGMXILc4xE33PUQVsHsDHoLfXv7g==",
+    "Syncfusion.EJ2.WordEditor.AspNet.Core/26.1.41": {
+      "sha512": "4i/A3ydXHtd09lekgBbZ30LINgADqdKFnnQffGqs119qKWI8T5K15ntOXIALfYD3yMXHfpYtqLMIKHt3SO0hQQ==",
       "type": "package",
-      "path": "syncfusion.ej2.wordeditor.aspnet.core/21.2.9",
+      "path": "syncfusion.ej2.wordeditor.aspnet.core/26.1.41",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4727,9 +4727,11 @@
         "lib/net6.0/Syncfusion.EJ2.DocumentEditor.xml",
         "lib/net7.0/Syncfusion.EJ2.DocumentEditor.dll",
         "lib/net7.0/Syncfusion.EJ2.DocumentEditor.xml",
+        "lib/net8.0/Syncfusion.EJ2.DocumentEditor.dll",
+        "lib/net8.0/Syncfusion.EJ2.DocumentEditor.xml",
         "lib/netstandard2.0/Syncfusion.EJ2.DocumentEditor.dll",
         "lib/netstandard2.0/Syncfusion.EJ2.DocumentEditor.xml",
-        "syncfusion.ej2.wordeditor.aspnet.core.21.2.9.nupkg.sha512",
+        "syncfusion.ej2.wordeditor.aspnet.core.26.1.41.nupkg.sha512",
         "syncfusion.ej2.wordeditor.aspnet.core.nuspec",
         "syncfusion_logo.png"
       ]

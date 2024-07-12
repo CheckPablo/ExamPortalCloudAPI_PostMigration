@@ -103,29 +103,38 @@ namespace ExamPortalApp.Api.Controllers
         [HttpPost("add-bulkImportFiles")]
         // public async  Task<ActionResult> BulkImportFiles(List<IFormFile> files)
         public async Task<ActionResult> BulkImportFiles(List<IFormFile> files)
+     {
+    try
+    {
+        string _batchGuid = Guid.NewGuid().ToString();
+        foreach (var file in files)
         {
+            if (file == null || string.IsNullOrEmpty(file.FileName))
+            {
+                return BadRequest("Invalid file");
+            }
+
             try
             {
-                string _batchGuid = Guid.NewGuid().ToString();
-                bool proccesFirstFile = await _bulkImportRepository.ImportFile1(Request.Form.Files[0].OpenReadStream(), _batchGuid);
-
-                if (!proccesFirstFile) return BadRequest();
-
-                bool proccesSecondFile = await _bulkImportRepository.ImportFile2(Request.Form.Files[1].OpenReadStream(), _batchGuid);
-                if (proccesFirstFile && proccesSecondFile)
+                bool proccesFile = await _bulkImportRepository.ImportFile(file.OpenReadStream(), _batchGuid);
+                if (!proccesFile)
                 {
-                    return Ok();
-                }
-                else
-                {
-                    return BadRequest();
+                    return BadRequest("Error processing file");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error importing file: " + ex.Message);
             }
         }
+
+        return Ok();
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(StatusCodes.Status500InternalServerError, "Error importing files: " + ex.Message);
+    }
+}
 
         /*    [HttpGet("download")]
      public IActionResult DownloadExcel()
