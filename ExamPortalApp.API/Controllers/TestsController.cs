@@ -1031,8 +1031,9 @@ var memory = new MemoryStream();
             try
             {
                 var response = await _testRepository.AddUpdateTestAsync(test);
-                //var result = _mapper.Map<TestDto>(response);
-                return Ok(response);
+                var responseObject = await _testRepository.GetAsync(response);
+                var result = _mapper.Map<TestDto>(responseObject);
+                return Ok(result);
             }
             catch (Exception ex)
             {

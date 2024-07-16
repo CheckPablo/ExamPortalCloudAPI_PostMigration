@@ -594,12 +594,15 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 { StoredProcedures.Params.TestID, testId }
             };
             var uploadTestEntry = await _repository.ExecuteStoredProcAsync<UploadedTest>(StoredProcedures.retrieveQuestionPaper, parameters);
+            if (uploadTestEntry.Count() == 0|| string.IsNullOrEmpty(uploadTestEntry?.First().TestDocument.ToBase64String() )){
+                return (test,null); 
+            }
+            else{
             var base64 = (uploadTestEntry?.First().TestDocument is not null) ? uploadTestEntry?.First().TestDocument.ToBase64String() : string.Empty;
             return (test, base64);
+            }
             //return base64;
         }
-
-        
 
         public async Task<(UserDocumentAnswer, string)> GetStudentFinalAnswerFileAsync(int testId, int studentId)
         {
