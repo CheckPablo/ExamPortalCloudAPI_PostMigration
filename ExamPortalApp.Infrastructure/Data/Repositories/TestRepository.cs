@@ -267,6 +267,28 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return doc.TestDocument;
         }
 
+         public async Task<byte[]> GetAnswerFileBytesAsync(int testId)
+        {
+            //var docs = await GetUploadedAnswerDocumentAsync(testId);
+           // var doc = docs?.FirstOrDefault();
+             var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.TestID, testId }
+                };
+             var docs = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.retrieveAnswerDocumentOnUpload, parameters);            
+            if (docs?.First().TestDocument is null) //throw new Exception("No test document found");
+            {
+                try
+                {
+                    byte[] bytes = new byte[0];
+                    return bytes;
+                }
+                catch (Exception ex)
+                { }
+            }
+            return docs?.First().TestDocument;
+        }
+
         public async Task<byte[]> GetUserAnswerFileAsync(int studentId, int testId)
         {
             var docs = await GetUserAnswerDocumentAsync(studentId, testId);
@@ -327,7 +349,6 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
         public async Task<Exam> LoadTestOnExamStart(int testId, int studentId)
         {
-
             var parameters = new Dictionary<string, object>
             {
                 { StoredProcedures.Params.TestID, testId },
@@ -563,11 +584,19 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             //    return (test, testToCache.ToString());
             //}
             //Console.WriteLine(testToCache.ToString());
-            var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UploadedTest>(x => x.Id == testId);
-            var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
+            ///var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UploadedTest>(x => x.Id == testId);
+            ///var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
             //}
             // _memoryCache.Set("employees", base64, TimeSpan.FromMinutes(1440));
+            ///return (test, base64);
+            var parameters = new Dictionary<string, object>
+            {
+                { StoredProcedures.Params.TestID, testId }
+            };
+            var uploadTestEntry = await _repository.ExecuteStoredProcAsync<UploadedTest>(StoredProcedures.retrieveQuestionPaper, parameters);
+            var base64 = (uploadTestEntry?.First().TestDocument is not null) ? uploadTestEntry?.First().TestDocument.ToBase64String() : string.Empty;
             return (test, base64);
+            //return base64;
         }
 
         
@@ -756,15 +785,21 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return (exam, testToCache.ToString());
         }
 
-        public async Task<string> GetDBTestQuestionWithFileAsync(int testId)
+        public async Task<(Exam, string)> GetDBTestQuestionWithFileAsync(int testId, int studentId)
         {
+            /*var testToCache = (_memoryCache.Get(testId) is not null) ? _memoryCache.Get(testId).ToString() : string.Empty;
+             if (testToCache.ToString().Length <= 0){
+                get from cache
+            } */
+            var exam = await LoadTestOnExamStart(testId,studentId) ?? throw new InvalidOperationException();
             var parameters = new Dictionary<string, object>
             {
                 { StoredProcedures.Params.TestID, testId }
             };
             var request = await _repository.ExecuteStoredProcAsync<UploadedTest>(StoredProcedures.retrieveQuestionPaper, parameters);
             var base64 = (request?.First().TestDocument is not null) ? request?.First().TestDocument.ToBase64String() : string.Empty;
-            return base64;
+             return (exam, base64);
+            //return base64;
         }
 
         public async Task<string> GetTestQuestionPaperTextAsync(int testId)
@@ -1083,10 +1118,32 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
             return true;
         }
-        /* byte[] ITestRepository.ConvertAnswerDocumentAsync(IFormFile file)
-         {
-             throw new NotImplementedException();
-         }*/
+ 
+/* public async Task<IEnumerable<UploadedAnswerDocument>> UploadAnswerDocumentAsync(int testId, IFormFile file)
+        {
+            var fileExtension = Path.GetExtension(file.FileName);
+            var filePath = Path.GetTempFileName();
+
+            if (!string.Equals(fileExtension, ".doc", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(fileExtension, ".docx", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new Exception("Only Word Documents Supported");
+            }
+
+            var fileBytes = file.ToByteArray();
+               var parameters = new Dictionary<string, object>
+                {
+                  
+                    { StoredProcedures.Params.TestID,testId },
+                    { StoredProcedures.Params.TestDocument, fileBytes },
+                    { StoredProcedures.Params.FileName, file.FileName },
+                    {StoredProcedures.Params.FilePath, filePath} 
+                    //{ StoredProcedures.Params.DateTimeNow, DateTime.Now },    
+                };
+            var uploadedAnswerDocs = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.insertUpdateAnswerPaper, parameters);
+            uploadedAnswerDocs.First().AnswerDocBase64 = (uploadedAnswerDocs.First().TestDocument is not null)?uploadedAnswerDocs.First().TestDocument?.ToBase64String():string.Empty; 
+            return uploadedAnswerDocs; 
+        }*/
         public byte[] ConvertAnswerDocumentAsync(IFormFile file)
         {
             byte[] fileBytes;
@@ -1102,7 +1159,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return fileBytes;
         }*/
 
-        public async Task<bool> UploadSourceDocumentAsync(int testId, IFormFile file)
+       /*  public async Task<bool> UploadSourceDocumentAsync(int testId, IFormFile file)
         {
             byte[] fileBytes;
             var test = await GetAsync(testId);
@@ -1134,6 +1191,41 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             await _repository.AddAsync(sourceDocument, true);
 
             return true;
+        }
+ */
+         public async Task<IEnumerable<UploadedSourceDocument>> UploadSourceDocumentAsync(int testId, IFormFile file)
+        {
+            byte[] fileBytes;
+            var test = await GetAsync(testId);
+            var fileExtension = Path.GetExtension(file.FileName);
+            if (string.Equals(fileExtension, ".doc", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(fileExtension, ".docx", StringComparison.OrdinalIgnoreCase))
+            {
+                fileBytes = file.ConvertToPdf();
+            }
+            else if (string.Equals(fileExtension, ".mp3", StringComparison.OrdinalIgnoreCase))
+            {
+                fileBytes = file.ToByteArray();
+
+            }
+
+            else
+            {
+                fileBytes = file.ToByteArray();
+            }
+            var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.TestID,testId },
+                    { StoredProcedures.Params.TestDocument, fileBytes },
+                    { StoredProcedures.Params.FileName, file.FileName }, 
+                    //{ StoredProcedures.Params.DateTimeNow, DateTime.Now },    
+                };
+
+                var request = await _repository.ExecuteStoredProcAsync<UploadedSourceDocument>(StoredProcedures.insertUpdateSourcePaper, parameters);
+                request.First().SourceDocBase64 = (request.First().TestDocument is not null)?request.First().TestDocument?.ToBase64String():string.Empty; 
+                //var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
+                return request;
+        
         }
         public static byte[] ReadFully(Stream input)
         {
@@ -1189,7 +1281,7 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
 
                 };
 
-                var request = await _repository.ExecuteStoredProcAsync<Test>(StoredProcedures.insertupdateTestQuestionPaper, parameters);
+                var request = await _repository.ExecuteStoredProcAsync<Test>(StoredProcedures.insertUpdateTestQuestionPaper, parameters);
                 request.First().TestDocBase64 = (request.First().TestDocument is not null)?request.First().TestDocument?.ToBase64String():string.Empty; 
                 //var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
                 return request;
@@ -1614,14 +1706,20 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
 
 
         public async Task<string> GetFileAsync(int id, string type)
-        {
+        {   
+            
+            var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.id, id }
+                };
+
             if (type == "source")
             {
-                var doc = await _repository.GetByIdAsync<UploadedSourceDocument>(id);
-
-                if (doc?.TestDocument == null) return string.Empty;
-
-                var base64 = doc.TestDocument.ToBase64String();
+                //var doc = await _repository.GetByIdAsync<UploadedSourceDocument>(id);         
+                var doc = await _repository.ExecuteStoredProcAsync<UploadedSourceDocument>(StoredProcedures.retrieveSourceDocument, parameters);
+                var base64 = (doc?.First().TestDocument is not null) ? doc?.First().TestDocument.ToBase64String() : string.Empty;
+                if (doc?.First().TestDocument == null) return string.Empty;
+                //var base64 = doc.TestDocument.ToBase64String();
 
                 return base64;
             }
@@ -1638,12 +1736,12 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
             }
             else
             {
-                var doc = await _repository.GetByIdAsync<UploadedAnswerDocument>(id);
-
-                if (doc?.TestDocument == null) return string.Empty;
-
-                var base64 = doc.TestDocument.ToBase64String();
-
+                //var doc = await _repository.GetByIdAsync<UploadedAnswerDocument>(id);;         
+                var doc = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.retrieveAnswerDocument, parameters);
+                var base64 = (doc?.First().TestDocument is not null) ? doc?.First().TestDocument.ToBase64String() : string.Empty;
+                if (doc?.First().TestDocument == null) return string.Empty;
+                //var base64 = doc.TestDocument.ToBase64String();
+                //if (doc?.TestDocument == null) return string.Empty;
                 return base64;
             }
         }

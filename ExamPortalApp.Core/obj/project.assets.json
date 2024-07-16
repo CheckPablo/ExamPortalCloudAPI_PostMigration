@@ -517,11 +517,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Core\\ExamPortalApp.Core.csproj",
+      "projectUniqueName": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Core\\ExamPortalApp.Core.csproj",
       "projectName": "ExamPortalApp.Core",
-      "projectPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Core\\ExamPortalApp.Core.csproj",
+      "projectPath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Core\\ExamPortalApp.Core.csproj",
       "packagesPath": "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Core\\obj\\",
+      "outputPath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Dell 5400 i7\\AppData\\Roaming\\NuGet\\NuGet.Config",

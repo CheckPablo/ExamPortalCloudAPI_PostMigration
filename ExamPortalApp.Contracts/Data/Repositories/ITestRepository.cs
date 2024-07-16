@@ -18,7 +18,7 @@ namespace ExamPortalApp.Contracts.Data.Repositories
         Task<bool> CreateNewOTPAsync(TestOTPSearcher otpGenerator);
         Task<bool> SendOTPToStudentsAsync(int id);
         Task<(Test, string)> GetTestWithFileAsync(int testId);
-        Task<string> GetDBTestQuestionWithFileAsync(int testId);
+        Task<(Exam, string)> GetDBTestQuestionWithFileAsync(int testId, int studentId);
         Task<(Test, string)> GetTestQuestionWithFileAsync(int testId);
         Task<(Exam, string)> GetTestQuestionWithFileAsync(int testId, int studentId);
         Task<string> GetTestQuestionPaperTextFileAsync(int testId);
@@ -28,7 +28,8 @@ namespace ExamPortalApp.Contracts.Data.Repositories
        // Task<(UserDocumentAnswer, string)> studentAnswersBulkDownload(int testId, int[] studentIds);
         Task<(UploadedAnswerDocument, string)> GetTestWithAnswerDocAsync(int id);
         Task<bool> LinkStudentsAsync(StudentTestLinker linker);
-        Task<bool> UploadSourceDocumentAsync(int testId, IFormFile file);
+        //Task<bool> UploadSourceDocumentAsync(int testId, IFormFile file);
+        Task<IEnumerable<UploadedSourceDocument>> UploadSourceDocumentAsync(int testId, IFormFile file);
         Task<IEnumerable<UploadedSourceDocument>> GetUploadedSourceDocumentsAsync(int testId);
         Task<IEnumerable<UploadedAnswerDocument>> GetUploadedAnswerDocumentAsync(int testId);
         Task<IEnumerable<UserDocumentAnswer>> GetUserAnswerDocumentAsync(int testId, int studentId);
@@ -36,11 +37,15 @@ namespace ExamPortalApp.Contracts.Data.Repositories
         Task<int> DeleteAnswerDocumentAsync(int id);
         Task<int> DeleteSourceDocumentAsync(int id);
         Task<string> GetFileAsync(int id, string type);
+        //Task<bool> UploadAnswerDocumentAsync(int testId, IFormFile file);
+        //Task<IEnumerable<UploadedAnswerDocument>> UploadAnswerDocumentAsync(int testId, IFormFile file);
+
         Task<bool> UploadAnswerDocumentAsync(int testId, IFormFile file);
         Task<string> GetWordFileAsync(int id);
         string ConvertWordDocToBase64Async(IFormFile file);
         //string ConvertOfflineString(string file);
         Task<byte[]> GetAnswerFileAsync(int testId);
+        Task<byte[]> GetAnswerFileBytesAsync(int testId);
         Task<byte[]> GetUserAnswerFileAsync(int testId, int studentId);
         //Task<byte[]> GetUserAnswerFile(int testId, int studentId);
         Task<bool> CheckFileConvertedAsync(int id);

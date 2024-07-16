@@ -207,7 +207,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
             if (studentUser == null || studentUser.EncrytedPassword is null)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCrdentialsException();
             }
 
             else
@@ -220,7 +220,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 }
                 else
                 {
-                    throw new InvalidCredentialException();
+                    throw new InvalidCrdentialsException();
                 }
             }
             #region Validation

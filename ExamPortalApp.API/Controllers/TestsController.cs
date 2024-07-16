@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections;
+using AutoMapper;
 using ExamPortalApp.Contracts.Data.Dtos;
 using ExamPortalApp.Contracts.Data.Dtos.Params;
 using ExamPortalApp.Contracts.Data.Entities;
@@ -193,7 +194,39 @@ namespace ExamPortalApp.Api.Controllers
             {
                 return ex.Message;
             }
-        }
+        } 
+        /* [HttpGet("{testId}/get-answer-file")]
+        public async Task<string> GetAnswerFile(int testId)
+        {
+            try
+            {
+                var bytes = await _testRepository.GetAnswerFileBytesAsync(testId);
+
+                if (bytes.Length > 0)
+                {
+                    using (var stream = new MemoryStream(bytes))
+                    {
+                        stream.Position = 0;
+
+                        //Hooks MetafileImageParsed event.
+                        WordDocument.MetafileImageParsed += OnMetafileImageParsed;
+                        WordDocument document = WordDocument.Load(stream, GetFormatType(".docx"));
+                        //Unhooks MetafileImageParsed event.
+                        WordDocument.MetafileImageParsed -= OnMetafileImageParsed;
+
+                        string json = JsonConvert.SerializeObject(document);
+                        document.Dispose();
+                        return json;
+                    }
+                }
+                else return Newtonsoft.Json.JsonConvert.SerializeObject("");
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }*/
         [HttpGet("{studentId}/{testId}/get-studentanswer-file")]
         public async Task<string> GetStudentAnswerFile(int studentId, int testId)
         {
@@ -570,18 +603,20 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("get-dbtest-with-file/{testId}")]
+        [AllowAnonymous]
+        [HttpGet("get-dbtest-with-file/{testId}/{studentId}")]
         //public async Task<ActionResult<TestDto>> GetDbTestWithFile(int testId)
-        public async Task<ActionResult<object>> GetDbTestWithFile(int testId)
+        public async Task<ActionResult<object>> GetDbTestWithFile(int testId, int studentId)
         {
             try
             {
-                var file = await _testRepository.GetDBTestQuestionWithFileAsync(testId);
+                var (exam,file) = await _testRepository.GetDBTestQuestionWithFileAsync(testId, studentId);
+                //var testDto = _mapper.Map<TestDto>(test);
                 //var testDto = _mapper.Map<TestDto>(file);
 
                 return Ok(new
                 {
+                    exam ,
                     file
                 });
             }
@@ -996,7 +1031,7 @@ var memory = new MemoryStream();
             try
             {
                 var response = await _testRepository.AddUpdateTestAsync(test);
-                // var result = _mapper.Map<TestDto>(response);
+                //var result = _mapper.Map<TestDto>(response);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -1242,10 +1277,36 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
-        [DisableRequestSizeLimit]
+      /*  [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("{testId}/upload-answer-document")]
-        public async Task<ActionResult<bool>> UploadAnswerDocumentAsync(int testId)
+         public async Task<ActionResult<bool>> UploadAnswerDocumentAsync(int testId)
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+
+                if (file is not null && file.Length > 0)
+                {
+                    var response = await _testRepository.UploadAnswerDocumentAsync(testId, file);
+
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("Data or file not provided");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        } */
+
+         [DisableRequestSizeLimit]
+        [Consumes("multipart/form-data")]
+        [HttpPost("{testId}/upload-answer-document")]
+        public async Task<ActionResult<IEnumerable<UploadedAnswerDocument>>> UploadAnswerDocumentAsync(int testId)
         {
             try
             {
@@ -1271,7 +1332,7 @@ var memory = new MemoryStream();
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("{testId}/upload-source-document")]
-        public async Task<ActionResult<bool>> UploadSourceDocumentAsync(int testId)
+        public async Task<ActionResult<IEnumerable<UploadedSourceDocument>>> UploadSourceDocumentAsync(int testId)
         {
             try
             {
