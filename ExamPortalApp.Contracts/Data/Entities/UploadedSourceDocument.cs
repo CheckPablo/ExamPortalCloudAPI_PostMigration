@@ -1,4 +1,6 @@
-﻿namespace ExamPortalApp.Contracts.Data.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ExamPortalApp.Contracts.Data.Entities;
 
 public partial class UploadedSourceDocument : EntityBase
 {
@@ -11,6 +13,8 @@ public partial class UploadedSourceDocument : EntityBase
     public DateTime? DateModified { get; set; }
 
     public int? OldTestId { get; set; }
+    [NotMapped]
+    public string? SourceDocBase64 {get;set;} 
 
     public virtual Test? Test { get; set; }
 }

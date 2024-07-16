@@ -63,8 +63,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             for (int row = 2; row <= worksheet.Columns[1].Count; row++)
             {
                  var studentNo = "VST" + worksheet[row, 5].Value;
-                //SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, studentNo, batchGuid, _repository);
-                SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, batchGuid, _repository);
+                SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, studentNo, batchGuid, _repository);
+                //SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, batchGuid, _repository);
                 
                 lstSectorSubjects.Add(tempSectorSubjectsObject);
             }
@@ -162,17 +162,17 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
             for (int row = 2; row <= worksheet.Columns[1].Count; row++)
             {
-               /*  var centerNo = worksheet[row, 1].Value; 
+                var centerNo = worksheet[row, 1].Value; 
                 var centerNoRecord =  await _repository.GetFirstOrDefaultAsync<Center>(x => x.CenterNo == Convert.ToInt32(centerNo));
-                var prefix = centerNoRecord.Prefix; */ 
+                var prefix = centerNoRecord.Prefix;
                 int RegionID = 1000;
                 if (worksheet[row, 2].Value != "")
                 {
                     RegionID = Convert.ToInt32(worksheet[row, 2].Value);
                 }
                 var studentNo  = "VST" + worksheet[row, 6].Value; 
-                //PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, studentNo, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
-                PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, worksheet[row, 6].Value, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
+                PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, studentNo, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
+                //PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, worksheet[row, 6].Value, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
 
                 lstPeople.Add(tempPeopleObject);
             }

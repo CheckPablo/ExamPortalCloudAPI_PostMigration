@@ -11,6 +11,8 @@ namespace ExamPortalApp.Infrastructure.Constants
         internal const string GetTestsOTP  = "[dbo].[Get_OTP]";
         internal const string NewOTPInsert = "[dbo].[RNDOTP_ins1]"; 
 
+        internal const string GetRegions = "GetRegions"; 
+
         internal const string AddStudentTemp = "[dbo].[RNDOTP_ins1]"; 
         internal const string OtpEmailList = "[dbo].[otpEmailList1]";
         internal const string OtpToSend = "[dbo].[Get_OTPToSend]"; // NOT YET IN DB
@@ -60,8 +62,14 @@ namespace ExamPortalApp.Infrastructure.Constants
          internal static string GetBatchID_BulkImport = "GetBatchID_BulkImport"; 
          internal static string UpdateStudentCredentials = "UpdateStudentCredentials";
          internal static string ApproveUsers = "ApproveUsers"; 
-         internal static string insertupdateTestQuestionPaper = "insertupdateTestQuestionPaper";
+         internal static string insertUpdateTestQuestionPaper = "insertUpdateTestQuestionPaper";
          internal static string retrieveQuestionPaper = "retrieveQuestionPaper";
+         internal static string retrieveSourceDocument = "retrieveSourceDocument";
+         internal static string retrieveAnswerDocument = "retrieveAnswerDocument";
+         internal static string retrieveAnswerDocumentOnUpload = "retrieveAnswerDocumentOnUpload";
+         internal static string insertUpdateSourcePaper = "insertUpdateSourcePaper";
+         internal static string insertUpdateAnswerPaper = "insertUpdateAnswerPaper";
+        
        
         internal static class Params
         {
@@ -146,6 +154,7 @@ namespace ExamPortalApp.Infrastructure.Constants
             public static string WorkOffline = "WorkOffline";
             public static string AnswerScanningAvailable = "AnswerScanningAvailable";
             public static string TestSecurityLevelId = "TestSecurityLevelId";
+            public  static  string FilePath = "FilePath";
 
         }
 
