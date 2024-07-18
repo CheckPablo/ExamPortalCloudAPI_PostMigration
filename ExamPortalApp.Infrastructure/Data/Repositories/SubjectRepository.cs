@@ -6,6 +6,7 @@ using ExamPortalApp.Infrastructure.Constants;
 using ExamPortalApp.Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Office.Interop.Word;
 
 namespace ExamPortalApp.Infrastructure.Data.Repositories
 {
@@ -25,12 +26,26 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         {
 
             var subjectExists = await _repository.AnyAsync<Subject>(x => x.SectorId == entity.SectorId && x.Code == entity.Code);
+            var deleteStatus = await _repository.GetFirstOrDefaultSubjectAsync<Subject>(x => x.SectorId == entity.SectorId && x.Code == entity.Code);
             if (subjectExists)
             {
-                //throw new Exception(ErrorMessages.SubjectEntryChecks.SubjectExists);
-                throw new InvalidSubjectEntryException();
+               
+                if(deleteStatus != null && deleteStatus.IsDeleted == false)
+                {
+                 //throw new Exception(ErrorMessages.GradeEntryChecks.GradeExists);
+                 throw new InvalidSubjectEntryException();  
+                }
+              
             }
-            return await _repository.AddAsync(entity, true);
+              if(deleteStatus != null && deleteStatus.IsDeleted == true){
+                  deleteStatus.IsDeleted = false; 
+                 return await _repository.UpdateAsync(deleteStatus, true); 
+                }
+                
+            else{
+                return await _repository.AddAsync(entity, true);
+            }
+            //throw new Exception(ErrorMessages.SubjectEntryChecks.SubjectExists);
         }
         public async Task<Subject> UpdateLinkToAllAsync(Subject entity)
         {

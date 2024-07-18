@@ -37,7 +37,7 @@
         internal static class SubjectEntryChecks
         {
             // more subject checks will be added here 
-            internal static readonly string SubjectExists = "The specified subject code and subject code already exists";
+            internal static readonly string SubjectExists = "The specified subject code and subject name already exists";
         }
 
         internal static class StudentEntryChecks

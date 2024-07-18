@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ExamPortalApp.Extensions")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+46504c814234f0b7d9ec797c8d26e279b9235aab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+945c50f93060a667acb5fff30ea04595e5e9c2f8")]
 [assembly: System.Reflection.AssemblyProductAttribute("ExamPortalApp.Extensions")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ExamPortalApp.Extensions")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

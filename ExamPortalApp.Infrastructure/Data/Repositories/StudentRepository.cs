@@ -699,11 +699,12 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         public async Task<Student> UpdateAsync(Student entity)
         {
             var student = await _repository.GetByIdAsync<Student>(entity.Id);
-        /*     if (student is not null)
+       /*     if (student is not null)
             {
                 if (student.EncrytedPassword is not null)
                     entity.EncrytedPassword = student.EncrytedPassword;
                 //entity.PlainPassword = PasswordHelper.Decrypt(student.EncrytedPassword, _examPortalSettings.EncryptionKey);
+                //entity.EncrytedPassword = PasswordHelper.Encrypt(password, _examPortalSettings.EncryptionKey);
             } */
 
 

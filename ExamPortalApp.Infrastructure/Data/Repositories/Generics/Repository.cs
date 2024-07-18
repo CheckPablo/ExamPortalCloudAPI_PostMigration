@@ -284,6 +284,11 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories.Generic
            return await _dbContext.Set<T>().Where(x => x.Id > 0).FirstOrDefaultAsync(expression);
         }
 
+         public async  virtual Task<T?> GetFirstOrDefaultSubjectAsync<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : EntityBase
+        {
+           return await _dbContext.Set<T>().Where(x => x.Id > 0).FirstOrDefaultAsync(expression);
+        }
+
       /*   public async virtual Task<T?> GetFirstOrDefaultAsync<T>(Expression<Func<T, bool>> expression) where T : EntityBase
         {
             return await _dbContext.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(expression);

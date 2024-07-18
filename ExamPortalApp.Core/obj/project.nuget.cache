@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SnSEaXEUFhgIx0Gg9iZKyMpoFxqvgrfYDXKtFv0APQxK5A1jjD9ZgT+ezg1w8Y/TCUSIRO7gDW5S7L9/KToJMA==",
+  "dgSpecHash": "w4jlwyGI+S29bab5eu2Z1bzNXM8C9EVEaSGoIwjtyzBBLYXihsPoNh/aBX/uIKeGSQ+FGIt93SaTr93XypzS6A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Core\\ExamPortalApp.Core.csproj",
+  "projectFilePath": "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Core\\ExamPortalApp.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Thando\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Thando\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

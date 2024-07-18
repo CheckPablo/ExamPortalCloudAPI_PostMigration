@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2QQTGL1FQaiZBcO1tFDjH49JqToXuy66qrqwSFbMJ18qkodtS1i2oqecof3zkex28fCdGfJouHjbabf31niikg==",
+  "dgSpecHash": "sj6/SEkcRIbfNfjmtI26y1/YRDdVJXEiox7vtZ3tl4DUxj/DVjGOWyDpHX5Rm0NIfDJK0FphCuxDC4VE/U9k0Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Extensions\\ExamPortalApp.Extensions.csproj",
+  "projectFilePath": "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Extensions\\ExamPortalApp.Extensions.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Thando\\.nuget\\packages\\aspose.words\\23.6.0\\aspose.words.23.6.0.nupkg.sha512",
     "C:\\Users\\Thando\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",

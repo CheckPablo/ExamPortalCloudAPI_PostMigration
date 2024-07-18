@@ -1723,8 +1723,8 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
         }
         public async Task<string> GetWordFileAsync(int id)
         {
-            var base64string = await GetFileAsync(id, "source");
-            var bytes = Convert.FromBase64String(base64string);
+           var base64string = await GetFileAsync(id, "source");
+           /*  var bytes = Convert.FromBase64String(base64string);
 
             using (MemoryStream stream = new(bytes))
             {
@@ -1738,7 +1738,8 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
                 document.Dispose();
                 stream.Dispose();
                 return json;
-            }
+            }*/
+            return base64string;
         }
 
         public async Task<IEnumerable<RandomOtpDto>> ValidateTestOTP(int? testId, int? centerId, int? otp)

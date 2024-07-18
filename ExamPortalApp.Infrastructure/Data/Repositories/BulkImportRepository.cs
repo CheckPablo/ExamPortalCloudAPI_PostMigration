@@ -31,62 +31,85 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
 
         public async Task<bool> ImportFile2(Stream stream, string batchGuid)
+{
+    try
+    {
+        List<SectorSubjectsObject> lstSectorSubjects = new();
+        using ExcelEngine excelEngine = new();
+        IApplication application = excelEngine.Excel;
+
+        application.DefaultVersion = ExcelVersion.Excel2016;
+
+        IWorkbook workbook = excelEngine.Excel.Workbooks.Open(stream);
+
+        IWorksheet worksheet = workbook.Worksheets[0];
+
+        Dictionary<string, string> cells = new()
         {
-            List<SectorSubjectsObject> lstSectorSubjects = [];
-            using ExcelEngine excelEngine = new();
-            IApplication application = excelEngine.Excel;
+            {"A1","SectorCode"},
+            {"B1","Sector"},
+            {"C1","SubjectCode"},
+            {"D1","Subject"},
+            {"F1","StudentNo"},
+        };
 
-            application.DefaultVersion = ExcelVersion.Excel2016;
-
-            IWorkbook workbook = excelEngine.Excel.Workbooks.Open(stream);
-
-            IWorksheet worksheet = workbook.Worksheets[0];
-
-
-            Dictionary<string, string> cells = new(){
-                {"A1","SectorCode"},
-                {"B1","Sector"},
-                {"C1","SubjectCode"},
-                {"D1","Subject"},
-                {"F1","StudentNo"},
-            };
-            for (int i = worksheet.Columns[1].Count - 1; i >= 0; i--)
+        for (int i = worksheet.Columns[1].Count - 1; i >= 0; i--)
+        {
+            if (worksheet.Rows[i].IsBlank)
             {
-                if (worksheet.Rows[i].IsBlank)
-                {
-                    worksheet.DeleteRow(i + 1);
-                }
+                worksheet.DeleteRow(i + 1);
             }
-            
-            if(!CheckHeaders(worksheet, cells)) return false;
+        }
 
-            for (int row = 2; row <= worksheet.Columns[1].Count; row++)
+        if (!CheckHeaders(worksheet, cells)) return false;
+
+        for (int row = 2; row <= worksheet.Columns[1].Count; row++)
+        {
+            try
             {
-                 var studentNo = "VST" + worksheet[row, 5].Value;
-                //SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, studentNo, batchGuid, _repository);
+                var studentNo = "VST" + worksheet[row, 5].Value;
                 SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, batchGuid, _repository);
                 
                 lstSectorSubjects.Add(tempSectorSubjectsObject);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error importing sector subjects: " + ex.Message);
+                continue;
+            }
+        }
 
-            foreach (var item in lstSectorSubjects)
+        foreach (var item in lstSectorSubjects)
+        {
+            try
             {
                 item.ImportToBuffer();
             }
-
-            if (await ImportToBufferLink())
+            catch (Exception ex)
             {
-                //return true; 
-                 //await Task.Delay(3000);
-                 await BulkImportExamPortalCloud(batchGuid);
-                 return true; 
-            }
-            else
-            {
+                
+                Console.WriteLine("Error importing to buffer: " + ex.Message);
                 return false;
             }
-
         }
+
+        if (await ImportToBufferLink())
+        {
+            await BulkImportExamPortalCloud(batchGuid);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    catch (Exception ex)
+    {
+        
+        Console.WriteLine("Error importing file: " + ex.Message);
+        return false;
+    }
+}
 
         public async Task<bool>  BulkImportExamPortalCloud(string batchGuid)
         {
@@ -130,6 +153,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
         public async Task<bool> ImportFile1(Stream PeopleFileStream, string batchGuid)
         {
+            try{
             // string  batchGUID = "";
             List<PeopleObject> lstPeople = [];
             using ExcelEngine excelEngine = new();
@@ -162,19 +186,25 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
             for (int row = 2; row <= worksheet.Columns[1].Count; row++)
             {
-               /*  var centerNo = worksheet[row, 1].Value; 
+                try{
+                 var centerNo = worksheet[row, 1].Value; 
                 var centerNoRecord =  await _repository.GetFirstOrDefaultAsync<Center>(x => x.CenterNo == Convert.ToInt32(centerNo));
-                var prefix = centerNoRecord.Prefix; */ 
+                var prefix = centerNoRecord.Prefix;  
                 int RegionID = 1000;
                 if (worksheet[row, 2].Value != "")
                 {
                     RegionID = Convert.ToInt32(worksheet[row, 2].Value);
                 }
                 var studentNo  = "VST" + worksheet[row, 6].Value; 
-                //PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, studentNo, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
+                
                 PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, worksheet[row, 6].Value, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
 
                 lstPeople.Add(tempPeopleObject);
+                }
+                catch (Exception ex){
+                    Console.WriteLine("Error importing people: " + ex.Message);
+                    return false;
+                }
             }
 
             foreach (var item in lstPeople)
@@ -182,6 +212,11 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 await item.ImportToBuffer().ConfigureAwait(false);
             }
             return true;
+            }catch (Exception ex)
+             {
+                Console.WriteLine("Error importing file: " + ex.Message);
+        return false;
+    }
         }
 
         private static bool CheckHeaders(IWorksheet worksheet, Dictionary<string, string> cells)

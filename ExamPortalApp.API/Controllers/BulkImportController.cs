@@ -102,33 +102,28 @@ namespace ExamPortalApp.Api.Controllers
         [Consumes("multipart/form-data")]
         [HttpPost("add-bulkImportFiles")]
         // public async  Task<ActionResult> BulkImportFiles(List<IFormFile> files)
-        public async Task<ActionResult> BulkImportFiles(List<IFormFile> files)
-     {
+ public async Task<ActionResult> BulkImportFiles(List<IFormFile> files)
+{
     try
     {
         string _batchGuid = Guid.NewGuid().ToString();
-        foreach (var file in files)
+        if (files == null || files.Count != 2)
         {
-            if (file == null || string.IsNullOrEmpty(file.FileName))
-            {
-                return BadRequest("Invalid file");
-            }
-
-            try
-            {
-                bool proccesFile = await _bulkImportRepository.ImportFile(file.OpenReadStream(), _batchGuid);
-                if (!proccesFile)
-                {
-                    return BadRequest("Error processing file");
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error importing file: " + ex.Message);
-            }
+            return BadRequest("Invalid request. At least two files are required.");
         }
 
-        return Ok();
+        bool proccesFirstFile = await _bulkImportRepository.ImportFile1(Request.Form.Files[0].OpenReadStream(), _batchGuid);
+        if (!proccesFirstFile) return BadRequest();
+
+        bool proccesSecondFile = await _bulkImportRepository.ImportFile2(Request.Form.Files[1].OpenReadStream(), _batchGuid);
+        if (proccesFirstFile && proccesSecondFile)
+        {
+            return Ok();
+        }
+        else
+        {
+            return BadRequest();
+        }
     }
     catch (Exception ex)
     {

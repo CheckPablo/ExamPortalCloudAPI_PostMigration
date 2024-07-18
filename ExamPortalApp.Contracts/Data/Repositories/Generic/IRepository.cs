@@ -14,6 +14,7 @@ namespace ExamPortalApp.Contracts.Data.Repositories.Generic
         Task<T?> GetFirstOrDefaultAsync<T>(Expression<Func<T, bool>> expression) where T : EntityBase;
         Task<T?> GetFirstOrDefaultAsync<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : EntityBase;
         Task<T?> GetFirstOrDefaultGradeAsync<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : EntityBase;
+        Task<T?> GetFirstOrDefaultSubjectAsync<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : EntityBase;
         Task<IEnumerable<T>> GetWhereAsync<T>(Expression<Func<T, bool>> expression) where T : EntityBase;
         Task<IEnumerable<T>> GetWhereAsync<T>(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes) where T : EntityBase;
         Task<T> UpdateAsync<T>(T entity, bool save = false) where T : EntityBase;
