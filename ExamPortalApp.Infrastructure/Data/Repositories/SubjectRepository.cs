@@ -25,13 +25,40 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         {
 
             var subjectExists = await _repository.AnyAsync<Subject>(x => x.SectorId == entity.SectorId && x.Code == entity.Code);
+            var deleteStatus = await _repository.GetFirstOrDefaultSubjectAsync<Subject>(x => x.SectorId == entity.SectorId && x.Code == entity.Code);
+            if (subjectExists)
+            {
+               
+                if(deleteStatus != null && deleteStatus.IsDeleted == false)
+                {
+                 //throw new Exception(ErrorMessages.GradeEntryChecks.GradeExists);
+                 throw new InvalidSubjectEntryException();  
+                }
+              
+            }
+              if(deleteStatus != null && deleteStatus.IsDeleted == true){
+                  deleteStatus.IsDeleted = false; 
+                 return await _repository.UpdateAsync(deleteStatus, true); 
+                }
+                
+            else{
+                return await _repository.AddAsync(entity, true);
+            }
+            //throw new Exception(ErrorMessages.SubjectEntryChecks.SubjectExists);
+        }
+
+       /*  public async Task<Subject> AddAsync(Subject entity)
+        {
+
+            var subjectExists = await _repository.AnyAsync<Subject>(x => x.SectorId == entity.SectorId && x.Code == entity.Code);
             if (subjectExists)
             {
                 //throw new Exception(ErrorMessages.SubjectEntryChecks.SubjectExists);
                 throw new InvalidSubjectEntryException();
             }
             return await _repository.AddAsync(entity, true);
-        }
+        } */
+
         public async Task<Subject> UpdateLinkToAllAsync(Subject entity)
         {
             await UpdateAsync(entity); 
@@ -70,17 +97,25 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return (entity);
         }
         
-            public async Task<Subject> AddLinkToAllAsync(Subject entity)
+       public async Task<Subject> AddLinkToAllAsync(Subject entity)
         {
 
             var subjectExists = await _repository.AnyAsync<Subject>(x => x.SectorId == entity.SectorId && x.Code == entity.Code);
+            var deleteStatus = await _repository.GetFirstOrDefaultSubjectAsync<Subject>(x => x.SectorId == entity.SectorId && x.Code == entity.Code);
             if (subjectExists)
             {
-                throw new Exception(ErrorMessages.SubjectEntryChecks.SubjectExists);
+                if(deleteStatus != null && deleteStatus.IsDeleted == false)
+                {
+                 //throw new Exception(ErrorMessages.GradeEntryChecks.GradeExists);
+                 throw new InvalidSubjectEntryException();  
+                }
             }
 
-            //var studentsToLink = await _repository.AnyAsync<Subject>(x => x.SectorId == entity.SectorId && x.Code == entity.Code);
-            //var studentsToLink = _repository.Where(x => x.Subject != null).Select(x => x.Subject);
+            if(deleteStatus != null && deleteStatus.IsDeleted == true){
+                  deleteStatus.IsDeleted = false; 
+                 return await _repository.UpdateAsync(deleteStatus, true); 
+            }
+            else{
             var parameters = new Dictionary<string, object>();
 
             if(entity.ModifiedBy == null)
@@ -95,6 +130,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             parameters.Add(StoredProcedures.Params.ModifiedBy, _user.Id);
 
             var result = await _repository.ExecuteStoredProcAsync<UserCenter>(StoredProcedures.SubjectMaintenance_InsUpd, parameters);
+            
 
             var studentsToLink = await _repository.GetWhereAsync<Student>(x => x.GradeId == entity.SectorId);
 
@@ -115,8 +151,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             }
             return (entity);
                 //await _repository.AddAsync(entity, true);
+            }
         }
-
         public async Task<int> DeleteAsync(int id)
         {
             await _repository.DeleteAsync<Subject>(id);

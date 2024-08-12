@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UcuOroAX9s/tAgRPj9ceWDAA4oqBW7ZyybpGh+Ei1lh+VdK3YSAe5L5wJTztjotJN36ZUSO82HP1xuwNju3jDw==",
+  "dgSpecHash": "vcc3cMQGK55yU9SvJ74gVnNx6Ll0DsnvFB9ntnTH1NnBJBYxcPamKHndNKAz1XkXE/nA7Br9lGG2bY4o+wJFsA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Core\\ExamPortalApp.Core.csproj",
+  "projectFilePath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Core\\ExamPortalApp.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

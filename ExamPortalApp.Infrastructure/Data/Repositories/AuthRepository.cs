@@ -287,6 +287,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             #region Setup the token
             var tokenKey = _settings?.Key ?? string.Empty;
             var issuer = _settings?.Issuer ?? string.Empty;
+            var isSchoolAdmin = user.IsSchoolAdmin; 
             var claims = new List<Claim>();
             if (userRole == 2 && impersonatedCenterId != 0 && user.CenterId == 2)
             {
@@ -386,6 +387,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 Token = tokenHandler.WriteToken(token),
                 Role = userRole,
                 ImpersonatedCenterId = impersonatedCenterId,
+                IsSchoolAdmin = user.IsSchoolAdmin,
             };
         }
 

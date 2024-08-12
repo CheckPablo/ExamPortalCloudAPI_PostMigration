@@ -169,6 +169,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("upload-answer-document")]
@@ -381,8 +382,8 @@ namespace ExamPortalApp.Api.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("get-student-sebsettings/{uniqueName}/{testId}/{studentUserId}/{testName}/{domain}")]
-        public ActionResult GetSEBWindowsSettings(string uniqueName, string testId, string studentUserId, string testName, string domain)
+        [HttpGet("get-student-sebsettings/{uniqueName}/{testId}/{studentUserId}/{testName}/{domain}/{studentFullName}")]
+        public ActionResult GetSEBWindowsSettings(string uniqueName, string testId, string studentUserId, string testName, string domain, string studentFullName)
         {
 
             try
@@ -391,7 +392,7 @@ namespace ExamPortalApp.Api.Controllers
                 string webrootPath = _env.WebRootPath;
                 var fileName = contentRootpath +  $@"/templates/SebExtensionWins.xml";
                 string xml = System.IO.File.ReadAllText(fileName);
-                string studentLogOn = $"<string>https://{domain}/portal/test-writing/test-writing-management/{uniqueName}/{testId}/{studentUserId}/{testName}</string>";
+                string studentLogOn = $"<string>https://{domain}/portal/test-writing/test-writing-management/{uniqueName}/{testId}/{studentUserId}/{testName}/{studentFullName}</string>";
                 //string studentLogOn = $"<string>https://{domain}/portal/test-writing/test-writing-management/{uniqueName}/{testId}/{studentUserId}/{testName}</string>";
                 string cleanStudentLogOn = studentLogOn.Replace(" ","%20");
                 xml = xml.Replace("[[studentLogOn]]", cleanStudentLogOn);
@@ -417,8 +418,8 @@ namespace ExamPortalApp.Api.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("get-student-seb-mac-settings/{uniqueName}/{testId}/{studentUserId}/{testName}/{domain}")]
-        public ActionResult GetSEBMacSettings(string uniqueName, string testId, string studentUserId, string testName, string domain)
+        [HttpGet("get-student-seb-mac-settings/{uniqueName}/{testId}/{studentUserId}/{testName}/{domain}/{studentFullName}")]
+        public ActionResult GetSEBMacSettings(string uniqueName, string testId, string studentUserId, string testName, string domain,string studentFullName)
         {
 
             try

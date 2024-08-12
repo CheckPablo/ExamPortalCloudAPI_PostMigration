@@ -68,6 +68,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        
         [HttpDelete("{id}/answer-document")]
         public async Task<ActionResult> DeleteAnswerDocumentAsync(int id)
         {
@@ -162,7 +163,8 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("{testId}/get-answer-file")]
         public async Task<string> GetAnswerFile(int testId)
         {
@@ -227,6 +229,7 @@ namespace ExamPortalApp.Api.Controllers
                 return ex.Message;
             }
         }*/
+        [AllowAnonymous]
         [HttpGet("{studentId}/{testId}/get-studentanswer-file")]
         public async Task<string> GetStudentAnswerFile(int studentId, int testId)
         {
@@ -353,7 +356,8 @@ namespace ExamPortalApp.Api.Controllers
             }
 
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("get-file/{id}/{type}")]
         public async Task<ActionResult<string>> GetFile(int id, string type)
         {
@@ -387,6 +391,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{testId}/get-answer-documents")]
         public async Task<ActionResult<UploadedAnswerDocumentDto>> GetUploadedAnswerDocument(int testId)
         {
@@ -554,6 +559,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{testId}/get-source-documents")]
         public async Task<ActionResult<TestDto>> GetUploadedSourceDocuments(int testId)
         {
@@ -708,7 +714,8 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("get-converted-answerdoc/{testId}/{studentId}")]
         public async Task<ActionResult<UserDocumentAnswer>> DownloadFileFromDataBaseNew(int testId, int studentId)
         {
