@@ -96,6 +96,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
           
             };
             var result = await _repository.ExecuteStoredProcAsync<Center>(StoredProcedures.GetCurrentCenterDetails, parameters).ConfigureAwait(false);
+            result.First().Id = _user.CenterId;
             return result;
         }
 

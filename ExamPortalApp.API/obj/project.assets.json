@@ -1418,7 +1418,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Syncfusion.Compression.Net.Core/26.2.8": {
+      "Syncfusion.Compression.Net.Core/26.2.9": {
         "type": "package",
         "compile": {
           "lib/net8.0/Syncfusion.Compression.Portable.dll": {
@@ -1431,12 +1431,12 @@
           }
         }
       },
-      "Syncfusion.DocIO.Net.Core/26.2.8": {
+      "Syncfusion.DocIO.Net.Core/26.2.9": {
         "type": "package",
         "dependencies": {
-          "Syncfusion.Compression.Net.Core": "26.2.8",
-          "Syncfusion.Licensing": "26.2.8",
-          "Syncfusion.OfficeChart.Net.Core": "26.2.8",
+          "Syncfusion.Compression.Net.Core": "26.2.9",
+          "Syncfusion.Licensing": "26.2.9",
+          "Syncfusion.OfficeChart.Net.Core": "26.2.9",
           "System.Text.Encoding.CodePages": "4.4.0"
         },
         "compile": {
@@ -1512,7 +1512,7 @@
           "build/net8.0/Syncfusion.EJ2.PdfViewer.AspNet.Core.Windows.targets": {}
         }
       },
-      "Syncfusion.EJ2.SpellChecker.AspNet.Core/26.2.8": {
+      "Syncfusion.EJ2.SpellChecker.AspNet.Core/26.2.9": {
         "type": "package",
         "compile": {
           "lib/net8.0/Syncfusion.EJ2.SpellChecker.dll": {
@@ -1525,13 +1525,13 @@
           }
         }
       },
-      "Syncfusion.EJ2.WordEditor.AspNet.Core/26.2.8": {
+      "Syncfusion.EJ2.WordEditor.AspNet.Core/26.2.9": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.2",
-          "Syncfusion.Compression.Net.Core": "26.2.8",
-          "Syncfusion.DocIO.Net.Core": "26.2.8",
-          "Syncfusion.OfficeChart.Net.Core": "26.2.8"
+          "Syncfusion.Compression.Net.Core": "26.2.9",
+          "Syncfusion.DocIO.Net.Core": "26.2.9",
+          "Syncfusion.OfficeChart.Net.Core": "26.2.9"
         },
         "compile": {
           "lib/net8.0/Syncfusion.EJ2.DocumentEditor.dll": {
@@ -1544,7 +1544,7 @@
           }
         }
       },
-      "Syncfusion.Licensing/26.2.8": {
+      "Syncfusion.Licensing/26.2.9": {
         "type": "package",
         "compile": {
           "lib/net8.0/Syncfusion.Licensing.dll": {}
@@ -1553,10 +1553,10 @@
           "lib/net8.0/Syncfusion.Licensing.dll": {}
         }
       },
-      "Syncfusion.OfficeChart.Net.Core/26.2.8": {
+      "Syncfusion.OfficeChart.Net.Core/26.2.9": {
         "type": "package",
         "dependencies": {
-          "Syncfusion.Compression.Net.Core": "26.2.8"
+          "Syncfusion.Compression.Net.Core": "26.2.9"
         },
         "compile": {
           "lib/net8.0/Syncfusion.OfficeChart.Portable.dll": {
@@ -5190,10 +5190,10 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
-    "Syncfusion.Compression.Net.Core/26.2.8": {
-      "sha512": "mg7hpqsYiuWMiAsY5fQxWdxDMXJdoj0F9aCeNOxyMFJXcH11uXOpGhb4pT4YBT+tXma5LS2v/ySeTJemvr4k1g==",
+    "Syncfusion.Compression.Net.Core/26.2.9": {
+      "sha512": "jl8KRxoRTc8OGn/qhSWTp8m1/zl7o1aIxiIQWcC+hnrorT9t1gg+hlNhVic0pgsMEDZ/t2SE1Cz0FfBtWWJjHQ==",
       "type": "package",
-      "path": "syncfusion.compression.net.core/26.2.8",
+      "path": "syncfusion.compression.net.core/26.2.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5206,15 +5206,15 @@
         "lib/net8.0/Syncfusion.Compression.Portable.xml",
         "lib/netstandard2.0/Syncfusion.Compression.Portable.dll",
         "lib/netstandard2.0/Syncfusion.Compression.Portable.xml",
-        "syncfusion.compression.net.core.26.2.8.nupkg.sha512",
+        "syncfusion.compression.net.core.26.2.9.nupkg.sha512",
         "syncfusion.compression.net.core.nuspec",
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.DocIO.Net.Core/26.2.8": {
-      "sha512": "bC1KQzm68tcBzlhp2s+BAok/4nl5JV5wI2kdGP5CaWwxjDPJlJhzdZxqpNY553AWaVY6IwwQG7XpoFHpUAXEbg==",
+    "Syncfusion.DocIO.Net.Core/26.2.9": {
+      "sha512": "AFxeiBg6oSSFksPk/N6c6xouenQWWnTLnN0Kd9E99byyoIq6xn8/zj5N2novZr2womM/0jy+oNTKPjUt+QacMA==",
       "type": "package",
-      "path": "syncfusion.docio.net.core/26.2.8",
+      "path": "syncfusion.docio.net.core/26.2.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5228,7 +5228,7 @@
         "lib/net8.0/Syncfusion.DocIO.Portable.xml",
         "lib/netstandard2.0/Syncfusion.DocIO.Portable.dll",
         "lib/netstandard2.0/Syncfusion.DocIO.Portable.xml",
-        "syncfusion.docio.net.core.26.2.8.nupkg.sha512",
+        "syncfusion.docio.net.core.26.2.9.nupkg.sha512",
         "syncfusion.docio.net.core.nuspec",
         "syncfusion_logo.png"
       ]
@@ -5304,10 +5304,10 @@
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.EJ2.SpellChecker.AspNet.Core/26.2.8": {
-      "sha512": "+XUUb5exIb4wTC5HR/CUS6OTShnJaIKYQ3G4Vnn7+L1Dem2mvOKOnPunnT0Qe8J6gSyGhhcTdKL0xaVrZHQKwA==",
+    "Syncfusion.EJ2.SpellChecker.AspNet.Core/26.2.9": {
+      "sha512": "EHWFJATREN8+ynLI7Bwtkyi4IIcyhuQdN0PbnuyL3WwZiV4aWd7/sFmYPEWbUEChjQgTjRrEuV9nUlZJlmBv3Q==",
       "type": "package",
-      "path": "syncfusion.ej2.spellchecker.aspnet.core/26.2.8",
+      "path": "syncfusion.ej2.spellchecker.aspnet.core/26.2.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5321,15 +5321,15 @@
         "lib/net8.0/Syncfusion.EJ2.SpellChecker.xml",
         "lib/netstandard2.0/Syncfusion.EJ2.SpellChecker.dll",
         "lib/netstandard2.0/Syncfusion.EJ2.SpellChecker.xml",
-        "syncfusion.ej2.spellchecker.aspnet.core.26.2.8.nupkg.sha512",
+        "syncfusion.ej2.spellchecker.aspnet.core.26.2.9.nupkg.sha512",
         "syncfusion.ej2.spellchecker.aspnet.core.nuspec",
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.EJ2.WordEditor.AspNet.Core/26.2.8": {
-      "sha512": "WsbBjHd1lgeXEQDGtuvrKblW/HfjWPmLmKVV2C4KRc9udciVOhsi9LwOnOla9nThgIMQKwRevz7cMmdLGz3FDg==",
+    "Syncfusion.EJ2.WordEditor.AspNet.Core/26.2.9": {
+      "sha512": "vMXu9YOPT2XasE5kQ/dk5hb4xYjM/J/07vrvMZwlxW4EjiF2qdUBcXPurIzntNg6k1MrE6njRJYZK5djxbxsug==",
       "type": "package",
-      "path": "syncfusion.ej2.wordeditor.aspnet.core/26.2.8",
+      "path": "syncfusion.ej2.wordeditor.aspnet.core/26.2.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5343,15 +5343,15 @@
         "lib/net8.0/Syncfusion.EJ2.DocumentEditor.xml",
         "lib/netstandard2.0/Syncfusion.EJ2.DocumentEditor.dll",
         "lib/netstandard2.0/Syncfusion.EJ2.DocumentEditor.xml",
-        "syncfusion.ej2.wordeditor.aspnet.core.26.2.8.nupkg.sha512",
+        "syncfusion.ej2.wordeditor.aspnet.core.26.2.9.nupkg.sha512",
         "syncfusion.ej2.wordeditor.aspnet.core.nuspec",
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.Licensing/26.2.8": {
-      "sha512": "2Kz7fFrzf0QECPbvwtmQjjYLXeMrfqw2MPhQ1BrDUS8orTjajQ+VDXzrSY+GuWv+qUxM77tMl/5u4YLtwi0bSw==",
+    "Syncfusion.Licensing/26.2.9": {
+      "sha512": "Ttx6OJ+srZimPk1MIi7B2EMd+wYiwDWNf90dX6a3IH51ze4PErV27LT5Fl8vgRM9mDxWd5dCGJdRAimXWjqDVw==",
       "type": "package",
-      "path": "syncfusion.licensing/26.2.8",
+      "path": "syncfusion.licensing/26.2.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5368,15 +5368,15 @@
         "lib/net8.0/Syncfusion.Licensing.dll",
         "lib/netstandard2.0/Syncfusion.Licensing.dll",
         "lib/uap10.0/Syncfusion.Licensing.dll",
-        "syncfusion.licensing.26.2.8.nupkg.sha512",
+        "syncfusion.licensing.26.2.9.nupkg.sha512",
         "syncfusion.licensing.nuspec",
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.OfficeChart.Net.Core/26.2.8": {
-      "sha512": "bBQ3aNdTsO3eKJtXMkfuZszFNrbxKWnW/FjzMH91YbxErIDKblVGVQf9ftWyxPKvUYa30P8IifDwfcxlK/0IkQ==",
+    "Syncfusion.OfficeChart.Net.Core/26.2.9": {
+      "sha512": "6Kl0Y5+7R4seBzGTzKTsIgWKE0cwuO/USJTGqf9XPTaPx4AWq+B/qmklJMccbST0/EYGLkq+Odvkf7Q4sfT+Eg==",
       "type": "package",
-      "path": "syncfusion.officechart.net.core/26.2.8",
+      "path": "syncfusion.officechart.net.core/26.2.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5389,7 +5389,7 @@
         "lib/net8.0/Syncfusion.OfficeChart.Portable.xml",
         "lib/netstandard2.0/Syncfusion.OfficeChart.Portable.dll",
         "lib/netstandard2.0/Syncfusion.OfficeChart.Portable.xml",
-        "syncfusion.officechart.net.core.26.2.8.nupkg.sha512",
+        "syncfusion.officechart.net.core.26.2.9.nupkg.sha512",
         "syncfusion.officechart.net.core.nuspec",
         "syncfusion_logo.png"
       ]
@@ -9217,19 +9217,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\": {}
+    "C:\\Users\\Thando\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.API\\ExamPortalApp.Api.csproj",
+      "projectUniqueName": "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.API\\ExamPortalApp.Api.csproj",
       "projectName": "ExamPortalApp.Api",
-      "projectPath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.API\\ExamPortalApp.Api.csproj",
-      "packagesPath": "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.API\\obj\\",
+      "projectPath": "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.API\\ExamPortalApp.Api.csproj",
+      "packagesPath": "C:\\Users\\Thando\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.API\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Dell 5400 i7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Thando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9243,11 +9248,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Data\\ExamPortalApp.Data.csproj": {
-              "projectPath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Data\\ExamPortalApp.Data.csproj"
+            "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Data\\ExamPortalApp.Data.csproj": {
+              "projectPath": "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Data\\ExamPortalApp.Data.csproj"
             },
-            "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Extensions\\ExamPortalApp.Extensions.csproj": {
-              "projectPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Extensions\\ExamPortalApp.Extensions.csproj"
+            "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Extensions\\ExamPortalApp.Extensions.csproj": {
+              "projectPath": "c:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Extensions\\ExamPortalApp.Extensions.csproj"
             }
           }
         }
@@ -9336,7 +9341,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

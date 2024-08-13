@@ -166,19 +166,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\": {}
+    "C:\\Users\\Thando\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj",
+      "projectUniqueName": "C:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj",
       "projectName": "ExamPortalApp.Contracts",
-      "projectPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj",
-      "packagesPath": "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Contracts\\obj\\",
+      "projectPath": "C:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Contracts\\ExamPortalApp.Contracts.csproj",
+      "packagesPath": "C:\\Users\\Thando\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Thando\\Documents\\GitHub\\ExamPortalCloudAPI_PostMigration\\ExamPortalApp.Contracts\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Dell 5400 i7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Thando\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -229,7 +234,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
