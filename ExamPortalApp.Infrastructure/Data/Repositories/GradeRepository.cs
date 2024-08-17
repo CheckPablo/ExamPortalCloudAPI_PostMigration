@@ -157,9 +157,17 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         public async Task<Grade> UpdateAsync(Grade entity)
         {
             var gradeToUpdate = await _repository.GetByIdAsync<Grade>(entity.Id);
+            var gradeExists =await _repository.AnyAsync<Grade>(x => x.Code == entity.Code && x.CenterId == _user.CenterId && x.Id != entity.Id);
+            Console.WriteLine($"Searching for Code: {entity.Code}, CenterId: {entity.CenterId}");
 
-            if (gradeToUpdate == null || gradeToUpdate.IsDeleted)
+            if (gradeExists)
             {
+               throw new  InvalidGradeEntryException();
+            }
+            else if (gradeToUpdate == null || gradeToUpdate.IsDeleted)
+            {
+             
+            
                 throw new NotImplementedException();
             }
             else
@@ -169,6 +177,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
                 return await _repository.UpdateAsync(gradeToUpdate, true);
             }
+            
         }
 
     

@@ -213,7 +213,14 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         public async Task<Subject> UpdateAsync(Subject entity)
         {
             var subject = await _repository.GetByIdAsync<Subject>(entity.Id);
+            var subjectExists = await _repository.AnyAsync<Subject>(x => x.Code == entity.Code && x.SectorId == entity.SectorId && x.Id != entity.Id);
 
+
+            if (subjectExists)
+            {
+                throw new InvalidSubjectEntryException();
+            }      
+            else{
             if (subject == null)
             {
                 //throw new NotImplementedException();
@@ -224,6 +231,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 subject.Code = entity.Code;
                 subject.Description = entity.Description;
                 return await _repository.UpdateAsync(subject, true);
+            }
             }
         }
     }

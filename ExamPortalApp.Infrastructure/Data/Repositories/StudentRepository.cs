@@ -699,6 +699,11 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         public async Task<Student> UpdateAsync(Student entity)
         {
             var student = await _repository.GetByIdAsync<Student>(entity.Id);
+            var studentExists = await _repository.AnyAsync<Student>(x => x.StudentNo == entity.StudentNo && x.CenterId == entity.CenterId && x.Id != entity.Id);
+            if (studentExists){
+                throw new NotImplementedException();
+            }
+            else{
             if (student is not null)
             {
                 if (student.EncrytedPassword is not null)
@@ -709,6 +714,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
 
             return await _repository.UpdateAsync(entity, true);
+            }
         }
         public async Task PasswordMigration()
         {
