@@ -90,5 +90,18 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+         [HttpPost("end-test")]
+        public async Task<ActionResult> EndTest(EndTestLinker linker)
+        {
+           try{
+            var result = await _liveMonitoring.EndTestAsync(linker);
+            return Ok(result);
+           }
+           catch (Exception ex){
+            return BadRequest(ex.Message);
+           }
+        }
     }
 }

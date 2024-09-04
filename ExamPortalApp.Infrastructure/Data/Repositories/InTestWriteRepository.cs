@@ -69,7 +69,6 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             bool offline, bool fullsScreenClosed, bool KeyPress, bool leftEamArea, string timeRemaining, string answerText, 
             string fileName,IFormFile file)
         {
-           
             var fileExtension = Path.GetExtension(file.FileName);
 
             if (!string.Equals(fileExtension, ".doc", StringComparison.OrdinalIgnoreCase) &&
@@ -145,8 +144,24 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 //{ StoredProcedures.Params.CenterID, _user.CenterId }
             };
             await _repository.ExecuteStoredProcAsync<UserCenter>(StoredProcedures.SaveStudentAnswer_TestUpload, parameters);
-
             await _repository.CompleteAsync();
+
+            /* var parameter = new Dictionary<string, object>
+            {
+                { StoredProcedures.Params.TestID, testId },
+                { StoredProcedures.Params.StudentId, studentId },
+            };
+            
+            var endTimeRemaing = await _repository.ExecuteStoredProcAsync<StudentProgressTestUpload>(StoredProcedures.StudentTestDurationCheck, parameter);
+
+           if (endTimeRemaing != null)
+           {
+            if (endTimeRemaing.First().TimeRemaining == "0" )
+            {
+                timeRemaining = endTimeRemaing.First().TimeRemaining;
+            } 
+           } */
+
             var trackingInfoToSave = new StudentTestAnswerModel
             {
                 TestId = testId,
@@ -162,6 +177,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             };
             // answerText ?: string | null;
             var studentTestAnswers = await SaveAnswersInterval(trackingInfoToSave).ConfigureAwait(true); 
+
             return studentTestAnswers.FirstOrDefault();
         }
 

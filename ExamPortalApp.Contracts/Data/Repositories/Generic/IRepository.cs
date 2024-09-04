@@ -24,5 +24,6 @@ namespace ExamPortalApp.Contracts.Data.Repositories.Generic
         Task<IEnumerable<TResult>> ExecuteStoredProcAsync<TResult>(string storedProcedureName, Dictionary<string, object> parameters) where TResult : class;
         IQueryable<T> GetQueryable<T>(params Expression<Func<T, object>>[] includes) where T : EntityBase;
         //Task<T> GetFirstOrDefaultGradeAsync<T>(Func<object, bool> value);
+        Task<T?> GetFirstOrDefaultStudentProgressAsync<T>(Expression<Func<T, bool>> expression) where T : EntityBase;
     }
 }

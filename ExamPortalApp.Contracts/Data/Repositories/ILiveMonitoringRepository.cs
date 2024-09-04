@@ -10,6 +10,7 @@ namespace ExamPortalApp.Contracts.Data.Repositories
         Task<List<KeyPressTracking>> GetInvalidKeyPresses(int testId, int studendId);
         Task<List<AnswerProgressTracking>> GetLiveMonitoringStudentAnswerProgress(int testId, int studentId);
         Task<List<int>> LinkStudentsExtraTimeAsync(StudentTestExtraTimeLinker linker);
-
+        Task<List<int>> EndTestAsync(EndTestLinker linker);
+    
     }
 }

@@ -13,6 +13,8 @@
         public string? FileName { get; set; }
         public string? AnswerText { get; set; }
         public bool? Accomodation { get; set; }
+
+       
        
     }
 }

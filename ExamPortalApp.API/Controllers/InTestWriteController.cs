@@ -239,6 +239,7 @@ namespace ExamPortalApp.Api.Controllers
         }
 
         //[EnableCors("MyAllowSpecificOrigins")]
+        [AllowAnonymous]
         [HttpPost("verify-scanned-imagesotp")]
         public async Task<ActionResult<List<string>>> VerifyScannedImagesOTP(ScannedImagesOTP scannedImagesOTP)
         {

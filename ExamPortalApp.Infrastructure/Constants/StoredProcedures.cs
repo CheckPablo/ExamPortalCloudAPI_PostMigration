@@ -47,6 +47,8 @@ namespace ExamPortalApp.Infrastructure.Constants
         internal static string Get_CenterSummary = "Get_CenterSummary";
         internal static string SubjectMaintenance_InsUpd = "SubjectMaintenance_InsUpd";
         internal static string get_StudentAnswersList = "get_StudentAnswersList";
+        internal static string StudentTestDurationCheck = "StudentTestDurationCheck";
+        internal static string EndTest = "EndTest";
 
         internal static string get_StudentAnswersList_Export = "get_StudentAnswersList_Export";
         internal static string CompleteTest = "CompleteTest";

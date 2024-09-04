@@ -18,6 +18,7 @@
         public string? Subject { get; set; }
         public byte[]? Data { get; set; }
         public int? QuestionPageCount { get; set; }
+         public string? StudentEndTime { get; set; }
 
 
     }

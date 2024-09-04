@@ -102,5 +102,28 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             }
             return studentIds;
         }
+
+        public async Task<List<int>> EndTestAsync(EndTestLinker linker)
+        {
+            List<int> studentIds = [];
+            for (int i = 0; i < linker.StudentIds.Length; i++)
+            {
+                  var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.StudentId, linker.StudentIds[i]},
+                    { StoredProcedures.Params.ModifiedBy, _user.CenterId},
+                    { StoredProcedures.Params.TestID, linker.TestId},
+                };
+                
+                 var result = await _repository.ExecuteStoredProcAsync<ExtraTimeResponse>(StoredProcedures.EndTest, parameters).ConfigureAwait(false);
+                
+                 var endTimeResponse  = result.FirstOrDefault();
+                if (endTimeResponse == null || !endTimeResponse.Result)
+                {
+                    studentIds.Add(linker.StudentIds[i]);
+                }
+            }
+            return studentIds;
+        }
     }
 }

@@ -230,6 +230,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             {
                 subject.Code = entity.Code;
                 subject.Description = entity.Description;
+                subject.SectorId = entity.SectorId;
                 return await _repository.UpdateAsync(subject, true);
             }
             }
