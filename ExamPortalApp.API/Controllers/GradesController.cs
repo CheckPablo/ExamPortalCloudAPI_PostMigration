@@ -114,9 +114,11 @@ namespace ExamPortalApp.Api.Controllers
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            
+            catch (InvalidGradeEntryException ex)
             {
-                return BadRequest(ex.Message); 
+                return StatusCode(500, ex.Message);
+                //return BadRequest(ex.Message);
             }
         }
     }

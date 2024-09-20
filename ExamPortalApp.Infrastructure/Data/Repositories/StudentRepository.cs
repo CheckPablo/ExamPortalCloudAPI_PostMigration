@@ -148,7 +148,6 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             var students = await SendStudentLoginCredentialsAsync(_user.Id, studentIds, center,true);
             return students;
         }
-
         public async Task<List<string>> SendLoginCredentialsAsync(int[] studentIds)
         {
             if (_user is null) throw new Exception(ErrorMessages.Auth.Unauthorised);
@@ -696,7 +695,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return smtpServer is not null;
             //return true; 
         }
-        public async Task<Student> UpdateAsync(Student entity)
+     /*    public async Task<Student> UpdateAsync(Student entity)
         {
             var student = await _repository.GetByIdAsync<Student>(entity.Id);
             if (student is not null)
@@ -709,6 +708,27 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
 
             return await _repository.UpdateAsync(entity, true);
+        } */
+
+        public async Task<Student> UpdateAsync(Student entity)
+        {
+            var student = await _repository.GetByIdAsync<Student>(entity.Id);
+            var studentExists = await _repository.AnyAsync<Student>(x => x.StudentNo == entity.StudentNo && x.CenterId == entity.CenterId && x.Id != entity.Id);
+            if (studentExists){
+                throw new NotImplementedException();
+            }
+            else{
+            if (student is not null)
+            {
+                if (student.EncrytedPassword is not null)
+                    entity.EncrytedPassword = student.EncrytedPassword;
+                //entity.PlainPassword = PasswordHelper.Decrypt(student.EncrytedPassword, _examPortalSettings.EncryptionKey);
+            } 
+
+
+
+            return await _repository.UpdateAsync(entity, true);
+            }
         }
         public async Task PasswordMigration()
         {
@@ -735,6 +755,15 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 ex.Message.ToString();
             }
         }
+
+        public async Task<string> FinishTestDashboardRedirect(int studentId)
+        {
+            var student = await _repository.GetByIdAsync<Student>(studentId);
+		    var password = PasswordHelper.Decrypt(student.EncrytedPassword, _examPortalSettings.EncryptionKey);
+            return password; 
+            //throw new NotImplementedException();
+        }
+
 
          public Task<Student> AddAsync(Student entity)
         {

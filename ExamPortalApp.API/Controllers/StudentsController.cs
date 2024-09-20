@@ -192,8 +192,6 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
-        
-
        /* [HttpPut("{id}")]
         public async Task<ActionResult<StudentDto>> Put(int id, Student student)
         {
@@ -209,6 +207,23 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }*/
+
+        
+        [AllowAnonymous]
+        [HttpPost("finishtest-dashboard-redirect")]
+        public async Task<ActionResult> FinishTestDashboardRedirect(int studentId)
+        {
+            try
+            {
+                var studentRedirect =  await _studentRepository.FinishTestDashboardRedirect(studentId);
+ 
+                return Ok(studentRedirect);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [AllowAnonymous]
         [HttpPut("{id}/update-student")]

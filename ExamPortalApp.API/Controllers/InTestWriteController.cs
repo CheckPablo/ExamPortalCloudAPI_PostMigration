@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using ExamPortalApp.Infrastructure.Extensions;
 using System.Diagnostics;
 using System.Web;
+using ExamPortalApp.Infrastructure.Data.Repositories;
 namespace ExamPortalApp.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -184,6 +185,7 @@ namespace ExamPortalApp.Api.Controllers
                 if (form is not null)
                 {
                     var file = Request.Form.Files[0];
+                    
                     var response = await _inTestWriteRepository.UploadStudentAnswerDocumentAsync(form.TestId, form.StudentId, form.Accomodation ?? false,
                         form.Offline ?? false, form.FullScreenClosed ?? false, form.KeyPress ?? false, form.LeftExamArea ?? false, form.TimeRemaining, form.AnswerText, form.fileName, file);
                     return Ok(response);
@@ -238,7 +240,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
-        //[EnableCors("MyAllowSpecificOrigins")]
+        [AllowAnonymous]
         [HttpPost("verify-scanned-imagesotp")]
         public async Task<ActionResult<List<string>>> VerifyScannedImagesOTP(ScannedImagesOTP scannedImagesOTP)
         {
@@ -431,13 +433,11 @@ namespace ExamPortalApp.Api.Controllers
                 string xml = System.IO.File.ReadAllText(fileName);
 
                 var queryString = HttpUtility.ParseQueryString("?param1=value");
-                    
                 // Adding a parameter
                 queryString.Add("", "my value");
-
                 // Url Encoding the whole thing
                 queryString.ToString();
-                string studentLogOn = $"<string>https://{domain}/portal/test-writing/test-writing-management/{uniqueName}/{testId}/{studentUserId}/{testName}</string>";
+                string studentLogOn = $"<string>https://{domain}/portal/test-writing/test-writing-management/{uniqueName}/{testId}/{studentUserId}/{testName}/{studentFullName}</string>";
                 //string studentLogOn = $"<string>http://{domain}/portal/test-writing/test-writing-management/{uniqueName}/{testId}/{studentUserId}/{testName}</string>";
 
                 string cleanStudentLogOn = studentLogOn.Replace(" ","%20");

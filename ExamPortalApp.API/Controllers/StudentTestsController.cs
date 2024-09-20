@@ -44,7 +44,8 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+ 
+        [AllowAnonymous]
         [HttpPost("finish-test")]
         public async Task<ActionResult<StudentTestAnswers>> FinishTest(StudentTestAnswers studentTestAnswers)
         {

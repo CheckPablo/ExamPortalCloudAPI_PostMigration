@@ -46,6 +46,54 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [HttpPost("GetStudentTestLogs")]
+        public async Task<IActionResult> GetStudentTestLogs(int testId, int studentId)
+        {
+            try
+            {
+                var studentTestLogs = await _liveMonitoring.GetStudentTestLogs(testId, studentId);
+                var result = _mapper.Map<IEnumerable<StudentTestLog>>(studentTestLogs);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+         [HttpPost("GetStudentOfflineTestLogs")] 
+        public async Task<IActionResult> GetStudentOfflineTestLogs(int testId, int studentId)
+        {
+            try
+            {
+                var studentOfflineTestLogs = await _liveMonitoring.GetStudentOfflineTestLogs(testId, studentId);
+                var result = _mapper.Map<IEnumerable<KeyPressTracking>>(studentOfflineTestLogs);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        
+        [HttpPost("GetIrregularityTestLogs")]
+        public async Task<IActionResult> GetIrregularityTestLogs(int testId, int studentId)
+        {
+            try
+            {
+                var studentTestLogs = await _liveMonitoring.GetIrregularityTestLogs(testId, studentId);
+                var result = _mapper.Map<IEnumerable<StudentTestLog>>(studentTestLogs);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
         [HttpPost("GetInvalidKeyPresses")]
         public async Task<IActionResult> GetInvalidKeyPresses(int testId, int studentId)
         {
@@ -89,6 +137,19 @@ namespace ExamPortalApp.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("end-test")]
+        public async Task<ActionResult> EndTest(EndTestLinker linker)
+        {
+           try{
+            var result = await _liveMonitoring.EndTestAsync(linker);
+            return Ok(result);
+           }
+           catch (Exception ex){
+            return BadRequest(ex.Message);
+           }
         }
     }
 }

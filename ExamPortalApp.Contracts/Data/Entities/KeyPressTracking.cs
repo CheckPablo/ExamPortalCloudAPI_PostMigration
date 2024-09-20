@@ -1,4 +1,6 @@
-﻿namespace ExamPortalApp.Contracts.Data.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ExamPortalApp.Contracts.Data.Entities;
 
 public partial class KeyPressTracking : EntityBase
 {
@@ -7,6 +9,9 @@ public partial class KeyPressTracking : EntityBase
     public string? Reason { get; set; }
 
     public DateTime? DateModified { get; set; }
+
+    [NotMapped]
+    public DateTime? DateModifed { get; set; } // only used for OfflineLogs. This is there because there is a spelling error in the DB. Avoiding changing the DB(Irregularities table) column spelling immediately
 
     public int? StudentId { get; set; }
 

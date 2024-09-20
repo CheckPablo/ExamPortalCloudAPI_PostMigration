@@ -257,23 +257,23 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
@@ -337,8 +337,8 @@
               "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Daemon\\ExamPortalApp.Daemon.csproj": {
                 "projectPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Daemon\\ExamPortalApp.Daemon.csproj"
               },
-              "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj": {
-                "projectPath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj"
+              "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj"
               }
             }
           }
@@ -386,14 +386,14 @@
         }
       }
     },
-    "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj": {
+    "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj",
         "projectName": "ExamPortalApp.Infrastructure",
-        "projectPath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\ExamPortalApp.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Dell 5400 i7\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\Dell 5400 i7\\Documents\\GitHub\\ExamPortalCloudAPI-PostMigration\\ExamPortalApp.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell 5400 i7\\AppData\\Roaming\\NuGet\\NuGet.Config",
