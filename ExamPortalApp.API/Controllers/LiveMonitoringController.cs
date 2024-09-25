@@ -125,6 +125,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("add-extraTime")]
         public async Task<ActionResult> LinkStudents(StudentTestExtraTimeLinker linker)
         {

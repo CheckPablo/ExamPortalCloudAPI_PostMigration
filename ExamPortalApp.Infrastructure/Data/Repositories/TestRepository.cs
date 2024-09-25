@@ -942,7 +942,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         {
             //var test = await GetAsync(testId);
             //if (test is null) throw new InvalidOperationException();
-            var testSourceRecord = await _repository.GetFirstOrDefaultAsync<UploadedSourceDocument>(x => x.TestId == id);
+            //var testSourceRecord = await _repository.GetFirstOrDefaultAsync<UploadedSourceDocument>(x => x.TestId == id);
+            var testSourceRecord = await _repository.GetFirstOrDefaultAsync<UploadedSourceDocument>(x => x.Id == id);
             var pdfRecord = (testSourceRecord?.TestDocument is not null) ? testSourceRecord?.TestDocument.ToBase64String() : string.Empty;
             byte[]? byteArray = testSourceRecord?.TestDocument;
 

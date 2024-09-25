@@ -27,6 +27,7 @@ namespace ExamPortalApp.Api.Controllers
         private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
         public IWebHostEnvironment Environment { get; private set; }
 
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("convert-word-file")]
@@ -694,7 +695,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
-         [AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("get-sourcepaper-text/{testId}")]
         public async Task<ActionResult<TestDto>> GetSourcePaperText(int testId)
         {
@@ -946,6 +947,7 @@ var memory = new MemoryStream();
         }*/
         /*[HttpGet("get-converted-answerdocbulk/{testId}/{studentIds}")]*/
 
+        [AllowAnonymous]
         [HttpPost("get-answerdocbulk")]
         public async Task<ActionResult> DownloadStudentAnswersBulk(StudentBulkAnswerLinker linker)
         {
@@ -961,6 +963,7 @@ var memory = new MemoryStream();
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("get-answerdocbulksave")]
         public async Task<ActionResult> DownloadStudentAnswersBulkSave(StudentBulkAnswerLinker linker)
         {
@@ -1003,7 +1006,7 @@ var memory = new MemoryStream();
         }*/
 
 
-
+        [AllowAnonymous]
         [HttpGet("get-word-file/{id}")]
         public async Task<string> ImportFileURL(int id)
         {
@@ -1017,6 +1020,7 @@ var memory = new MemoryStream();
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("link-students")]
         public async Task<ActionResult> LinkStudents(StudentTestLinker linker)
         {
@@ -1032,6 +1036,8 @@ var memory = new MemoryStream();
             }
         }
 
+
+        [AllowAnonymous]
         [HttpPost]
         public override async Task<ActionResult<TestDto>> Post(Test test)
         {
@@ -1110,7 +1116,7 @@ var memory = new MemoryStream();
             }
 
         }
-
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("add-test-word")]
@@ -1170,7 +1176,8 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("search-testsOTP")]
         public async Task<ActionResult> SearchTestsOTPAsync([FromQuery] TestOTPSearcher searcher)
         {
@@ -1187,6 +1194,7 @@ var memory = new MemoryStream();
             }
         }
 
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("upload-word-file")]
@@ -1215,7 +1223,8 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("convert-offlinestring")]
         public async Task<ActionResult> ImportOffline(OfflineConversion payload)
         {
@@ -1238,7 +1247,9 @@ var memory = new MemoryStream();
             }
 
         }
-
+        
+        
+        [AllowAnonymous]
         [HttpPost("search-tests")]
         public async Task<ActionResult> SearchTestsAsync([FromQuery] TestSearcher searcher)
         {
@@ -1254,7 +1265,9 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        
+        [AllowAnonymous]
         [HttpPost("{id}/send-otp-toStudents")]
         public async Task<ActionResult<bool>> SendOTPToStudents(int id)
         {
@@ -1311,7 +1324,8 @@ var memory = new MemoryStream();
             }
         } */
 
-         [DisableRequestSizeLimit]
+        [AllowAnonymous]
+        [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("{testId}/upload-answer-document")]
         public async Task<ActionResult<IEnumerable<UploadedAnswerDocument>>> UploadAnswerDocumentAsync(int testId)
@@ -1337,6 +1351,7 @@ var memory = new MemoryStream();
             }
         }
 
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("{testId}/upload-source-document")]
@@ -1362,6 +1377,7 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
+        
         [AllowAnonymous]
         [HttpGet("validateTestOTP/{testId}/{centerId}/{otp}")]
         public async Task<ActionResult<RandomOtpDto[]>> validateOTP(int? testId, int? centerId, int otp)
