@@ -691,7 +691,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 // return "Fail Has error" + ex.Message;
             }
 
-            smtpServer.Send(mail);
+            //smtpServer.Send(mail);
             return smtpServer is not null;
             //return true; 
         }

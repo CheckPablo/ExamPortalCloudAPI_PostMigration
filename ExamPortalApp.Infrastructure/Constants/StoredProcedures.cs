@@ -54,6 +54,7 @@ namespace ExamPortalApp.Infrastructure.Constants
         internal static string EndTest = "EndTest";
         internal static string get_StudentAnswersList_Export = "get_StudentAnswersList_Export";
         internal static string CompleteTest = "CompleteTest";
+        internal static string CompleteTStudentTestPreviewPane  = "[CompleteTStudentTestPreviewPane]";
         internal static string UploadScannedImageDetails = "UploadScannedImageDetails"; 
         internal static string VerifyScannedImagesOTP = "VerifyScannedImagesOTP"; 
         internal static string BulkImportExamPortalCloud = "BulkImportExamPortalCloud";

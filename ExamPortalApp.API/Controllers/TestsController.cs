@@ -117,8 +117,6 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
-
-
         [HttpGet("studenttestlist/{studentId}")]
         public async Task<ActionResult<StudentTestList[]>> Studenttestlist(int? studentId)
         {

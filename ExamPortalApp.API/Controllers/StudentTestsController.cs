@@ -61,6 +61,22 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPost("complete-studentTest-previewpane-test")]
+        public async Task<ActionResult<StudentTestAnswers>> CompleteStudentTestPreviewPane(StudentTestAnswers studentTestAnswers)
+        {
+            try
+            {
+                var result = await _studentTestRepository.CompleteStudentTestPreviewPane(studentTestAnswers);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
 
         [HttpDelete("{id}")]

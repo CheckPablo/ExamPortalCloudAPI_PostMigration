@@ -1669,7 +1669,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "Syncfusion.Compression.Net.Core/27.1.50": {
+      "Syncfusion.Compression.Net.Core/27.1.51": {
         "type": "package",
         "compile": {
           "lib/net8.0/Syncfusion.Compression.Portable.dll": {
@@ -1682,12 +1682,12 @@
           }
         }
       },
-      "Syncfusion.DocIO.Net.Core/27.1.50": {
+      "Syncfusion.DocIO.Net.Core/27.1.51": {
         "type": "package",
         "dependencies": {
-          "Syncfusion.Compression.Net.Core": "27.1.50",
-          "Syncfusion.Licensing": "27.1.50",
-          "Syncfusion.OfficeChart.Net.Core": "27.1.50",
+          "Syncfusion.Compression.Net.Core": "27.1.51",
+          "Syncfusion.Licensing": "27.1.51",
+          "Syncfusion.OfficeChart.Net.Core": "27.1.51",
           "System.Text.Encoding.CodePages": "4.4.0"
         },
         "compile": {
@@ -1763,7 +1763,7 @@
           "build/net8.0/Syncfusion.EJ2.PdfViewer.AspNet.Core.Windows.targets": {}
         }
       },
-      "Syncfusion.EJ2.SpellChecker.AspNet.Core/27.1.50": {
+      "Syncfusion.EJ2.SpellChecker.AspNet.Core/27.1.51": {
         "type": "package",
         "compile": {
           "lib/net8.0/Syncfusion.EJ2.SpellChecker.dll": {
@@ -1776,13 +1776,13 @@
           }
         }
       },
-      "Syncfusion.EJ2.WordEditor.AspNet.Core/27.1.50": {
+      "Syncfusion.EJ2.WordEditor.AspNet.Core/27.1.51": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.2",
-          "Syncfusion.Compression.Net.Core": "27.1.50",
-          "Syncfusion.DocIO.Net.Core": "27.1.50",
-          "Syncfusion.OfficeChart.Net.Core": "27.1.50"
+          "Syncfusion.Compression.Net.Core": "27.1.51",
+          "Syncfusion.DocIO.Net.Core": "27.1.51",
+          "Syncfusion.OfficeChart.Net.Core": "27.1.51"
         },
         "compile": {
           "lib/net8.0/Syncfusion.EJ2.DocumentEditor.dll": {
@@ -1795,7 +1795,7 @@
           }
         }
       },
-      "Syncfusion.Licensing/27.1.50": {
+      "Syncfusion.Licensing/27.1.51": {
         "type": "package",
         "compile": {
           "lib/net8.0/Syncfusion.Licensing.dll": {}
@@ -1804,10 +1804,10 @@
           "lib/net8.0/Syncfusion.Licensing.dll": {}
         }
       },
-      "Syncfusion.OfficeChart.Net.Core/27.1.50": {
+      "Syncfusion.OfficeChart.Net.Core/27.1.51": {
         "type": "package",
         "dependencies": {
-          "Syncfusion.Compression.Net.Core": "27.1.50"
+          "Syncfusion.Compression.Net.Core": "27.1.51"
         },
         "compile": {
           "lib/net8.0/Syncfusion.OfficeChart.Portable.dll": {
@@ -6072,10 +6072,10 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
-    "Syncfusion.Compression.Net.Core/27.1.50": {
-      "sha512": "+Z0IVoMsmH8HNHbMcIw/AGreEGLBmOa72hTlx7jwGhBwmiBFNbOlLKAbBBAHS2bVwTkU28liMu4wt7nsc2xtZw==",
+    "Syncfusion.Compression.Net.Core/27.1.51": {
+      "sha512": "Ic4niLMerqteyOog2i1EJfkT9LRtJhVqzI1nFsRMfkccAmFDgAUoWpCOFI34kXYrJcleC0RUwVwov5WS/1ippg==",
       "type": "package",
-      "path": "syncfusion.compression.net.core/27.1.50",
+      "path": "syncfusion.compression.net.core/27.1.51",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6088,15 +6088,15 @@
         "lib/net8.0/Syncfusion.Compression.Portable.xml",
         "lib/netstandard2.0/Syncfusion.Compression.Portable.dll",
         "lib/netstandard2.0/Syncfusion.Compression.Portable.xml",
-        "syncfusion.compression.net.core.27.1.50.nupkg.sha512",
+        "syncfusion.compression.net.core.27.1.51.nupkg.sha512",
         "syncfusion.compression.net.core.nuspec",
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.DocIO.Net.Core/27.1.50": {
-      "sha512": "3gRV4CgrTV0/gynrRt1jdB0/phf+kC5tM2gmda8OFtgwa7/TNbs8loGtBKATLo6ZeuPkr1GcRn/PnMwqj1udzg==",
+    "Syncfusion.DocIO.Net.Core/27.1.51": {
+      "sha512": "oFOSv1MpQej+6KCV0oqXd2re9HZoh8IvlTPWUn3goE2qmAoZIM22IQ+9RSQfQYrGPf7lsKZm5oM1Aro+ehVWUA==",
       "type": "package",
-      "path": "syncfusion.docio.net.core/27.1.50",
+      "path": "syncfusion.docio.net.core/27.1.51",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6110,7 +6110,7 @@
         "lib/net8.0/Syncfusion.DocIO.Portable.xml",
         "lib/netstandard2.0/Syncfusion.DocIO.Portable.dll",
         "lib/netstandard2.0/Syncfusion.DocIO.Portable.xml",
-        "syncfusion.docio.net.core.27.1.50.nupkg.sha512",
+        "syncfusion.docio.net.core.27.1.51.nupkg.sha512",
         "syncfusion.docio.net.core.nuspec",
         "syncfusion_logo.png"
       ]
@@ -6186,10 +6186,10 @@
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.EJ2.SpellChecker.AspNet.Core/27.1.50": {
-      "sha512": "uoVcCdKdBoCs3B9NOUd7xJXZHhni3TYBFJ0Q0Ih6E8bON9dHAMXZg37HGYdEt4r+hezblB1MCgmynrulPPDmNw==",
+    "Syncfusion.EJ2.SpellChecker.AspNet.Core/27.1.51": {
+      "sha512": "/tnp13Acdhpnfa6pABV/juIIsVY/s+DtuuFEN7UYbFTLRU+lGjgcW6lTbsBS6bdAhTVX4nl0hzORDKC3elKkow==",
       "type": "package",
-      "path": "syncfusion.ej2.spellchecker.aspnet.core/27.1.50",
+      "path": "syncfusion.ej2.spellchecker.aspnet.core/27.1.51",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6203,15 +6203,15 @@
         "lib/net8.0/Syncfusion.EJ2.SpellChecker.xml",
         "lib/netstandard2.0/Syncfusion.EJ2.SpellChecker.dll",
         "lib/netstandard2.0/Syncfusion.EJ2.SpellChecker.xml",
-        "syncfusion.ej2.spellchecker.aspnet.core.27.1.50.nupkg.sha512",
+        "syncfusion.ej2.spellchecker.aspnet.core.27.1.51.nupkg.sha512",
         "syncfusion.ej2.spellchecker.aspnet.core.nuspec",
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.EJ2.WordEditor.AspNet.Core/27.1.50": {
-      "sha512": "TJydoTuWjVh2wZJIlsset/3AFzr8Ci9t4G72S9OZusvsYGym0KuKtsRR/ZNZT7DknzkBPQnQCqsUCbC9wf3wtA==",
+    "Syncfusion.EJ2.WordEditor.AspNet.Core/27.1.51": {
+      "sha512": "pgfIfVbfQTDG9+Qnd53an5DrbBJlvYN868PXVMINQsBUs1+mWRBzHnBXEpjWEYVsaT2HShGIZGJtbxuBVZ4o+A==",
       "type": "package",
-      "path": "syncfusion.ej2.wordeditor.aspnet.core/27.1.50",
+      "path": "syncfusion.ej2.wordeditor.aspnet.core/27.1.51",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6225,15 +6225,15 @@
         "lib/net8.0/Syncfusion.EJ2.DocumentEditor.xml",
         "lib/netstandard2.0/Syncfusion.EJ2.DocumentEditor.dll",
         "lib/netstandard2.0/Syncfusion.EJ2.DocumentEditor.xml",
-        "syncfusion.ej2.wordeditor.aspnet.core.27.1.50.nupkg.sha512",
+        "syncfusion.ej2.wordeditor.aspnet.core.27.1.51.nupkg.sha512",
         "syncfusion.ej2.wordeditor.aspnet.core.nuspec",
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.Licensing/27.1.50": {
-      "sha512": "HdvKlcG2LflcPog6hObI9sTK3EaFrsBegkRkFVsn/aeftXU4wWFGQV1vuJjngZUcJDydAvIoz0XZ95FhZjDu9g==",
+    "Syncfusion.Licensing/27.1.51": {
+      "sha512": "XFPmIoWwCe491C2yIGeeeOmyllgP/5rVvpeiBn2onqgsovrdZDSqKgizPjntlBRQSWH0JZTn6r0dfmK0JckD2A==",
       "type": "package",
-      "path": "syncfusion.licensing/27.1.50",
+      "path": "syncfusion.licensing/27.1.51",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6250,15 +6250,15 @@
         "lib/net8.0/Syncfusion.Licensing.dll",
         "lib/netstandard2.0/Syncfusion.Licensing.dll",
         "lib/uap10.0/Syncfusion.Licensing.dll",
-        "syncfusion.licensing.27.1.50.nupkg.sha512",
+        "syncfusion.licensing.27.1.51.nupkg.sha512",
         "syncfusion.licensing.nuspec",
         "syncfusion_logo.png"
       ]
     },
-    "Syncfusion.OfficeChart.Net.Core/27.1.50": {
-      "sha512": "1N7BLC3DVA8Qp6cQ1s29XHLma7pHBxTofA2kIOjjJ9G9d5KDgMFhwZGFJ3pyTVtMPjehDWCqCCDi04I+l1ZObA==",
+    "Syncfusion.OfficeChart.Net.Core/27.1.51": {
+      "sha512": "cwfpKX4RI3uNz5z4/2MGzVWFbCpdPyOAnppZ1WR86TmhuMcHZsZjqPB6oyQqu/HKIyACideW8Zzww9FrRPXWHA==",
       "type": "package",
-      "path": "syncfusion.officechart.net.core/27.1.50",
+      "path": "syncfusion.officechart.net.core/27.1.51",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6271,7 +6271,7 @@
         "lib/net8.0/Syncfusion.OfficeChart.Portable.xml",
         "lib/netstandard2.0/Syncfusion.OfficeChart.Portable.dll",
         "lib/netstandard2.0/Syncfusion.OfficeChart.Portable.xml",
-        "syncfusion.officechart.net.core.27.1.50.nupkg.sha512",
+        "syncfusion.officechart.net.core.27.1.51.nupkg.sha512",
         "syncfusion.officechart.net.core.nuspec",
         "syncfusion_logo.png"
       ]
