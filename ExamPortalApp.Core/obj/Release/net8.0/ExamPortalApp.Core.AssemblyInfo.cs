@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ExamPortalApp.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+af95ba7521e45b9eb8bc9e6c8576840ee1360c36")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+15f0f77f96fd9bc26b956572df233570661fdf23")]
 [assembly: System.Reflection.AssemblyProductAttribute("ExamPortalApp.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ExamPortalApp.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

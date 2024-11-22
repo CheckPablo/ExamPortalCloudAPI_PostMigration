@@ -108,7 +108,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                     {
                         throw new Exception(ErrorMessages.TestEntryChecks.TestExists);
                     }
-                    var test = await AddAsync(entity);
+                    var test = await AddAsync(entity);                                      
 
                     return test.Id;
                 }
@@ -404,10 +404,31 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         }
 
         public async Task<IEnumerable<UploadedAnswerDocument>> GetUploadedAnswerDocumentAsync(int testId)
-        {
+        { 
+            
+            var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.id, testId }
+                };
 
-            return await _repository.GetWhereAsync<UploadedAnswerDocument>(x => x.TestId == testId);
+            var docs = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.retrieveAnswerDocument, parameters);
+            
+            return (IEnumerable<UploadedAnswerDocument>)docs;
+            //return await _repository.GetWhereAsync<UploadedAnswerDocument>(x => x.TestId == testId);
         }
+    
+       /*public async Task<IEnumerable<UserDocumentAnswer>> GetUserAnswerDocumentAsync(int testId)
+       { 
+        var parameters = new Dictionary<string, object>
+          {
+              { StoredProcedures.Params.id, testId }
+          };
+
+        var docs = await _repository.ExecuteStoredProcAsync<UserDocumentAnswer>(StoredProcedures.retrieveUserAnswerDocument, parameters);
+      
+       return (IEnumerable<UserDocumentAnswer>)docs;
+       //return await _repository.GetWhereAsync<UploadedAnswerDocument>(x => x.TestId == testId);
+       } */ 
 
         public async Task<IEnumerable<UserDocumentAnswer>> GetUserAnswerDocumentAsync(int studentId, int testId) // there are one or many testId in this tabe so USE STUDENTID
         {
@@ -1551,7 +1572,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             + " Exam Portal Cloud is not compatible with Internet Explorer. \n \n"
             + " It is strongly recommended that Exam Portal Cloud is used on a desktop or a laptop. Tablets and phones may prove challenging to use with this paper. Using Tablets and phones is at your own discretion. \n \n"
             + " Safe Exam is not required for tablets (Apple and Android). IT IS NOT RECOMMENDED THAT YOU COMPLETE THIS TEST ON A TABLET OR ON YOUR PHONE. \n \n"
-            + " Students to use Exam Portal Cloud, will need to download Safe Exam Browser from the following link https://sourceforge.net/projects/seb/files/seb/SEB_2.4.1/SafeExamBrowserInstaller.exe/download Please refer to the student guide emailed by your invigilator. Once they have Safe Exam Browser installed on their computers, the student section will open within Safe Exam Browser after they click the “Student Login” link. \n \n"
+            + " Students to use Exam Portal Cloud, will need to download Safe Exam Browser from the following link https://safeexambrowser.org/download_en.html Please refer to the student guide emailed by your invigilator. Once they have Safe Exam Browser installed on their computers, the student section will open within Safe Exam Browser after they click the “Student Login” link. \n \n"
 
             + " Kind Regards, \n"
             + " The Exam Portal Cloud team";
@@ -1605,7 +1626,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             + " Exam Portal Cloud is not compatible with Internet Explorer. \n \n"
             + " It is strongly recommended that Exam Portal Cloud is used on a desktop or a laptop. Tablets and phones may prove challenging to use with this paper. Using Tablets and phones is at your own discretion. \n \n"
             + " Safe Exam is not required for tablets (Apple and Android). IT IS NOT RECOMMENDED THAT YOU COMPLETE THIS TEST ON A TABLET OR ON YOUR PHONE. \n \n"
-            + " Students to use Exam Portal Cloud, will need to download Safe Exam Browser from the following link https://sourceforge.net/projects/seb/files/seb/SEB_2.4.1/SafeExamBrowserInstaller.exe/download Please refer to the student guide emailed by your invigilator. Once they have Safe Exam Browser installed on their computers, the student section will open within Safe Exam Browser after they click the “Student Login” link. \n \n"
+            + " Students to use Exam Portal Cloud, will need to download Safe Exam Browser from the following link https://safeexambrowser.org/download_en.html Please refer to the student guide emailed by your invigilator. Once they have Safe Exam Browser installed on their computers, the student section will open within Safe Exam Browser after they click the “Student Login” link. \n \n"
 
             + " Kind Regards, \n"
             + " The Exam Portal Cloud team";

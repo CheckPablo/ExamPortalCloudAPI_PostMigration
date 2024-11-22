@@ -185,11 +185,16 @@ namespace ExamPortalApp.Api.Controllers
                 //var result = _mapper.Map<StudentDto>(response);
                 //return Ok(response);
                 //return Ok(result);
-            }
-            catch (Exception ex)
-            {
+            } 
+            catch (MaxLicenseException ex)
+            {   
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {   
+                return BadRequest(ex.Message);
+            }
+           
         }
 
        /* [HttpPut("{id}")]

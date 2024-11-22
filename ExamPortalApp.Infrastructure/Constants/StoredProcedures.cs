@@ -71,6 +71,7 @@ namespace ExamPortalApp.Infrastructure.Constants
          internal static string retrieveQuestionPaper = "retrieveQuestionPaper";
          internal static string retrieveSourceDocument = "retrieveSourceDocument";
          internal static string retrieveAnswerDocument = "retrieveAnswerDocument";
+         internal static string retrieveUserAnswerDocument =  "retrieveUserAnswerDocument";
          internal static string retrieveAnswerDocumentOnUpload = "retrieveAnswerDocumentOnUpload";
          internal static string insertUpdateSourcePaper = "insertUpdateSourcePaper";
          internal static string insertUpdateAnswerPaper = "insertUpdateAnswerPaper";

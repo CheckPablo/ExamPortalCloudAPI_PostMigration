@@ -455,11 +455,11 @@
             },
             "Syncfusion.DocIO.Net.Core": {
               "target": "Package",
-              "version": "[21.2.9, )"
+              "version": "[27.1.58, )"
             },
             "Syncfusion.DocIORenderer.Net.Core": {
               "target": "Package",
-              "version": "[21.2.9, )"
+              "version": "[27.1.58, )"
             },
             "Syncfusion.EJ2.AspNet.Core": {
               "target": "Package",
@@ -471,7 +471,7 @@
             },
             "Syncfusion.Pdf.Net.Core": {
               "target": "Package",
-              "version": "[21.2.9, )"
+              "version": "[27.1.58, )"
             },
             "Syncfusion.XlsIO.Net.Core": {
               "target": "Package",

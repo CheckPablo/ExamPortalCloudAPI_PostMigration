@@ -14,6 +14,7 @@ using Syncfusion.EJ2.DocumentEditor;
 using FormatType = Syncfusion.EJ2.DocumentEditor.FormatType;
 using WDocument = Syncfusion.DocIO.DLS.WordDocument;
 using WFormatType = Syncfusion.DocIO.FormatType;
+using ExamPortalApp.Infrastructure.Exceptions;
 
 
 namespace ExamPortalApp.Api.Controllers
@@ -389,6 +390,22 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /* 
+                 [HttpGet("{testId}/get-answer-documents")]
+                public async Task<ActionResult<UploadedAnswerDocumentDto>> GetUploadedAnswerDocument(int testId)
+                {
+                    try
+                    {
+                        var docs = await _testRepository.GetUploadedAnswerDocumentAsync(testId);
+                        var result = _mapper.Map<IEnumerable<UploadedAnswerDocumentDto>>(docs);
+
+                        return Ok(docs);
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                } */
 
         [AllowAnonymous]
         [HttpGet("{testId}/get-answer-documents")]
@@ -396,16 +413,42 @@ namespace ExamPortalApp.Api.Controllers
         {
             try
             {
-                var docs = await _testRepository.GetUploadedAnswerDocumentAsync(testId);
-                var result = _mapper.Map<IEnumerable<UploadedAnswerDocumentDto>>(docs);
 
-                return Ok(docs);
+
+                var docs = await _testRepository.GetUploadedAnswerDocumentAsync(testId) ?? null;
+                var bytes = docs?.FirstOrDefault()?.TestDocument;
+                if (bytes != null)
+                {
+                    if (bytes.Length > 0)
+                    {
+                        using (var stream = new MemoryStream(bytes))
+                        {
+                            stream.Position = 0;
+
+                            //Hooks MetafileImageParsed event.
+                            WordDocument.MetafileImageParsed += OnMetafileImageParsed;
+                            WordDocument document = WordDocument.Load(stream, GetFormatType(".docx"));
+                            //Unhooks MetafileImageParsed event.
+                            WordDocument.MetafileImageParsed -= OnMetafileImageParsed;
+
+                            string json = JsonConvert.SerializeObject(document);
+                            document.Dispose();
+                            docs.FirstOrDefault().AnswerDocBase64 = json;
+                        }
+                    }
+                    //var base64 = (docs?.First().TestDocument is not null) ? docs?.First().TestDocument.ToBase64String() : string.Empty;
+                    var result = _mapper.Map<IEnumerable<UploadedAnswerDocumentDto>>(docs);
+                   }
+                    return Ok(docs);
+               
+
+            
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }
+         } 
 
         /*private async FileStreamResult File(Task<byte[]> task, string v1, string v2)
          {
@@ -589,6 +632,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("get-test-with-file/{testId}")]
         public async Task<ActionResult<TestDto>> GetTestWithFile(int testId)
         {
@@ -1050,6 +1094,11 @@ var memory = new MemoryStream();
             {
                 return BadRequest(ex.Message);
             }
+           /*  catch (InvalidStudentEntryException ex)
+            {
+                return StatusCode(500,ex.Message);
+                //return BadRequest(ex.Message);
+            } */
         }
 
         [AllowAnonymous]

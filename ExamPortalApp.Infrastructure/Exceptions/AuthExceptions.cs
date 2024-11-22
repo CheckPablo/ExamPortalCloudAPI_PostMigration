@@ -28,11 +28,25 @@ namespace ExamPortalApp.Infrastructure.Exceptions
         {
         }
     }
+
+     public class MaxLicenseException: Exception{
+        public MaxLicenseException(): base(ErrorMessages.MaxStudentCountCheck.MaxStudentCount)
+        {
+
+        }
+    }
      public class InvalidSubjectEntryException: Exception{
         public InvalidSubjectEntryException(): base(ErrorMessages.SubjectEntryChecks.SubjectExists)
         {
         }
     }
+
+        public class InvalidTestEntryException: Exception{
+        public InvalidTestEntryException(): base(ErrorMessages.TestEntryChecks.TestExists)
+        {
+        }
+    }
+    
      
 
      public class InvalidUserNameException : Exception
@@ -59,6 +73,20 @@ namespace ExamPortalApp.Infrastructure.Exceptions
     public class InvalidCrdentialsException : Exception
     {
         public InvalidCrdentialsException() : base(ErrorMessages.Auth.InvalidCredentials)
+        {
+        }
+    }
+
+     public class InvalidStudentPasswordException : Exception
+    {
+        public InvalidStudentPasswordException() : base(ErrorMessages.Auth.InvalidStudentPassword)
+        {
+        }
+    }
+
+       public class InvalidExamNumberException : Exception
+    {
+        public InvalidExamNumberException() : base(ErrorMessages.Auth.InvalidExamCredentials)
         {
         }
     }
