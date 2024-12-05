@@ -28,6 +28,7 @@ namespace ExamPortalApp.Api.Controllers
 
         //private IFormFileCollection scannedFiles;
         private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
+        private static SpeechSynthesizer synth;
 
         [HttpDelete("{id}")]
         public override async Task<ActionResult<StudentTestDTO>> Delete(int id)
@@ -96,6 +97,29 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        ///[HttpGet("installedVoices")]
+        ///public List<object> InstalledVoices(int id)
+        ///{
+            // Initialize a new instance of the SpeechSynthesizer.  
+            ///using (SpeechSynthesizer synth = new SpeechSynthesizer())
+            ///{
+                // var windowsVoices = synth.GetInstalledVoices().ToList();
+                ///foreach (InstalledVoice voice in synth.GetInstalledVoices())
+                ///{
+                    ///VoiceInfo? info = voice?.VoiceInfo;
+                    //synth.SelectVoice(voice.VoiceInfo.Name);
+                   /// var voiceEntry = new { Name = info.Name, lang = info.Culture.Name, };
+                    ///installedVoiceList.Add(voiceEntry);
+                   /// installedVoices.Add(voice);
+               /// }
+                //string[] str = installedVoiceList.ToArray();
+                //var windowsVoices = installedVoiceList;
+                ///return installedVoiceList;
+                //Console.WriteLine(installedVoiceList); 
+            ///}
+
+        ///}
+        [AllowAnonymous]
         [HttpGet("installedVoices")]
         public List<object> InstalledVoices(int id)
         {
@@ -105,14 +129,21 @@ namespace ExamPortalApp.Api.Controllers
                 // var windowsVoices = synth.GetInstalledVoices().ToList();
                 foreach (InstalledVoice voice in synth.GetInstalledVoices())
                 {
-                    VoiceInfo? info = voice?.VoiceInfo;
+                    VoiceInfo info = voice.VoiceInfo;
+                    if (info.Name.ToLower().Contains("qfrency") || info.Culture.Name.ToLower().Contains("qfrency") || info.Name.ToLower().Contains("microsoft") || info.Culture.Name.ToLower().Contains("microsoft") || info.Name.ToLower().Contains("google") || info.Culture.Name.ToLower().Contains("google"))
+            {
+                continue; // Skip this voice and move to the next one.
+            }
+                   
                     //synth.SelectVoice(voice.VoiceInfo.Name);
-                    var voiceEntry = new { Name = info.Name, lang = info.Culture.Name, };
+                    var voiceEntry = new { lang = info.Culture.Name, name = info.Name, };
+                    //installedVoiceList.Add(voiceEntry);
                     installedVoiceList.Add(voiceEntry);
                     installedVoices.Add(voice);
                 }
                 //string[] str = installedVoiceList.ToArray();
                 //var windowsVoices = installedVoiceList;
+                //return installedVoiceList;
                 return installedVoiceList;
                 //Console.WriteLine(installedVoiceList); 
             }
@@ -343,21 +374,22 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
-        //[HttpGet("windowstts/{selectedVoice}/{selectedText}")]
-        //public async Task<ActionResult> WindowsTTS(string selectedVoice, string selectedText)
+         [AllowAnonymous]
         [HttpPost("windowstts")]
         public async Task<ActionResult> WindowsTTS(WindowsSpeechModel? winspeech)
+         //public async Task<ActionResult> WindowsTTS(string selectedVoice, string selectedText)
         {
             //SpVoice voice = new SpVoice();
+
 
             try
             {
                 //SpVoice voice = new SpVoice();
-                using (SpeechSynthesizer synth = new SpeechSynthesizer { Volume = 50, Rate = 0 })
+                using (synth = new SpeechSynthesizer { Volume = 50, Rate = Convert.ToInt32(winspeech.selectedRate) })
                 {
 
-                    synth.SelectVoice(winspeech?.selectedVoice);
-                    synth.Speak(winspeech?.selectedText);
+                    synth.SelectVoice(winspeech.selectedVoice);
+                    synth.Speak(winspeech.selectedText);
                     //grpAdjustments.Enabled = false;
                     //synth.Speak(txtTextToSpeak.Text);
                     //grpAdjustments.Enabled = true;
@@ -375,6 +407,135 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [AllowAnonymous]
+        [HttpPost("stoptts")]
+        public async Task<ActionResult> StopTTS()
+         //public async Task<ActionResult> WindowsTTS(string selectedVoice, string selectedText)
+        {
+            //SpVoice voice = new SpVoice();
+
+
+            try
+            {
+                //SpVoice voice = new SpVoice();
+                        
+                           
+                            synth.SpeakAsyncCancelAll(); 
+                            synth.Dispose(); 
+                           
+                        
+                
+                    //synth.Pause();
+                   
+                
+
+                // var tts = await _inTestWriteRepository.ConvertWindowsTTS(winspeech);
+                // var result = _mapper.Map<UserDto>(tts);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("pausetts")]
+        public async Task<ActionResult> PauseTTS()
+         //public async Task<ActionResult> WindowsTTS(string selectedVoice, string selectedText)
+        {
+            //SpVoice voice = new SpVoice();
+
+
+            try
+            {
+                //SpVoice voice = new SpVoice();
+                        
+                           
+                            synth.Pause(); 
+                      
+                
+                    //synth.Pause();
+                   
+                
+
+                // var tts = await _inTestWriteRepository.ConvertWindowsTTS(winspeech);
+                // var result = _mapper.Map<UserDto>(tts);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("resumetts")]
+        public async Task<ActionResult> ResumeTTS()
+         //public async Task<ActionResult> WindowsTTS(string selectedVoice, string selectedText)
+        {
+            //SpVoice voice = new SpVoice();
+
+
+            try
+            {
+                //SpVoice voice = new SpVoice();
+                        
+                           
+                            synth.Resume(); 
+                      
+                
+                    //synth.Pause();
+                   
+                
+
+                // var tts = await _inTestWriteRepository.ConvertWindowsTTS(winspeech);
+                // var result = _mapper.Map<UserDto>(tts);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //[HttpGet("windowstts/{selectedVoice}/{selectedText}")]
+        //public async Task<ActionResult> WindowsTTS(string selectedVoice, string selectedText)
+        ///[HttpPost("windowstts")]
+        ///public async Task<ActionResult> WindowsTTS(WindowsSpeechModel? winspeech)
+        ///{
+            //SpVoice voice = new SpVoice();
+
+            ///try
+            ///{
+                //SpVoice voice = new SpVoice();
+                ///using (SpeechSynthesizer synth = new SpeechSynthesizer { Volume = 50, Rate = 0 })
+                ///{
+
+                    ///synth.SelectVoice(winspeech?.selectedVoice);
+                    ///synth.Speak(winspeech?.selectedText);
+                    //grpAdjustments.Enabled = false;
+                    //synth.Speak(txtTextToSpeak.Text);
+                    //grpAdjustments.Enabled = true;
+
+                    //Console.WriteLine(installedVoices);
+                ///}
+
+                // var tts = await _inTestWriteRepository.ConvertWindowsTTS(winspeech);
+                // var result = _mapper.Map<UserDto>(tts);
+
+                ///return Ok();
+            ///}
+            ///catch (Exception ex)
+            ///{
+                ///return BadRequest(ex.Message);
+            ///}
+        ///}
 
         [HttpPut("{id}")]
         public override Task<ActionResult<StudentTestDTO>> Put(int id, StudentTest entity)
