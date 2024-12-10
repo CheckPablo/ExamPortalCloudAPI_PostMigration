@@ -13,7 +13,10 @@
             internal static readonly string NotActive = "Your account is not active";
             internal static readonly string ExpiredLicense = "Your License has expired";
             internal static readonly string NotApproved = "Your account has not yet been approved";
-            internal static readonly string InvalidCredentials = "The user name or password provided is incorrect."; 
+            internal static readonly string InvalidCredentials = "The user name provided is incorrect."; 
+            //internal static readonly string InvalidCredentials = "The user name or password provided is incorrect."; 
+            internal static readonly string InvalidStudentPassword = "The password provided is incorrect"; 
+            internal static readonly string InvalidExamCredentials = "The exam number provided is incorrect.";
             internal static readonly string UserNameNonExistant = "The user name provided does not exist"; 
             internal static readonly string Unauthorised = "Not authorised";
             internal static readonly string UserNotRegitered = "User could not be created.";
@@ -45,6 +48,13 @@
             // more student checks will be added here 
             internal static readonly string StudentExists = "The specified student number already exists";
         }
+
+          internal static class MaxStudentCountCheck
+        {
+            // more student checks will be added here 
+            internal static readonly string MaxStudentCount = "This center has reached its student license limit. Please contact support to renew";
+        }
+
 
         internal static class TestEntryChecks
         {

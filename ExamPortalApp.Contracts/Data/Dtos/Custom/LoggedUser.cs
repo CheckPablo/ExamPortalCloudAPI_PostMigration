@@ -13,6 +13,7 @@
         public int Role { get; set; }
         public int? ImpersonatedCenterId { get; set; }
         public string? adminPwd { get; set; }
+        public bool? IsSchoolAdmin{ get; set; }    
 
     }
 }

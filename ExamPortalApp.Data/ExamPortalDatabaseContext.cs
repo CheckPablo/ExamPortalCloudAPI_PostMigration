@@ -18,6 +18,7 @@ namespace ExamPortalApp.Data
 
         public virtual DbSet<AnswerMultiple> AnswerMultiples { get; set; }
 
+         public virtual DbSet<UploadedTestCacheLog> UploadedTestCacheLog { get; set; }
         public virtual DbSet<AnswerProgressTracking> AnswerProgressTrackings { get; set; }
 
         public virtual DbSet<AnswerText> AnswerTexts { get; set; }

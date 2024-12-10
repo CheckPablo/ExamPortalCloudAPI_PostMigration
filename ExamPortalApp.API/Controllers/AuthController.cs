@@ -76,6 +76,12 @@ namespace ExamPortalApp.Api.Controllers
             catch(InvalidCrdentialsException ex){
                 return StatusCode(500, ex.Message);
             }
+             catch(InvalidExamNumberException ex){
+               return StatusCode(500,ex.Message); 
+            }
+            catch(InvalidStudentPasswordException ex){
+             return StatusCode(500,ex.Message); 
+            }
             catch (Exception)
             {
                 return StatusCode(500, "Please Contact the Administrator");

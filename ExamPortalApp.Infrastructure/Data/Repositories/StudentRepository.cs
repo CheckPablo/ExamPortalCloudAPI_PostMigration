@@ -34,8 +34,30 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             var center = await _repository.GetByIdAsync<Center>(_user.CenterId, x => x.Students);
 
             if (center is null) throw new Exception(ErrorMessages.Auth.Unauthorised);
-            if (center.MaximumLicense <= center.Students.Count()) throw new InvalidOperationException("Maximum number of students reached.");
-            var studentExists = await _repository.AnyAsync<Student>(x => x.StudentNo == entity.StudentNo);
+            //if (center.MaximumLicense <= center.Students.Count()) throw new InvalidOperationException("Maximum number of students reached.");
+            if (center.MaximumLicense <= center.Students.Count()) 
+            {
+                throw new MaxLicenseException();
+            }
+             //MaxLicenseException
+            var centerDetailParameters = new Dictionary<string, object>
+            {
+                { StoredProcedures.Params.CenterID, _user.CenterId },
+          
+            };
+           
+            var result = await _repository.ExecuteStoredProcAsync<Center>(StoredProcedures.GetCurrentCenterDetails, centerDetailParameters).ConfigureAwait(false);
+            if(result.Count() > 0)
+            {
+                if (result.First().StudentCount >= result.First().MaximumLicense)
+                {
+                    throw new MaxLicenseException();
+                }
+            }
+          
+            //return result;
+            //var studentExists = await _repository.AnyAsync<Student>(x => x.StudentNo == entity.StudentNo);
+            var studentExists = await _repository.AnyAsync<Student>(x => x.StudentNo == entity.StudentNo && x.CenterId == _user.CenterId);
             if (studentExists)
             {
                 //throw new Exception(ErrorMessages.StudentEntryChecks.StudentExists);
@@ -148,7 +170,6 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             var students = await SendStudentLoginCredentialsAsync(_user.Id, studentIds, center,true);
             return students;
         }
-
         public async Task<List<string>> SendLoginCredentialsAsync(int[] studentIds)
         {
             if (_user is null) throw new Exception(ErrorMessages.Auth.Unauthorised);
@@ -493,7 +514,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             + " Exam Number: " + student.ExamNo + "\n"
             + " Password: " + password + "\n \n"
             + " Use the following link to login : https://examportalcloud.co.za/ . \n \n "
-            + " IMPORTANT: Please ensure you have Safe Exam Browser installed your on your Windows / Mac computer/laptop. You may download it from here: https://sourceforge.net/projects/seb/files/seb/SEB_2.4.1/SafeExamBrowserInstaller.exe/download \n \n"
+            + " IMPORTANT: Please ensure you have Safe Exam Browser installed your on your Windows / Mac computer/laptop. You may download it from here: https://safeexambrowser.org/download_en.html \n \n"
 
             + " If you experience any problems during login or during your examination, please contact your exam invigilator immediately. \n \n"
             + " Kind Regards, \n"
@@ -583,7 +604,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             + " ExamNo: " + student.ExamNo + "\n"
             + " Password: " + password + "\n \n"
             + " Use the following link to login : https://examportalcloud.co.za/ and select Student Login. \n \n "
-            + " IMPORTANT: Please ensure you have Safe Exam Browser installed on your Windows / Mac computer/laptop. You may download it from here: https://sourceforge.net/projects/seb/files/seb/SEB_2.4.1/SafeExamBrowserInstaller.exe/download  If you do not have a Windows or a Mac book computer / laptop, you do not need to install Safe Exam Browser. \n \n"
+            + " IMPORTANT: Please ensure you have Safe Exam Browser installed on your Windows / Mac computer/laptop. You may download it from here: https://safeexambrowser.org/download_en.html If you do not have a Windows or a Mac book computer / laptop, you do not need to install Safe Exam Browser. \n \n"
             + " If you experience any problems during login or during your examination, please contact your exam invigilator immediately. \n \n"
             + " Kind Regards \n"
             + " The Exam Portal Cloud team";
@@ -661,7 +682,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             + " ExamNo: " + student.ExamNo + "\n"
             + " Password: " + student.Password + "\n \n"
             + " Use the following link to login : https://examportalcloud.co.za/ and select Student Login. \n \n "
-            + " IMPORTANT: Please ensure you have Safe Exam Browser installed on your Windows / Mac computer/laptop. You may download it from here: https://sourceforge.net/projects/seb/files/seb/SEB_2.4.1/SafeExamBrowserInstaller.exe/download  If you do not have a Windows or a Mac book computer / laptop, you do not need to install Safe Exam Browser. \n \n"
+            + " IMPORTANT: Please ensure you have Safe Exam Browser installed on your Windows / Mac computer/laptop. You may download it from here: https://safeexambrowser.org/download_en.html If you do not have a Windows or a Mac book computer / laptop, you do not need to install Safe Exam Browser. \n \n"
             + " If you experience any problems during login or during your examination, please contact your exam invigilator immediately. \n \n"
             + " Kind Regards \n"
             + " The Exam Portal Cloud team";
@@ -692,23 +713,44 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 // return "Fail Has error" + ex.Message;
             }
 
-            smtpServer.Send(mail);
+            //smtpServer.Send(mail);
             return smtpServer is not null;
             //return true; 
         }
-        public async Task<Student> UpdateAsync(Student entity)
+     /*    public async Task<Student> UpdateAsync(Student entity)
         {
             var student = await _repository.GetByIdAsync<Student>(entity.Id);
-        /*     if (student is not null)
+            if (student is not null)
             {
                 if (student.EncrytedPassword is not null)
                     entity.EncrytedPassword = student.EncrytedPassword;
                 //entity.PlainPassword = PasswordHelper.Decrypt(student.EncrytedPassword, _examPortalSettings.EncryptionKey);
-            } */
+            } 
 
 
 
             return await _repository.UpdateAsync(entity, true);
+        } */
+
+        public async Task<Student> UpdateAsync(Student entity)
+        {
+            var student = await _repository.GetByIdAsync<Student>(entity.Id);
+            var studentExists = await _repository.AnyAsync<Student>(x => x.StudentNo == entity.StudentNo && x.CenterId == entity.CenterId && x.Id != entity.Id);
+            if (studentExists){
+                throw new NotImplementedException();
+            }
+            else{
+            if (student is not null)
+            {
+                if (student.EncrytedPassword is not null)
+                    entity.EncrytedPassword = student.EncrytedPassword;
+                //entity.PlainPassword = PasswordHelper.Decrypt(student.EncrytedPassword, _examPortalSettings.EncryptionKey);
+            } 
+
+
+
+            return await _repository.UpdateAsync(entity, true);
+            }
         }
         public async Task PasswordMigration()
         {
@@ -735,6 +777,15 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 ex.Message.ToString();
             }
         }
+
+        public async Task<string> FinishTestDashboardRedirect(int studentId)
+        {
+            var student = await _repository.GetByIdAsync<Student>(studentId);
+		    var password = PasswordHelper.Decrypt(student.EncrytedPassword, _examPortalSettings.EncryptionKey);
+            return password; 
+            //throw new NotImplementedException();
+        }
+
 
          public Task<Student> AddAsync(Student entity)
         {

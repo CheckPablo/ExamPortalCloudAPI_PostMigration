@@ -11,8 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddOptions<ExamPortalSettings>().BindConfiguration("ExamPortalSettings");
+/* builder.Services.AddDbContext<ExamPortalDatabaseContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),sqlServerOptionsAction =>
+    {
+        sqlServerOptionsAction.CommandTimeout(160); 
+    })) */;
+
 builder.Services.AddDbContext<ExamPortalDatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddDbContext<ExamPortalDatabaseContext>();
 builder.Services.AddCustomServices();
 builder.Services.AddMapper();
@@ -78,6 +85,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddMemoryCache(); 
 
 var app = builder.Build();
+//Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2UlhhQlVMfV5AQmVWfFN0QXNQdVx4flZDcC0sT3RfQFliSH5VdkxgXnxfdnBRRA==");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NDaF5cWWtCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWH5fcnRSR2ZZU0VwWUo=");
 app.UseSwagger();
 app.UseSwaggerUI();
 //app.UseCors();

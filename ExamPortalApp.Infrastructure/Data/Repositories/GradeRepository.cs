@@ -35,7 +35,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return await _repository.AddAsync(entity, true);
         } */
 
-        public async Task<Grade> AddAsync(Grade entity)
+        public async Task<Grade> AddAsync(Grade entity) 
         {
             // 0 is true in SQL 
             if (_user == null)
@@ -154,7 +154,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             //var grade = await _repository.GetWhereAsync<Grade>(x => x.Id == entity.Id);
         }
 
-        public async Task<Grade> UpdateAsync(Grade entity)
+       /*  public async Task<Grade> UpdateAsync(Grade entity)
         {
             var gradeToUpdate = await _repository.GetByIdAsync<Grade>(entity.Id);
 
@@ -169,6 +169,32 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
                 return await _repository.UpdateAsync(gradeToUpdate, true);
             }
+        } */
+
+         public async Task<Grade> UpdateAsync(Grade entity)
+        {
+            var gradeToUpdate = await _repository.GetByIdAsync<Grade>(entity.Id);
+            var gradeExists =await _repository.AnyAsync<Grade>(x => x.Code == entity.Code && x.CenterId == _user.CenterId && x.Id != entity.Id);
+            Console.WriteLine($"Searching for Code: {entity.Code}, CenterId: {entity.CenterId}");
+
+            if (gradeExists)
+            {
+               throw new  InvalidGradeEntryException();
+            }
+            else if (gradeToUpdate == null || gradeToUpdate.IsDeleted)
+            {
+             
+            
+                throw new NotImplementedException();
+            }
+            else
+            {
+                gradeToUpdate.Code = entity.Code;
+                gradeToUpdate.Description = entity.Description;
+
+                return await _repository.UpdateAsync(gradeToUpdate, true);
+            }
+            
         }
 
     

@@ -38,8 +38,19 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             {
                 throw new Exception(ErrorMessages.Auth.Unauthorised);
             }
-            var regions = await _repository.GetAllAsync<Region>();
-            return regions.Distinct().OrderBy(x => x.Description).Where(x => x.IsDeleted == false); 
+        /*     var regions = await _repository.GetAllAsync<Region>();
+            //return regions.Distinct().OrderBy(x => x.Description).Where(x => x.IsDeleted == false); 
+            return regions.OrderBy(x => x.Description).Where(x => x.IsDeleted == false).Distinct();  */
+            string blankParam = "";
+            var parameters = new Dictionary<string, object>
+            
+            {
+               
+                { StoredProcedures.Params.BlankParam, blankParam},
+            };
+
+            var regions = await _repository.ExecuteStoredProcAsync<Region>(StoredProcedures.GetRegions, parameters);
+            return regions;
         }
 
         public async Task<Region> GetAsync(int id)

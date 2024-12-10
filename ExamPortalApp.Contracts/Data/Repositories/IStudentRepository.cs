@@ -21,6 +21,7 @@ namespace ExamPortalApp.Contracts.Data.Repositories
         Task<bool> DelinkStudentToSubjectsAsync(int studentId, int[] subjectIds);
         Task PasswordMigration();
         Task <bool> SendRegistrationEmail(MailData student);
+        Task<string> FinishTestDashboardRedirect(int studentId); 
        
     }
 }

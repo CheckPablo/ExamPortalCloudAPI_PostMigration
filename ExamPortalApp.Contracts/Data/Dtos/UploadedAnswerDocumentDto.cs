@@ -1,4 +1,6 @@
-﻿namespace ExamPortalApp.Contracts.Data.Dtos
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ExamPortalApp.Contracts.Data.Dtos
 {
     public class UploadedAnswerDocumentDto
     {
@@ -11,5 +13,8 @@
         public DateTime? DateModifed { get; set; }
 
         public string? FilePath { get; set; }
+        [NotMapped]
+         public string? AnswerDocBase64 { get; set; }
+
     }
 }

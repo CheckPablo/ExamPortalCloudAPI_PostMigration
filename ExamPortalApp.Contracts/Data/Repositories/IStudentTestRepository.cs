@@ -11,6 +11,7 @@ namespace ExamPortalApp.Contracts.Data.Repositories
         Task<IEnumerable<StudentTestAnswers>> GetStudentTestDetails(int testId, int studentId);
 
         Task<IEnumerable<StudentTestAnswers>> FinishTest(StudentTestAnswers studentTestAnswers);
+          Task<IEnumerable<StudentTestAnswers>> CompleteStudentTestPreviewPane(StudentTestAnswers studentTestAnswers);
         Task<IEnumerable<UserDocumentAnswer>> GetUserAnswerDocumentAsync(int testId, int studentId);
 
     }
