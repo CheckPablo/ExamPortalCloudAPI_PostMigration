@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections;
+using AutoMapper;
 using ExamPortalApp.Contracts.Data.Dtos;
 using ExamPortalApp.Contracts.Data.Dtos.Params;
 using ExamPortalApp.Contracts.Data.Entities;
@@ -13,6 +14,7 @@ using Syncfusion.EJ2.DocumentEditor;
 using FormatType = Syncfusion.EJ2.DocumentEditor.FormatType;
 using WDocument = Syncfusion.DocIO.DLS.WordDocument;
 using WFormatType = Syncfusion.DocIO.FormatType;
+using ExamPortalApp.Infrastructure.Exceptions;
 
 
 namespace ExamPortalApp.Api.Controllers
@@ -26,6 +28,7 @@ namespace ExamPortalApp.Api.Controllers
         private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
         public IWebHostEnvironment Environment { get; private set; }
 
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("convert-word-file")]
@@ -67,6 +70,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        
         [HttpDelete("{id}/answer-document")]
         public async Task<ActionResult> DeleteAnswerDocumentAsync(int id)
         {
@@ -114,8 +118,6 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
-
-
         [HttpGet("studenttestlist/{studentId}")]
         public async Task<ActionResult<StudentTestList[]>> Studenttestlist(int? studentId)
         {
@@ -161,7 +163,8 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("{testId}/get-answer-file")]
         public async Task<string> GetAnswerFile(int testId)
         {
@@ -193,7 +196,40 @@ namespace ExamPortalApp.Api.Controllers
             {
                 return ex.Message;
             }
-        }
+        } 
+        /* [HttpGet("{testId}/get-answer-file")]
+        public async Task<string> GetAnswerFile(int testId)
+        {
+            try
+            {
+                var bytes = await _testRepository.GetAnswerFileBytesAsync(testId);
+
+                if (bytes.Length > 0)
+                {
+                    using (var stream = new MemoryStream(bytes))
+                    {
+                        stream.Position = 0;
+
+                        //Hooks MetafileImageParsed event.
+                        WordDocument.MetafileImageParsed += OnMetafileImageParsed;
+                        WordDocument document = WordDocument.Load(stream, GetFormatType(".docx"));
+                        //Unhooks MetafileImageParsed event.
+                        WordDocument.MetafileImageParsed -= OnMetafileImageParsed;
+
+                        string json = JsonConvert.SerializeObject(document);
+                        document.Dispose();
+                        return json;
+                    }
+                }
+                else return Newtonsoft.Json.JsonConvert.SerializeObject("");
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }*/
+        [AllowAnonymous]
         [HttpGet("{studentId}/{testId}/get-studentanswer-file")]
         public async Task<string> GetStudentAnswerFile(int studentId, int testId)
         {
@@ -320,7 +356,8 @@ namespace ExamPortalApp.Api.Controllers
             }
 
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("get-file/{id}/{type}")]
         public async Task<ActionResult<string>> GetFile(int id, string type)
         {
@@ -353,22 +390,65 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        /* 
+                 [HttpGet("{testId}/get-answer-documents")]
+                public async Task<ActionResult<UploadedAnswerDocumentDto>> GetUploadedAnswerDocument(int testId)
+                {
+                    try
+                    {
+                        var docs = await _testRepository.GetUploadedAnswerDocumentAsync(testId);
+                        var result = _mapper.Map<IEnumerable<UploadedAnswerDocumentDto>>(docs);
 
+                        return Ok(docs);
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                } */
+
+        [AllowAnonymous]
         [HttpGet("{testId}/get-answer-documents")]
         public async Task<ActionResult<UploadedAnswerDocumentDto>> GetUploadedAnswerDocument(int testId)
         {
             try
             {
-                var docs = await _testRepository.GetUploadedAnswerDocumentAsync(testId);
-                var result = _mapper.Map<IEnumerable<UploadedAnswerDocumentDto>>(docs);
 
-                return Ok(docs);
+
+                var docs = await _testRepository.GetUploadedAnswerDocumentAsync(testId) ?? null;
+                var bytes = docs?.FirstOrDefault()?.TestDocument;
+                if (bytes != null)
+                {
+                    if (bytes.Length > 0)
+                    {
+                        using (var stream = new MemoryStream(bytes))
+                        {
+                            stream.Position = 0;
+
+                            //Hooks MetafileImageParsed event.
+                            WordDocument.MetafileImageParsed += OnMetafileImageParsed;
+                            WordDocument document = WordDocument.Load(stream, GetFormatType(".docx"));
+                            //Unhooks MetafileImageParsed event.
+                            WordDocument.MetafileImageParsed -= OnMetafileImageParsed;
+
+                            string json = JsonConvert.SerializeObject(document);
+                            document.Dispose();
+                            docs.FirstOrDefault().AnswerDocBase64 = json;
+                        }
+                    }
+                    //var base64 = (docs?.First().TestDocument is not null) ? docs?.First().TestDocument.ToBase64String() : string.Empty;
+                    var result = _mapper.Map<IEnumerable<UploadedAnswerDocumentDto>>(docs);
+                   }
+                    return Ok(docs);
+               
+
+            
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }
+         } 
 
         /*private async FileStreamResult File(Task<byte[]> task, string v1, string v2)
          {
@@ -521,6 +601,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{testId}/get-source-documents")]
         public async Task<ActionResult<TestDto>> GetUploadedSourceDocuments(int testId)
         {
@@ -551,6 +632,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("get-test-with-file/{testId}")]
         public async Task<ActionResult<TestDto>> GetTestWithFile(int testId)
         {
@@ -570,18 +652,20 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("get-dbtest-with-file/{testId}")]
+        [AllowAnonymous]
+        [HttpGet("get-dbtest-with-file/{testId}/{studentId}")]
         //public async Task<ActionResult<TestDto>> GetDbTestWithFile(int testId)
-        public async Task<ActionResult<object>> GetDbTestWithFile(int testId)
+        public async Task<ActionResult<object>> GetDbTestWithFile(int testId, int studentId)
         {
             try
             {
-                var file = await _testRepository.GetDBTestQuestionWithFileAsync(testId);
+                var (exam,file) = await _testRepository.GetDBTestQuestionWithFileAsync(testId, studentId);
+                //var testDto = _mapper.Map<TestDto>(test);
                 //var testDto = _mapper.Map<TestDto>(file);
 
                 return Ok(new
                 {
+                    exam ,
                     file
                 });
             }
@@ -653,7 +737,7 @@ namespace ExamPortalApp.Api.Controllers
             }
         }
 
-         [AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet("get-sourcepaper-text/{testId}")]
         public async Task<ActionResult<TestDto>> GetSourcePaperText(int testId)
         {
@@ -673,7 +757,8 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("get-converted-answerdoc/{testId}/{studentId}")]
         public async Task<ActionResult<UserDocumentAnswer>> DownloadFileFromDataBaseNew(int testId, int studentId)
         {
@@ -904,6 +989,7 @@ var memory = new MemoryStream();
         }*/
         /*[HttpGet("get-converted-answerdocbulk/{testId}/{studentIds}")]*/
 
+        [AllowAnonymous]
         [HttpPost("get-answerdocbulk")]
         public async Task<ActionResult> DownloadStudentAnswersBulk(StudentBulkAnswerLinker linker)
         {
@@ -919,6 +1005,7 @@ var memory = new MemoryStream();
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("get-answerdocbulksave")]
         public async Task<ActionResult> DownloadStudentAnswersBulkSave(StudentBulkAnswerLinker linker)
         {
@@ -961,7 +1048,7 @@ var memory = new MemoryStream();
         }*/
 
 
-
+        [AllowAnonymous]
         [HttpGet("get-word-file/{id}")]
         public async Task<string> ImportFileURL(int id)
         {
@@ -975,6 +1062,7 @@ var memory = new MemoryStream();
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("link-students")]
         public async Task<ActionResult> LinkStudents(StudentTestLinker linker)
         {
@@ -990,19 +1078,27 @@ var memory = new MemoryStream();
             }
         }
 
+
+        [AllowAnonymous]
         [HttpPost]
         public override async Task<ActionResult<TestDto>> Post(Test test)
         {
             try
             {
                 var response = await _testRepository.AddUpdateTestAsync(test);
-                // var result = _mapper.Map<TestDto>(response);
-                return Ok(response);
+                var responseObject = await _testRepository.GetAsync(response);
+                var result = _mapper.Map<TestDto>(responseObject);
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+           /*  catch (InvalidStudentEntryException ex)
+            {
+                return StatusCode(500,ex.Message);
+                //return BadRequest(ex.Message);
+            } */
         }
 
         [AllowAnonymous]
@@ -1067,7 +1163,7 @@ var memory = new MemoryStream();
             }
 
         }
-
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("add-test-word")]
@@ -1127,7 +1223,8 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("search-testsOTP")]
         public async Task<ActionResult> SearchTestsOTPAsync([FromQuery] TestOTPSearcher searcher)
         {
@@ -1144,6 +1241,7 @@ var memory = new MemoryStream();
             }
         }
 
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("upload-word-file")]
@@ -1172,7 +1270,8 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("convert-offlinestring")]
         public async Task<ActionResult> ImportOffline(OfflineConversion payload)
         {
@@ -1195,7 +1294,9 @@ var memory = new MemoryStream();
             }
 
         }
-
+        
+        
+        [AllowAnonymous]
         [HttpPost("search-tests")]
         public async Task<ActionResult> SearchTestsAsync([FromQuery] TestSearcher searcher)
         {
@@ -1211,7 +1312,9 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
-
+        
+        
+        [AllowAnonymous]
         [HttpPost("{id}/send-otp-toStudents")]
         public async Task<ActionResult<bool>> SendOTPToStudents(int id)
         {
@@ -1242,10 +1345,37 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
+      /*  [DisableRequestSizeLimit]
+        [Consumes("multipart/form-data")]
+        [HttpPost("{testId}/upload-answer-document")]
+         public async Task<ActionResult<bool>> UploadAnswerDocumentAsync(int testId)
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+
+                if (file is not null && file.Length > 0)
+                {
+                    var response = await _testRepository.UploadAnswerDocumentAsync(testId, file);
+
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest("Data or file not provided");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        } */
+
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("{testId}/upload-answer-document")]
-        public async Task<ActionResult<bool>> UploadAnswerDocumentAsync(int testId)
+        public async Task<ActionResult<IEnumerable<UploadedAnswerDocument>>> UploadAnswerDocumentAsync(int testId)
         {
             try
             {
@@ -1268,10 +1398,11 @@ var memory = new MemoryStream();
             }
         }
 
+        [AllowAnonymous]
         [DisableRequestSizeLimit]
         [Consumes("multipart/form-data")]
         [HttpPost("{testId}/upload-source-document")]
-        public async Task<ActionResult<bool>> UploadSourceDocumentAsync(int testId)
+        public async Task<ActionResult<IEnumerable<UploadedSourceDocument>>> UploadSourceDocumentAsync(int testId)
         {
             try
             {
@@ -1293,6 +1424,7 @@ var memory = new MemoryStream();
                 return BadRequest(ex.Message);
             }
         }
+        
         [AllowAnonymous]
         [HttpGet("validateTestOTP/{testId}/{centerId}/{otp}")]
         public async Task<ActionResult<RandomOtpDto[]>> validateOTP(int? testId, int? centerId, int otp)

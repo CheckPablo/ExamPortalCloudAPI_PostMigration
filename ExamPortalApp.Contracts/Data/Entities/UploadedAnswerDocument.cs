@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace ExamPortalApp.Contracts.Data.Entities;
 
 public partial class UploadedAnswerDocument : EntityBase
@@ -9,6 +9,9 @@ public partial class UploadedAnswerDocument : EntityBase
     public string? FileName { get; set; }
 
     public byte[]? TestDocument { get; set; }
+   
+   [NotMapped]
+    public string? AnswerDocBase64 { get; set; }
 
     public DateTime? DateModified { get; set; }
 

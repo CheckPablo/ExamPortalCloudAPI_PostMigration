@@ -127,5 +127,18 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             var result = await _repository.ExecuteStoredProcAsync<StudentTestAnswers>(StoredProcedures.CompleteTest, parameters);
             return result;
         }
+
+        public async Task<IEnumerable<StudentTestAnswers>> CompleteStudentTestPreviewPane(StudentTestAnswers studentTestAnswersModel)
+        {
+            
+            var parameters = new Dictionary<string, object>
+            {
+                { StoredProcedures.Params.TestID, studentTestAnswersModel.TestID },
+                { StoredProcedures.Params.StudentId, studentTestAnswersModel.StudentId }
+            };
+
+            var result = await _repository.ExecuteStoredProcAsync<StudentTestAnswers>(StoredProcedures.CompleteTStudentTestPreviewPane, parameters);
+            return result;
+        }
     }
 }

@@ -3,6 +3,7 @@ using ExamPortalApp.Contracts.Data.Repositories;
 using ExamPortalApp.Contracts.Data.Repositories.Generic;
 using ExamPortalApp.Infrastructure.Constants;
 using Syncfusion.XlsIO;
+
 namespace ExamPortalApp.Infrastructure.Data.Repositories
 {
     public class BulkImportRepository(IRepository repository) : IBulkImportRepository
@@ -63,8 +64,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             for (int row = 2; row <= worksheet.Columns[1].Count; row++)
             {
                  var studentNo = "VST" + worksheet[row, 5].Value;
-                //SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, studentNo, batchGuid, _repository);
-                SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, batchGuid, _repository);
+                SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, studentNo, batchGuid, _repository);
+                //SectorSubjectsObject tempSectorSubjectsObject = new(worksheet[row, 1].Value, worksheet[row, 2].Value, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, batchGuid, _repository);
                 
                 lstSectorSubjects.Add(tempSectorSubjectsObject);
             }
@@ -127,63 +128,68 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         {
             throw new NotImplementedException();
         }
+    public async Task<bool> ImportFile1(Stream PeopleFileStream, string batchGuid)
+    {
+        List<PeopleObject> lstPeople = new();
+        HashSet<string> uniqueStudents = new(); // HashSet to track unique student numbers
 
-        public async Task<bool> ImportFile1(Stream PeopleFileStream, string batchGuid)
+        using ExcelEngine excelEngine = new();
+        IApplication application = excelEngine.Excel;
+        application.DefaultVersion = ExcelVersion.Excel2016;
+
+        IWorkbook workbook = excelEngine.Excel.Workbooks.Open(PeopleFileStream);
+        IWorksheet worksheet = workbook.Worksheets[0];
+
+        Dictionary<string, string> cells = new()
+     {
+        {"A1","CenterNo"},
+        {"B1","RegionID"},
+        {"C1","Name"},
+        {"D1","Surname"},
+        {"E1","IDNumber"},
+        {"F1","StudentNo"},
+    };
+
+    for (int i = worksheet.Columns[1].Count - 1; i >= 0; i--)
+    {
+        if (worksheet.Rows[i].IsBlank)
         {
-            // string  batchGUID = "";
-            List<PeopleObject> lstPeople = [];
-            using ExcelEngine excelEngine = new();
-
-            IApplication application = excelEngine.Excel;
-            application.DefaultVersion = ExcelVersion.Excel2016;
-
-            IWorkbook workbook = excelEngine.Excel.Workbooks.Open(PeopleFileStream);
-            IWorksheet worksheet = workbook.Worksheets[0];
-           /*  var centerNo = worksheet[row, 1].Value
-            var centerNo =  */
-
-            Dictionary<string, string> cells = new(){
-                {"A1","CenterNo"},
-                {"B1","RegionID"},
-                {"C1","Name"},
-                {"D1","Surname"},
-                {"E1","IDNumber"},
-                {"F1","StudentNo"},
-            };
-            for (int i = worksheet.Columns[1].Count - 1; i >= 0; i--)
-            {
-                if (worksheet.Rows[i].IsBlank)
-                {
-                    worksheet.DeleteRow(i + 1);
-                }
-            }
-
-            if(!CheckHeaders(worksheet, cells)) return false;
-
-            for (int row = 2; row <= worksheet.Columns[1].Count; row++)
-            {
-               /*  var centerNo = worksheet[row, 1].Value; 
-                var centerNoRecord =  await _repository.GetFirstOrDefaultAsync<Center>(x => x.CenterNo == Convert.ToInt32(centerNo));
-                var prefix = centerNoRecord.Prefix; */ 
-                int RegionID = 1000;
-                if (worksheet[row, 2].Value != "")
-                {
-                    RegionID = Convert.ToInt32(worksheet[row, 2].Value);
-                }
-                var studentNo  = "VST" + worksheet[row, 6].Value; 
-                //PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, studentNo, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
-                PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, worksheet[row, 6].Value, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
-
-                lstPeople.Add(tempPeopleObject);
-            }
-
-            foreach (var item in lstPeople)
-            {
-                await item.ImportToBuffer().ConfigureAwait(false);
-            }
-            return true;
+            worksheet.DeleteRow(i + 1);
+        }
         }
 
+     if (!CheckHeaders(worksheet, cells)) return false;
+
+        for (int row = 2; row <= worksheet.Columns[1].Count; row++)
+        {
+        var studentNo = "VST" + worksheet[row, 6].Value; 
+        // Check if this student has already been added
+        if (uniqueStudents.Contains(studentNo))
+        {
+            continue; // Skip this row since the student is already processed
+        }
+
+        var centerNo = worksheet[row, 1].Value; 
+        var centerNoRecord = await _repository.GetFirstOrDefaultAsync<Center>(x => x.CenterNo == Convert.ToInt32(centerNo));
+        var prefix = centerNoRecord.Prefix;
+        int RegionID = 1000;
+        if (worksheet[row, 2].Value != "")
+        {
+            RegionID = Convert.ToInt32(worksheet[row, 2].Value);
+        }
+
+        PeopleObject tempPeopleObject = new(Convert.ToInt32(worksheet[row, 1].Value), RegionID, worksheet[row, 3].Value, worksheet[row, 4].Value, worksheet[row, 5].Value, studentNo, batchGuid, worksheet[row, 7].Value, worksheet[row, 8].Value, _repository);
+        
+        lstPeople.Add(tempPeopleObject);
+        uniqueStudents.Add(studentNo); // Add student number to the HashSet
+        }
+
+        foreach (var item in lstPeople)
+        {
+        await item.ImportToBuffer().ConfigureAwait(false);
+        }
+        return true;
+        }
         private static bool CheckHeaders(IWorksheet worksheet, Dictionary<string, string> cells)
         {
             //foreach (KeyValuePair<string, string> cell in cells)

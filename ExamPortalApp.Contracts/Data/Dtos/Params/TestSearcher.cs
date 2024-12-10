@@ -8,5 +8,6 @@
         public DateTime? FromDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string? Name { get; set; }
+        public int? TestTypeId { get; set; }
     }
 }

@@ -134,7 +134,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 EnableSsl = true,
                 UseDefaultCredentials = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential("qiscmapp@gmail.com", "gkrikvoauqlshyzg"),
+                //Credentials = new NetworkCredential("qiscmapp@gmail.com", "gkrikvoauqlshyzg"),
+                Credentials = new NetworkCredential("Support@v-soft.co.za", "*VSoft*2019"), 
                 Timeout = 20000
             };
             #endregion

@@ -62,7 +62,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         {
             try
             {
-                var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId);
+                //var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId);
+                var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId && true == entity.IsDeleted);
                 if (testExists)
                 {
                     throw new Exception(ErrorMessages.TestEntryChecks.TestExists);
@@ -103,12 +104,13 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             {
                 if (entity.Id == 0)
                 {
-                    var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId);
+                    //var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId);
+                    var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId && true == entity.IsDeleted);
                     if (testExists)
                     {
                         throw new Exception(ErrorMessages.TestEntryChecks.TestExists);
                     }
-                    var test = await AddAsync(entity);
+                    var test = await AddAsync(entity);                                      
 
                     return test.Id;
                 }
@@ -146,8 +148,6 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return fileBytes.ToBase64String();
         }
 
-
-
         public async Task<bool> CreateNewOTPAsync(TestOTPSearcher otpGenerator)
         {
             //if (question paper is missing){ Prompt user to upload a question paper}
@@ -156,7 +156,9 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             {
                 testToCache = await GetTestToCache(otpGenerator.TestId);
                 _memoryCache.Set(otpGenerator.TestId, testToCache, TimeSpan.FromMinutes(1440));
+               
             }
+             var testToCacheCheck = _memoryCache.Get(otpGenerator.TestId);
             Console.WriteLine(testToCache.ToString());
             var parameters = new Dictionary<string, object>();
             otpGenerator.CenterId = _user?.CenterId;
@@ -267,6 +269,28 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return doc.TestDocument;
         }
 
+        public async Task<byte[]> GetAnswerFileBytesAsync(int testId)
+        {
+            //var docs = await GetUploadedAnswerDocumentAsync(testId);
+            // var doc = docs?.FirstOrDefault();
+            var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.TestID, testId }
+                };
+            var docs = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.retrieveAnswerDocumentOnUpload, parameters);
+            if (docs?.First().TestDocument is null) //throw new Exception("No test document found");
+            {
+                try
+                {
+                    byte[] bytes = new byte[0];
+                    return bytes;
+                }
+                catch (Exception ex)
+                { }
+            }
+            return docs?.First().TestDocument;
+        }
+
         public async Task<byte[]> GetUserAnswerFileAsync(int studentId, int testId)
         {
             var docs = await GetUserAnswerDocumentAsync(studentId, testId);
@@ -327,7 +351,6 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
         public async Task<Exam> LoadTestOnExamStart(int testId, int studentId)
         {
-
             var parameters = new Dictionary<string, object>
             {
                 { StoredProcedures.Params.TestID, testId },
@@ -365,8 +388,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 { StoredProcedures.Params.SubjectId, subjectId },
                 { StoredProcedures.Params.TestID, testId },
                 //{ StoredProcedures.Params.RegionId, regionId }
-            };     
-           // var result = await _repository.ExecuteStoredProcAsync<Resulting>(StoredProcedures.get_StudentAnswersList, parameters);
+            };
+            // var result = await _repository.ExecuteStoredProcAsync<Resulting>(StoredProcedures.get_StudentAnswersList, parameters);
             var result = await _repository.ExecuteStoredProcAsync<Resulting>(StoredProcedures.get_StudentAnswersList_Export, parameters);
             return result;
         }
@@ -383,10 +406,31 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         }
 
         public async Task<IEnumerable<UploadedAnswerDocument>> GetUploadedAnswerDocumentAsync(int testId)
-        {
+        { 
+            
+            var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.id, testId }
+                };
 
-            return await _repository.GetWhereAsync<UploadedAnswerDocument>(x => x.TestId == testId);
+            var docs = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.retrieveAnswerDocument, parameters);
+            
+            return (IEnumerable<UploadedAnswerDocument>)docs;
+            //return await _repository.GetWhereAsync<UploadedAnswerDocument>(x => x.TestId == testId);
         }
+    
+       /*public async Task<IEnumerable<UserDocumentAnswer>> GetUserAnswerDocumentAsync(int testId)
+       { 
+        var parameters = new Dictionary<string, object>
+          {
+              { StoredProcedures.Params.id, testId }
+          };
+
+        var docs = await _repository.ExecuteStoredProcAsync<UserDocumentAnswer>(StoredProcedures.retrieveUserAnswerDocument, parameters);
+      
+       return (IEnumerable<UserDocumentAnswer>)docs;
+       //return await _repository.GetWhereAsync<UploadedAnswerDocument>(x => x.TestId == testId);
+       } */ 
 
         public async Task<IEnumerable<UserDocumentAnswer>> GetUserAnswerDocumentAsync(int studentId, int testId) // there are one or many testId in this tabe so USE STUDENTID
         {
@@ -563,14 +607,27 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             //    return (test, testToCache.ToString());
             //}
             //Console.WriteLine(testToCache.ToString());
-            var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UploadedTest>(x => x.Id == testId);
-            var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
+            ///var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UploadedTest>(x => x.Id == testId);
+            ///var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
             //}
             // _memoryCache.Set("employees", base64, TimeSpan.FromMinutes(1440));
-            return (test, base64);
+            ///return (test, base64);
+            var parameters = new Dictionary<string, object>
+            {
+                { StoredProcedures.Params.TestID, testId }
+            };
+            var uploadTestEntry = await _repository.ExecuteStoredProcAsync<UploadedTest>(StoredProcedures.retrieveQuestionPaper, parameters);
+            if (uploadTestEntry.Count() == 0 || string.IsNullOrEmpty(uploadTestEntry?.First().TestDocument.ToBase64String()))
+            {
+                return (test, null);
+            }
+            else
+            {
+                var base64 = (uploadTestEntry?.First().TestDocument is not null) ? uploadTestEntry?.First().TestDocument.ToBase64String() : string.Empty;
+                return (test, base64);
+            }
+            //return base64;
         }
-
-        
 
         public async Task<(UserDocumentAnswer, string)> GetStudentFinalAnswerFileAsync(int testId, int studentId)
         {
@@ -709,7 +766,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             //studentId = 9476; 
             //testId = 4385; 
             //var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UserDocumentAnswer>(x => x.Id == testId && x.StudentId == studentId);
-        var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UserDocumentAnswer>(x => x.TestId == testId && x.StudentId == studentId);
+            var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UserDocumentAnswer>(x => x.TestId == testId && x.StudentId == studentId);
             var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
             return base64;
         }
@@ -745,7 +802,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         }
         public async Task<(Exam, string)> GetTestQuestionWithFileAsync(int testId, int studentId)
         {
-            var exam = await LoadTestOnExamStart(testId,studentId) ?? throw new InvalidOperationException();
+            var exam = await LoadTestOnExamStart(testId, studentId) ?? throw new InvalidOperationException();
             var testToCache = (_memoryCache.Get(testId) is not null) ? _memoryCache.Get(testId).ToString() : string.Empty;
             if (testToCache.ToString().Length <= 0)
             {
@@ -756,16 +813,42 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return (exam, testToCache.ToString());
         }
 
-        public async Task<string> GetDBTestQuestionWithFileAsync(int testId)
+        public async Task<(Exam, string)> GetDBTestQuestionWithFileAsync(int testId, int studentId)
         {
+            /*var testToCache = (_memoryCache.Get(testId) is not null) ? _memoryCache.Get(testId).ToString() : string.Empty;
+             if (testToCache.ToString().Length <= 0){
+                get from cache
+            } */
+            var exam = await LoadTestOnExamStart(testId,studentId) ?? throw new InvalidOperationException();
             var parameters = new Dictionary<string, object>
             {
                 { StoredProcedures.Params.TestID, testId }
             };
             var request = await _repository.ExecuteStoredProcAsync<UploadedTest>(StoredProcedures.retrieveQuestionPaper, parameters);
             var base64 = (request?.First().TestDocument is not null) ? request?.First().TestDocument.ToBase64String() : string.Empty;
-            return base64;
+             return (exam, base64);
+            //return base64;
         }
+
+       /*  public async Task<(Exam, string)> GetDBTestQuestionWithFileAsync(int testId, int studentId)
+        {   var base64 ="";
+            var cachedTest = (_memoryCache.Get(testId) is not null) ? _memoryCache.Get(testId).ToString() : string.Empty;
+            var exam = await LoadTestOnExamStart(testId, studentId) ?? throw new InvalidOperationException();
+            var parameters = new Dictionary<string, object>
+            {
+                { StoredProcedures.Params.TestID, testId }
+            };
+            var request = await _repository.ExecuteStoredProcAsync<UploadedTest>(StoredProcedures.retrieveQuestionPaper, parameters);
+      
+            if (cachedTest == null ||cachedTest.ToString().Length <= 0){
+              base64 = (request?.First().TestDocument is not null) ? request?.First().TestDocument.ToBase64String() : string.Empty;
+            } 
+            else{
+              base64 = (_memoryCache.Get(testId) is not null) ? _memoryCache.Get(testId).ToString() : string.Empty;
+            }
+            return (exam, base64);
+            //return base64;
+        } */
 
         public async Task<string> GetTestQuestionPaperTextAsync(int testId)
         {
@@ -859,7 +942,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             returnobj.textdocument = textdocument;
 
             var fullTextExtractNoSplit = extractedText.ToString();
-           
+
             if (!fullTextExtractNoSplit.Contains("Ltd"))
             {
                 fullTextExtractNoSplit = Regex.Replace(fullTextExtractNoSplit, @"(\r\n|\r)", "\n");
@@ -878,11 +961,12 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             }
         }
 
-       public async Task<string> GetSourcePaperTextFileAsync(int id)
+        public async Task<string> GetSourcePaperTextFileAsync(int id)
         {
             //var test = await GetAsync(testId);
             //if (test is null) throw new InvalidOperationException();
-            var testSourceRecord = await _repository.GetFirstOrDefaultAsync<UploadedSourceDocument>(x => x.TestId == id);
+            //var testSourceRecord = await _repository.GetFirstOrDefaultAsync<UploadedSourceDocument>(x => x.TestId == id);
+            var testSourceRecord = await _repository.GetFirstOrDefaultAsync<UploadedSourceDocument>(x => x.Id == id);
             var pdfRecord = (testSourceRecord?.TestDocument is not null) ? testSourceRecord?.TestDocument.ToBase64String() : string.Empty;
             byte[]? byteArray = testSourceRecord?.TestDocument;
 
@@ -905,7 +989,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             returnobj.textdocument = textdocument;
 
             var fullTextExtractNoSplit = extractedText.ToString();
-             var fullTextExtractSplit ="";
+            var fullTextExtractSplit = "";
             if (!fullTextExtractNoSplit.Contains("Ltd"))
             {
                 fullTextExtractNoSplit = Regex.Replace(fullTextExtractNoSplit, @"(\r\n|\r)", "\n");
@@ -914,12 +998,13 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             else if (fullTextExtractNoSplit.Contains("Ltd"))
             {
                 var fullTextExtract = extractedText.ToString().Split("Ltd");
-                   for (int i = 0; i < fullTextExtract.Length; i++){
-                   fullTextExtractSplit = fullTextExtract[i].Replace("\r\n", "");
-                   }
+                for (int i = 0; i < fullTextExtract.Length; i++)
+                {
+                    fullTextExtractSplit = fullTextExtract[i].Replace("\r\n", "");
+                }
                 //return fullTextExtract[1].Replace("\r\n", "");
                 //return fullTextExtract.ToString();
-               return fullTextExtractSplit;
+                return fullTextExtractSplit;
             }
             else
             {
@@ -930,18 +1015,18 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
         public async Task<string> GetDBTestToCache(int? testId)
         {
-             var parameters = new Dictionary<string, object>();
+            var parameters = new Dictionary<string, object>();
 
-                parameters.Add(StoredProcedures.Params.TestID, testId);
-               
-                var request = await _repository.ExecuteStoredProcAsync<UploadedTest>(StoredProcedures.retrieveQuestionPaper, parameters);
+            parameters.Add(StoredProcedures.Params.TestID, testId);
+
+            var request = await _repository.ExecuteStoredProcAsync<UploadedTest>(StoredProcedures.retrieveQuestionPaper, parameters);
 
             //var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UploadedTest>(x => x.Id == testId);
             var base64 = (request?.First().TestDocument is not null) ? request?.First().TestDocument.ToBase64String() : string.Empty;
             return base64;
         }
 
-          public async Task<string> GetTestToCache(int? testId)
+        public async Task<string> GetTestToCache(int? testId)
         {
             var uploadTestEntry = await _repository.GetFirstOrDefaultAsync<UploadedTest>(x => x.Id == testId);
             var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
@@ -1083,10 +1168,32 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
             return true;
         }
-        /* byte[] ITestRepository.ConvertAnswerDocumentAsync(IFormFile file)
-         {
-             throw new NotImplementedException();
-         }*/
+
+        /* public async Task<IEnumerable<UploadedAnswerDocument>> UploadAnswerDocumentAsync(int testId, IFormFile file)
+                {
+                    var fileExtension = Path.GetExtension(file.FileName);
+                    var filePath = Path.GetTempFileName();
+
+                    if (!string.Equals(fileExtension, ".doc", StringComparison.OrdinalIgnoreCase) &&
+                        !string.Equals(fileExtension, ".docx", StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new Exception("Only Word Documents Supported");
+                    }
+
+                    var fileBytes = file.ToByteArray();
+                       var parameters = new Dictionary<string, object>
+                        {
+
+                            { StoredProcedures.Params.TestID,testId },
+                            { StoredProcedures.Params.TestDocument, fileBytes },
+                            { StoredProcedures.Params.FileName, file.FileName },
+                            {StoredProcedures.Params.FilePath, filePath} 
+                            //{ StoredProcedures.Params.DateTimeNow, DateTime.Now },    
+                        };
+                    var uploadedAnswerDocs = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.insertUpdateAnswerPaper, parameters);
+                    uploadedAnswerDocs.First().AnswerDocBase64 = (uploadedAnswerDocs.First().TestDocument is not null)?uploadedAnswerDocs.First().TestDocument?.ToBase64String():string.Empty; 
+                    return uploadedAnswerDocs; 
+                }*/
         public byte[] ConvertAnswerDocumentAsync(IFormFile file)
         {
             byte[] fileBytes;
@@ -1102,7 +1209,41 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             return fileBytes;
         }*/
 
-        public async Task<bool> UploadSourceDocumentAsync(int testId, IFormFile file)
+        /*  public async Task<bool> UploadSourceDocumentAsync(int testId, IFormFile file)
+         {
+             byte[] fileBytes;
+             var test = await GetAsync(testId);
+             var fileExtension = Path.GetExtension(file.FileName);
+             if (string.Equals(fileExtension, ".doc", StringComparison.OrdinalIgnoreCase) ||
+                 string.Equals(fileExtension, ".docx", StringComparison.OrdinalIgnoreCase))
+             {
+                 fileBytes = file.ConvertToPdf();
+             }
+             else if (string.Equals(fileExtension, ".mp3", StringComparison.OrdinalIgnoreCase))
+             {
+                 fileBytes = file.ToByteArray();
+
+             }
+
+             else
+             {
+                 fileBytes = file.ToByteArray();
+             }
+
+             var sourceDocument = new UploadedSourceDocument
+             {
+                 DateModified = DateTime.Now,
+                 FileName = file.FileName,
+                 TestId = test.Id,
+                 TestDocument = fileBytes,
+             };
+
+             await _repository.AddAsync(sourceDocument, true);
+
+             return true;
+         }
+  */
+        public async Task<IEnumerable<UploadedSourceDocument>> UploadSourceDocumentAsync(int testId, IFormFile file)
         {
             byte[] fileBytes;
             var test = await GetAsync(testId);
@@ -1122,18 +1263,19 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             {
                 fileBytes = file.ToByteArray();
             }
+            var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.TestID,testId },
+                    { StoredProcedures.Params.TestDocument, fileBytes },
+                    { StoredProcedures.Params.FileName, file.FileName }, 
+                    //{ StoredProcedures.Params.DateTimeNow, DateTime.Now },    
+                };
 
-            var sourceDocument = new UploadedSourceDocument
-            {
-                DateModified = DateTime.Now,
-                FileName = file.FileName,
-                TestId = test.Id,
-                TestDocument = fileBytes,
-            };
+            var request = await _repository.ExecuteStoredProcAsync<UploadedSourceDocument>(StoredProcedures.insertUpdateSourcePaper, parameters);
+            request.First().SourceDocBase64 = (request.First().TestDocument is not null) ? request.First().TestDocument?.ToBase64String() : string.Empty;
+            //var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
+            return request;
 
-            await _repository.AddAsync(sourceDocument, true);
-
-            return true;
         }
         public static byte[] ReadFully(Stream input)
         {
@@ -1148,29 +1290,29 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 return ms.ToArray();
             }
         }
-public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IFormFile? file)
-{
-      if (_user is null) throw new Exception("Not Authorised");
-        byte[]? fileBytes = null;
-        string fileExtension;
-        fileExtension = Path.GetExtension(file.FileName);
-             if (string.Equals(fileExtension, ".doc", StringComparison.OrdinalIgnoreCase) ||
-                    string.Equals(fileExtension, ".docx", StringComparison.OrdinalIgnoreCase))
-                {
-                    fileBytes = file.ConvertToPdf();
-                }
-                else
-                {
-                    fileBytes = file.ToByteArray();
-                    //fileBytes = file.ToByteArray(".pdf");
-                }
-            
-                //var request = await _repository.UpdateAsync(entity, true);
-                var parameters = new Dictionary<string, object>
+        public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IFormFile? file)
+        {
+            if (_user is null) throw new Exception("Not Authorised");
+            byte[]? fileBytes = null;
+            string fileExtension;
+            fileExtension = Path.GetExtension(file.FileName);
+            if (string.Equals(fileExtension, ".doc", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileExtension, ".docx", StringComparison.OrdinalIgnoreCase))
+            {
+                fileBytes = file.ConvertToPdf();
+            }
+            else
+            {
+                fileBytes = file.ToByteArray();
+                //fileBytes = file.ToByteArray(".pdf");
+            }
+
+            //var request = await _repository.UpdateAsync(entity, true);
+            var parameters = new Dictionary<string, object>
                 {
                     { StoredProcedures.Params.TestID, entity.Id },
                     { StoredProcedures.Params.TestDocument, fileBytes },
-                    { StoredProcedures.Params.FileName, file.FileName }, 
+                    { StoredProcedures.Params.FileName, file.FileName },
                     { StoredProcedures.Params.SectorId, entity.SectorId },
                     { StoredProcedures.Params.SubjectId, entity.SubjectId },
                     { StoredProcedures.Params.TestTypeId, entity.TestTypeId},
@@ -1189,12 +1331,12 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
 
                 };
 
-                var request = await _repository.ExecuteStoredProcAsync<Test>(StoredProcedures.insertupdateTestQuestionPaper, parameters);
-                request.First().TestDocBase64 = (request.First().TestDocument is not null)?request.First().TestDocument?.ToBase64String():string.Empty; 
-                //var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
-                return request;
+            var request = await _repository.ExecuteStoredProcAsync<Test>(StoredProcedures.insertUpdateTestQuestionPaper, parameters);
+            request.First().TestDocBase64 = (request.First().TestDocument is not null) ? request.First().TestDocument?.ToBase64String() : string.Empty;
+            //var base64 = (uploadTestEntry?.TestDocument is not null) ? uploadTestEntry?.TestDocument.ToBase64String() : string.Empty;
+            return request;
 
-            }
+        }
 
         public async Task<Test> UploadTestDocumentAsync(Test entity, IFormFile? file)
         {
@@ -1345,6 +1487,7 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
 
             if (searcher?.GradeId is not null) query = query.Where(x => x.SectorId == searcher.GradeId);
             if (searcher?.SubjectId is not null) query = query.Where(s => s.SubjectId == searcher.SubjectId);
+            if (searcher?.TestTypeId is not null) query = query.Where(s => s.TestTypeId == searcher.TestTypeId);
 
             if (searcher.FromDate.HasValue)
             {
@@ -1432,7 +1575,7 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
             + " Exam Portal Cloud is not compatible with Internet Explorer. \n \n"
             + " It is strongly recommended that Exam Portal Cloud is used on a desktop or a laptop. Tablets and phones may prove challenging to use with this paper. Using Tablets and phones is at your own discretion. \n \n"
             + " Safe Exam is not required for tablets (Apple and Android). IT IS NOT RECOMMENDED THAT YOU COMPLETE THIS TEST ON A TABLET OR ON YOUR PHONE. \n \n"
-            + " Students to use Exam Portal Cloud, will need to download Safe Exam Browser from the following link https://sourceforge.net/projects/seb/files/seb/SEB_2.4.1/SafeExamBrowserInstaller.exe/download Please refer to the student guide emailed by your invigilator. Once they have Safe Exam Browser installed on their computers, the student section will open within Safe Exam Browser after they click the “Student Login” link. \n \n"
+            + " Students to use Exam Portal Cloud, will need to download Safe Exam Browser from the following link https://safeexambrowser.org/download_en.html Please refer to the student guide emailed by your invigilator. Once they have Safe Exam Browser installed on their computers, the student section will open within Safe Exam Browser after they click the “Student Login” link. \n \n"
 
             + " Kind Regards, \n"
             + " The Exam Portal Cloud team";
@@ -1440,14 +1583,14 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
 
             #region Smtp Client
             SmtpClient smtpServer = new();
-           /*  smtpServer.Host = "smtp.gmail.com";
-            smtpServer.Port = 587; */
+            /*  smtpServer.Host = "smtp.gmail.com";
+             smtpServer.Port = 587; */
             smtpServer.Host = "mail.smtp2go.com";
-            smtpServer .Port = 2525;
+            smtpServer.Port = 2525;
             smtpServer.EnableSsl = true;
             smtpServer.UseDefaultCredentials = false;
             smtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-           // smtpServer.Credentials = new NetworkCredential("qiscmapp@gmail.com", "gkrikvoauqlshyzg");
+            // smtpServer.Credentials = new NetworkCredential("qiscmapp@gmail.com", "gkrikvoauqlshyzg");
             smtpServer.Credentials = new NetworkCredential("Support@v-soft.co.za", "*VSoft*2019");
             smtpServer.Timeout = 20000;
             #endregion
@@ -1486,7 +1629,7 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
             + " Exam Portal Cloud is not compatible with Internet Explorer. \n \n"
             + " It is strongly recommended that Exam Portal Cloud is used on a desktop or a laptop. Tablets and phones may prove challenging to use with this paper. Using Tablets and phones is at your own discretion. \n \n"
             + " Safe Exam is not required for tablets (Apple and Android). IT IS NOT RECOMMENDED THAT YOU COMPLETE THIS TEST ON A TABLET OR ON YOUR PHONE. \n \n"
-            + " Students to use Exam Portal Cloud, will need to download Safe Exam Browser from the following link https://sourceforge.net/projects/seb/files/seb/SEB_2.4.1/SafeExamBrowserInstaller.exe/download Please refer to the student guide emailed by your invigilator. Once they have Safe Exam Browser installed on their computers, the student section will open within Safe Exam Browser after they click the “Student Login” link. \n \n"
+            + " Students to use Exam Portal Cloud, will need to download Safe Exam Browser from the following link https://safeexambrowser.org/download_en.html Please refer to the student guide emailed by your invigilator. Once they have Safe Exam Browser installed on their computers, the student section will open within Safe Exam Browser after they click the “Student Login” link. \n \n"
 
             + " Kind Regards, \n"
             + " The Exam Portal Cloud team";
@@ -1560,7 +1703,7 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
             return true;
         }*/
 
-      public async Task<bool> LinkStudentsAsync(StudentTestLinker linker)
+        public async Task<bool> LinkStudentsAsync(StudentTestLinker linker)
         {
 
             var resetParameters = new Dictionary<string, object>
@@ -1585,11 +1728,11 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
                     { StoredProcedures.Params.StudentExtraTime, extraTime},
                 };
 
-                _ =await _repository.ExecuteStoredProcAsync<object>(StoredProcedures.LinkStudent, parameters)  ?? throw new();
+                _ = await _repository.ExecuteStoredProcAsync<object>(StoredProcedures.LinkStudent, parameters) ?? throw new();
             }
 
             return true;
-        } 
+        }
 
         public async Task<string> PreviewDocToUploadWord(Test entity, IFormFile file)
         {
@@ -1615,13 +1758,19 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
 
         public async Task<string> GetFileAsync(int id, string type)
         {
+
+            var parameters = new Dictionary<string, object>
+                {
+                    { StoredProcedures.Params.id, id }
+                };
+
             if (type == "source")
             {
-                var doc = await _repository.GetByIdAsync<UploadedSourceDocument>(id);
-
-                if (doc?.TestDocument == null) return string.Empty;
-
-                var base64 = doc.TestDocument.ToBase64String();
+                //var doc = await _repository.GetByIdAsync<UploadedSourceDocument>(id);         
+                var doc = await _repository.ExecuteStoredProcAsync<UploadedSourceDocument>(StoredProcedures.retrieveSourceDocument, parameters);
+                var base64 = (doc?.First().TestDocument is not null) ? doc?.First().TestDocument.ToBase64String() : string.Empty;
+                if (doc?.First().TestDocument == null) return string.Empty;
+                //var base64 = doc.TestDocument.ToBase64String();
 
                 return base64;
             }
@@ -1638,12 +1787,12 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
             }
             else
             {
-                var doc = await _repository.GetByIdAsync<UploadedAnswerDocument>(id);
-
-                if (doc?.TestDocument == null) return string.Empty;
-
-                var base64 = doc.TestDocument.ToBase64String();
-
+                //var doc = await _repository.GetByIdAsync<UploadedAnswerDocument>(id);;         
+                var doc = await _repository.ExecuteStoredProcAsync<UploadedAnswerDocument>(StoredProcedures.retrieveAnswerDocument, parameters);
+                var base64 = (doc?.First().TestDocument is not null) ? doc?.First().TestDocument.ToBase64String() : string.Empty;
+                if (doc?.First().TestDocument == null) return string.Empty;
+                //var base64 = doc.TestDocument.ToBase64String();
+                //if (doc?.TestDocument == null) return string.Empty;
                 return base64;
             }
         }
@@ -1704,7 +1853,7 @@ public async Task<IEnumerable<Test>> UploadQuestionPaperDocAsync(Test entity, IF
             return result;
         }
 
-      
+
     }
 
 }

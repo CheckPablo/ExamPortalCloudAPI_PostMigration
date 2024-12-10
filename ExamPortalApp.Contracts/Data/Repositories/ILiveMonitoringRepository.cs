@@ -8,8 +8,12 @@ namespace ExamPortalApp.Contracts.Data.Repositories
         Task<List<LiveMonitoring>> GetLiveMonitoringCanidateList(int testId, int candidateSearchType, string name);
         Task<List<KeyPressTracking>> GetLiveMonitoringIrregularities(int testId, int studendId);
         Task<List<KeyPressTracking>> GetInvalidKeyPresses(int testId, int studendId);
+        Task<List<StudentTestLog>>  GetStudentTestLogs (int testId, int studendId);
+        Task<List<KeyPressTracking>> GetStudentOfflineTestLogs(int testId, int studendId);
+        Task<List<KeyPressTracking>> GetIrregularityTestLogs (int testId, int studendId);
         Task<List<AnswerProgressTracking>> GetLiveMonitoringStudentAnswerProgress(int testId, int studentId);
         Task<List<int>> LinkStudentsExtraTimeAsync(StudentTestExtraTimeLinker linker);
+        Task<List<int>> EndTestAsync(EndTestLinker linker);
 
     }
 }

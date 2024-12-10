@@ -44,13 +44,30 @@ namespace ExamPortalApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+ 
+        [AllowAnonymous]
         [HttpPost("finish-test")]
         public async Task<ActionResult<StudentTestAnswers>> FinishTest(StudentTestAnswers studentTestAnswers)
         {
             try
             {
                 var result = await _studentTestRepository.FinishTest(studentTestAnswers);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("complete-studentTest-previewpane-test")]
+        public async Task<ActionResult<StudentTestAnswers>> CompleteStudentTestPreviewPane(StudentTestAnswers studentTestAnswers)
+        {
+            try
+            {
+                var result = await _studentTestRepository.CompleteStudentTestPreviewPane(studentTestAnswers);
 
                 return Ok(result);
             }

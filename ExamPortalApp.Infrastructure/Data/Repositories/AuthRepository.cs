@@ -49,7 +49,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             + " Exam Number: " + user.Username + "\n"
             + " Password: " + password + "\n \n"
             + " Use the following link to login : https://examportalcloud.co.za/ and select Student Login. \n \n "
-            + " IMPORTANT: Please ensure you have Safe Exam Browser installed on your Windows / Mac computer/laptop. You may download it from here: https://sourceforge.net/projects/seb/files/seb/SEB_2.4.1/SafeExamBrowserInstaller.exe/download  If you do not have a Windows or a Mac book computer / laptop, you do not need to install Safe Exam Browser. \n \n"
+            + " IMPORTANT: Please ensure you have Safe Exam Browser installed on your Windows / Mac computer/laptop. You may download it from here: https://safeexambrowser.org/download_en.html  If you do not have a Windows or a Mac book computer / laptop, you do not need to install Safe Exam Browser. \n \n"
             + " If you experience any problems during login or during your examination, please contact your exam invigilator immediately. \n \n"
             + " Kind Regards, \n"
             + " The Exam Portal Cloud team";
@@ -200,14 +200,15 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         public async Task<LoggedUser> LoginStudentAsync(string StudentExamNo, string password)
         {
             //password.Trim(); 
-            var studentUser = await _repository.GetFirstOrDefaultAsync<Student>(x => x.ExamNo == StudentExamNo) ?? throw new InvalidCrdentialsException();
+            var studentUser = await _repository.GetFirstOrDefaultAsync<Student>(x => x.ExamNo == StudentExamNo) ?? throw new InvalidExamNumberException();
 
             var centerType = await _repository.GetFirstOrDefaultAsync<Center>(x => x.Id == studentUser.CenterId);
             var loginSuccessful = false;
+            
 
             if (studentUser == null || studentUser.EncrytedPassword is null)
             {
-                throw new InvalidCredentialException();
+                throw new InvalidCrdentialsException();
             }
 
             else
@@ -220,7 +221,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 }
                 else
                 {
-                    throw new InvalidCredentialException();
+                    throw new InvalidStudentPasswordException();
                 }
             }
             #region Validation
@@ -287,6 +288,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             #region Setup the token
             var tokenKey = _settings?.Key ?? string.Empty;
             var issuer = _settings?.Issuer ?? string.Empty;
+            var isSchoolAdmin = user.IsSchoolAdmin; 
             var claims = new List<Claim>();
             if (userRole == 2 && impersonatedCenterId != 0 && user.CenterId == 2)
             {
@@ -386,6 +388,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
                 Token = tokenHandler.WriteToken(token),
                 Role = userRole,
                 ImpersonatedCenterId = impersonatedCenterId,
+                IsSchoolAdmin = user.IsSchoolAdmin,
             };
         }
 

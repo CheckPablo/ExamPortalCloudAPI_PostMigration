@@ -11,6 +11,7 @@ namespace ExamPortalApp.Infrastructure.Constants
         internal const string GetTestsOTP  = "[dbo].[Get_OTP]";
         internal const string NewOTPInsert = "[dbo].[RNDOTP_ins1]"; 
 
+        internal const string GetRegions = "GetRegions"; 
         internal const string AddStudentTemp = "[dbo].[RNDOTP_ins1]"; 
         internal const string OtpEmailList = "[dbo].[otpEmailList1]";
         internal const string OtpToSend = "[dbo].[Get_OTPToSend]"; // NOT YET IN DB
@@ -34,6 +35,10 @@ namespace ExamPortalApp.Infrastructure.Constants
         internal const string StudentMaintenance_InsertUpdate_Revised = "StudentMaintenance_InsertUpdate_Revised";
         internal const string KeyPressTracking_ins = "KeyPressTracking_ins";
         internal const string LiveMonitoringIrregularities = "LiveMonitoringIrregularities";
+
+        internal const string StudentTestLogsGrid = "StudentTestLogsGrid"; 
+        internal const string StudentOfflineTestLogsGrid = "StudentOfflineTestLogsGrid";
+        internal const string StudentIrregularityTestLogsGrid = "StudentIrregularityTestLogsGrid";
         internal static readonly string UserApproval = "UserApproval";
         internal static readonly string LoadTestOnExamStart ="LoadTestOnExamStart";
         internal static string LiveMonitoringStudentAnswerProgress = "LiveMonitoringStudentAnswerProgress";
@@ -45,9 +50,11 @@ namespace ExamPortalApp.Infrastructure.Constants
         internal static string Get_CenterSummary = "Get_CenterSummary";
         internal static string SubjectMaintenance_InsUpd = "SubjectMaintenance_InsUpd";
         internal static string get_StudentAnswersList = "get_StudentAnswersList";
-
+        internal static string StudentTestDurationCheck = "StudentTestDurationCheck";
+        internal static string EndTest = "EndTest";
         internal static string get_StudentAnswersList_Export = "get_StudentAnswersList_Export";
         internal static string CompleteTest = "CompleteTest";
+        internal static string CompleteTStudentTestPreviewPane  = "[CompleteTStudentTestPreviewPane]";
         internal static string UploadScannedImageDetails = "UploadScannedImageDetails"; 
         internal static string VerifyScannedImagesOTP = "VerifyScannedImagesOTP"; 
         internal static string BulkImportExamPortalCloud = "BulkImportExamPortalCloud";
@@ -60,8 +67,15 @@ namespace ExamPortalApp.Infrastructure.Constants
          internal static string GetBatchID_BulkImport = "GetBatchID_BulkImport"; 
          internal static string UpdateStudentCredentials = "UpdateStudentCredentials";
          internal static string ApproveUsers = "ApproveUsers"; 
-         internal static string insertupdateTestQuestionPaper = "insertupdateTestQuestionPaper";
+         internal static string insertUpdateTestQuestionPaper = "insertUpdateTestQuestionPaper";
          internal static string retrieveQuestionPaper = "retrieveQuestionPaper";
+         internal static string retrieveSourceDocument = "retrieveSourceDocument";
+         internal static string retrieveAnswerDocument = "retrieveAnswerDocument";
+         internal static string retrieveUserAnswerDocument =  "retrieveUserAnswerDocument";
+         internal static string retrieveAnswerDocumentOnUpload = "retrieveAnswerDocumentOnUpload";
+         internal static string insertUpdateSourcePaper = "insertUpdateSourcePaper";
+         internal static string insertUpdateAnswerPaper = "insertUpdateAnswerPaper";
+        
        
         internal static class Params
         {
@@ -140,12 +154,14 @@ namespace ExamPortalApp.Infrastructure.Constants
             public static string TestCategoryId ="testCategoryId";
             public static string LanguageId = "LanguageId";
             public static string PaperExpiryDate = "PaperExpiryDate";
-            public static string TestDuration = "TestDuration";               
+            public static string TestDuration = "TestDuration";   
+                     
             public static string Tts = "Tts";
             public static string TestName = "TestName";
             public static string WorkOffline = "WorkOffline";
             public static string AnswerScanningAvailable = "AnswerScanningAvailable";
             public static string TestSecurityLevelId = "TestSecurityLevelId";
+            public  static  string FilePath = "FilePath";
 
         }
 

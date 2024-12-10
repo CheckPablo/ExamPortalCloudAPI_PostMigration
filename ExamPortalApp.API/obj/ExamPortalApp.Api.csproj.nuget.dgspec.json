@@ -63,7 +63,7 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.4, )"
+              "version": "[8.0.8, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -378,23 +378,23 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.8, )"
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
@@ -576,11 +576,11 @@
             },
             "Syncfusion.DocIO.Net.Core": {
               "target": "Package",
-              "version": "[21.2.9, )"
+              "version": "[27.1.58, )"
             },
             "Syncfusion.DocIORenderer.Net.Core": {
               "target": "Package",
-              "version": "[21.2.9, )"
+              "version": "[27.1.58, )"
             },
             "Syncfusion.EJ2.AspNet.Core": {
               "target": "Package",
@@ -592,7 +592,7 @@
             },
             "Syncfusion.Pdf.Net.Core": {
               "target": "Package",
-              "version": "[21.2.9, )"
+              "version": "[27.1.58, )"
             },
             "Syncfusion.XlsIO.Net.Core": {
               "target": "Package",

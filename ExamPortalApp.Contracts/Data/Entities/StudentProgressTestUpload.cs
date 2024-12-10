@@ -1,6 +1,6 @@
 ﻿namespace ExamPortalApp.Contracts.Data.Entities;
 
-public partial class StudentProgressTestUpload
+public partial class StudentProgressTestUpload:EntityBase
 {
     public int Id { get; set; }
 

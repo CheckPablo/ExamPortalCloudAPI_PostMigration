@@ -17,7 +17,7 @@ namespace ExamPortalApp.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -1452,6 +1452,10 @@ namespace ExamPortalApp.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<DateTime?>("OTPExpiryDate")
+                        .HasColumnType("datetime")
+                        .HasColumnName("OTPExpiryDate");
+
                     b.Property<int?>("OldSectorId")
                         .HasColumnType("int");
 
@@ -1464,10 +1468,6 @@ namespace ExamPortalApp.Data.Migrations
                     b.Property<int>("Otp")
                         .HasColumnType("int")
                         .HasColumnName("OTP");
-
-                    b.Property<DateTime?>("OtpexpiryDate")
-                        .HasColumnType("datetime")
-                        .HasColumnName("OTPExpiryDate");
 
                     b.Property<int?>("SectorId")
                         .HasColumnType("int");
@@ -1858,6 +1858,9 @@ namespace ExamPortalApp.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
 
+                    b.Property<bool?>("EligibleForExternalLogin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("EmailAddress")
                         .HasMaxLength(250)
                         .IsUnicode(false)
@@ -1871,6 +1874,9 @@ namespace ExamPortalApp.Data.Migrations
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ExternalEmail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("GradeId")
                         .HasColumnType("int");
@@ -2399,9 +2405,6 @@ namespace ExamPortalApp.Data.Migrations
                     b.Property<DateTime?>("TestCreated")
                         .HasColumnType("datetime");
 
-                    b.Property<byte[]>("TestDocument")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("TestDuration")
                         .HasMaxLength(50)
                         .IsUnicode(false)
@@ -2725,6 +2728,34 @@ namespace ExamPortalApp.Data.Migrations
                         .HasName("PK_tUploadedTest");
 
                     b.ToTable("UploadedTests");
+                });
+
+            modelBuilder.Entity("ExamPortalApp.Contracts.Data.Entities.UploadedTestCacheLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TestDocCacheValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("testId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UploadedTestCacheLog");
                 });
 
             modelBuilder.Entity("ExamPortalApp.Contracts.Data.Entities.User", b =>

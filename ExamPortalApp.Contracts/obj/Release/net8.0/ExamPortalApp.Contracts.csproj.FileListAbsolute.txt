@@ -11,3 +11,16 @@ C:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\ob
 C:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Release\net8.0\refint\ExamPortalApp.Contracts.dll
 C:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.pdb
 C:\Users\Dell 5400 i7\Documents\GitHub\EPCloud.API-V3\ExamPortalApp.Contracts\obj\Release\net8.0\ref\ExamPortalApp.Contracts.dll
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\bin\Release\net8.0\ExamPortalApp.Contracts.deps.json
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\bin\Release\net8.0\ExamPortalApp.Contracts.dll
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\bin\Release\net8.0\ExamPortalApp.Contracts.pdb
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.csproj.AssemblyReference.cache
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.AssemblyInfoInputs.cache
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.AssemblyInfo.cs
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.sourcelink.json
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.dll
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\refint\ExamPortalApp.Contracts.dll
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ExamPortalApp.Contracts.pdb
+C:\Users\Dell 5400 i7\Documents\GitHub\ExamPortalCloudAPI-PostMigration\ExamPortalApp.Contracts\obj\Release\net8.0\ref\ExamPortalApp.Contracts.dll
