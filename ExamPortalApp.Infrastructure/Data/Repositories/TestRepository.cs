@@ -62,7 +62,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
         {
             try
             {
-                var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId);
+                //var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId);
+                var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId && true == entity.IsDeleted);
                 if (testExists)
                 {
                     throw new Exception(ErrorMessages.TestEntryChecks.TestExists);
@@ -103,7 +104,8 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
             {
                 if (entity.Id == 0)
                 {
-                    var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId);
+                    //var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId);
+                    var testExists = await _repository.AnyAsync<Test>(x => x.TestName == entity.TestName && x.SectorId == entity.SectorId && true == entity.IsDeleted);
                     if (testExists)
                     {
                         throw new Exception(ErrorMessages.TestEntryChecks.TestExists);
@@ -1485,6 +1487,7 @@ namespace ExamPortalApp.Infrastructure.Data.Repositories
 
             if (searcher?.GradeId is not null) query = query.Where(x => x.SectorId == searcher.GradeId);
             if (searcher?.SubjectId is not null) query = query.Where(s => s.SubjectId == searcher.SubjectId);
+            if (searcher?.TestTypeId is not null) query = query.Where(s => s.TestTypeId == searcher.TestTypeId);
 
             if (searcher.FromDate.HasValue)
             {
